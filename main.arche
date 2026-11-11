@@ -5,14 +5,18 @@
 /// (utc-offset and time-zone); a frame is asked for as the second turns,
 /// and ten times a second while the stopwatch runs.
 ///
-/// An app of the phone's world (arche:phone, wit/): the alarm, once on,
-/// has the phone wake the app at its time (background's wake-at), off the
-/// screen or asleep; woken, it rings (alarm's ring: the phone's alarm
-/// screen, Snooze and Dismiss, its sound until one is tapped, in Do Not
-/// Disturb too) and turns itself off, as a one-time alarm of Android's
-/// does; a phone that will not ring it gets a notification (notify's post)
-/// instead. Snoozed, the card says until when, and Dismiss ends it. Its
-/// time and whether it is on are kept in the app's storage.
+/// An app of the phone's world (arche:phone, wit/): the alarm, once on, is
+/// set with the phone (alarm's set), which keeps it and rings it at its
+/// time itself, as Android's alarm clocks are: the app need not run, and
+/// it rings after a restart too, before the PIN opens the user's data.
+/// Rung (alarm's next says none), it is off, as a one-time alarm of
+/// Android's is. A phone that will not set it wakes the app at its time
+/// instead (background's wake-at), off the screen or asleep, and the app
+/// rings it then (alarm's ring: the phone's alarm screen, Snooze and
+/// Dismiss, its sound until one is tapped, in Do Not Disturb too); one that
+/// will not ring it gets a notification (notify's post). Snoozed, the card
+/// says until when, and Dismiss ends it. Its time, whether it is on, and
+/// how, are kept in the app's storage.
 import alarm;
 import alloc;
 import background;
@@ -43,9 +47,11 @@ type Clock = struct {
     go: u32,
     lap_list: u32,
     /// The alarm: its time, in minutes of the day as the user reads it,
-    /// and whether it is on; its nodes.
+    /// whether it is on, and whether the phone keeps it (alarm's set) or
+    /// wakes the app for it; its nodes.
     alarm_at: i64,
     alarm_on: bool,
+    by_phone: bool,
     alarm_set: u32,
     alarm_rings: u32,
     alarm_go: u32,
@@ -65,11 +71,14 @@ fn init(host: &mut std.Host, a: alloc.Allocator) -> Clock {
     let now = host_api.now_millis(host);
     var at = minute_of(now + host_api.utc_offset(host) as i64 * 60000);
     var alarm_on = false;
+    var by_phone = false;
     match host_api.storage_get(host, key: "alarm", a: a) {
         some(kept) => {
             let k = kept.view();
             at = number(k) % DAY_MINUTES;
-            alarm_on = k.len() > 0 and k.bytes()[k.len() - 1] == 'n';
+            // "420 on", woken for it; "420 set", the phone keeps it.
+            alarm_on = ends(s: k, tail: " on") or ends(s: k, tail: " set");
+            by_phone = ends(s: k, tail: " set");
         }
         none => { }
     }
@@ -87,6 +96,7 @@ fn init(host: &mut std.Host, a: alloc.Allocator) -> Clock {
         lap_list: first(host, selector: ".laps", a: a),
         alarm_at: at,
         alarm_on: alarm_on,
+        by_phone: by_phone,
         alarm_set: first(host, selector: ".set", a: a),
         alarm_rings: first(host, selector: ".rings", a: a),
         alarm_go: first(host, selector: ".turn", a: a),
@@ -101,6 +111,11 @@ fn minute_of(local: i64) -> i64 {
         m += DAY_MINUTES;
     }
     return m;
+}
+
+/// Whether s ends with tail.
+fn ends(s: str, tail: str) -> bool {
+    return s.len() >= tail.len() and s[s.len() - tail.len()..s.len()].eq(tail);
 }
 
 /// The number s begins with.
@@ -129,17 +144,25 @@ fn until_alarm(state: &Clock, local: i64) -> i64 {
     return left;
 }
 
-/// The alarm kept, and, while it is on, the phone told when to wake the
-/// app; 0 takes the wake back.
-fn arm(state: &Clock, host: &mut std.Host, now: i64, a: alloc.Allocator) {
+/// The alarm kept, and, while it is on, set with the phone, or else the
+/// phone told when to wake the app; off, both taken back.
+fn arm(state: &mut Clock, host: &mut std.Host, now: i64, a: alloc.Allocator) {
     var kept = alloc.String.init(a);
     kept.push_u64(state.alarm_at as u64);
     if state.alarm_on {
-        kept.push_str(" on");
         let local = now + host_api.utc_offset(host) as i64 * 60000;
-        background.wake_at(host, at_millis: now + until_alarm(state, local: local));
+        let at = now + until_alarm(state, local: local);
+        state.by_phone = alarm.set(host, at_millis: at, label: "Alarm");
+        if state.by_phone {
+            kept.push_str(" set");
+            background.wake_at(host, at_millis: 0);
+        } else {
+            kept.push_str(" on");
+            background.wake_at(host, at_millis: at);
+        }
     } else {
         kept.push_str(" off");
+        _ = alarm.set(host, at_millis: 0, label: "");
         background.wake_at(host, at_millis: 0);
     }
     var why = alloc.String.init(a);
@@ -198,6 +221,14 @@ fn show_alarm(state: &Clock, host: &mut std.Host, local: i64, a: alloc.Allocator
     dom.set_text(host, item: state.alarm_rings, text: rings.view());
 }
 
+/// Whether the phone keeps an alarm of the app's, not yet rung.
+fn has_next(host: &mut std.Host) -> bool {
+    match alarm.next(host) {
+        some(_) => { return true; }
+        none => { return false; }
+    }
+}
+
 /// When the phone rings the app's snoozed alarm again, in ms since 1970;
 /// -1 when it has none.
 fn snoozed_until(host: &mut std.Host) -> i64 {
@@ -249,6 +280,11 @@ fn update(state: &mut Clock, host: &mut std.Host, a: alloc.Allocator) {
     let now = host_api.now_millis(host);
     if background.woken(host) {
         ring(state, host: host, now: now, a: a);
+    }
+    // The phone rang the alarm it kept, the app running or not: it is off.
+    if state.alarm_on and state.by_phone and not has_next(host) {
+        state.alarm_on = false;
+        arm(state, host: host, now: now, a: a);
     }
     for e in dom.events(host, a: a).items() {
         if e.kind.view().eq("click") {
