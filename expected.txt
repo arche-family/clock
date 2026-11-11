@@ -1,0 +1,172 @@
+=== headless run: 6 frames ===
+
+--- frame 0  (clicks fed to guest: []) ---
+   [page] 22 nodes
+   #1 body
+     #2 div.clock
+       #3 div.face
+         #4 div.time
+           #19 "HH:MM:SS"
+         #5 div.date
+           #20 "DATE"
+         #6 div.zone
+           #21 "Asia/Tashkent · UTC+05:00"
+       #7 div.watch {click}
+         #8 div.title
+           #9 "Stopwatch"
+         #10 div.elapsed
+           #22 "MM:SS.t"
+         #11 div.buttons
+           #12 button.go [data-k="go"]
+             #13 "Start"
+           #14 button [data-k="lap"]
+             #15 "Lap"
+           #16 button [data-k="reset"]
+             #17 "Reset"
+         #18 div.laps
+   [next frame in N ms]
+
+--- frame 1  (clicks fed to guest: []) ---
+   [tap] #12
+   [page] 22 nodes
+   #1 body
+     #2 div.clock
+       #3 div.face
+         #4 div.time
+           #24 "HH:MM:SS"
+         #5 div.date
+           #25 "DATE"
+         #6 div.zone
+           #26 "Asia/Tashkent · UTC+05:00"
+       #7 div.watch {click}
+         #8 div.title
+           #9 "Stopwatch"
+         #10 div.elapsed
+           #27 "MM:SS.t"
+         #11 div.buttons
+           #12 button.go [data-k="go"]
+             #23 "Stop"
+           #14 button [data-k="lap"]
+             #15 "Lap"
+           #16 button [data-k="reset"]
+             #17 "Reset"
+         #18 div.laps
+   [next frame in N ms]
+
+--- frame 2  (clicks fed to guest: []) ---
+   [tap] #14
+   [page] 24 nodes
+   #1 body
+     #2 div.clock
+       #3 div.face
+         #4 div.time
+           #28 "HH:MM:SS"
+         #5 div.date
+           #29 "DATE"
+         #6 div.zone
+           #30 "Asia/Tashkent · UTC+05:00"
+       #7 div.watch {click}
+         #8 div.title
+           #9 "Stopwatch"
+         #10 div.elapsed
+           #31 "MM:SS.t"
+         #11 div.buttons
+           #12 button.go [data-k="go"]
+             #23 "Stop"
+           #14 button [data-k="lap"]
+             #15 "Lap"
+           #16 button [data-k="reset"]
+             #17 "Reset"
+         #18 div.laps
+           #32 div.lap
+             #33 "Lap 1   MM:SS.t   MM:SS.t"
+   [next frame in N ms]
+
+--- frame 3  (clicks fed to guest: []) ---
+   [tap] #14
+   [page] 26 nodes
+   #1 body
+     #2 div.clock
+       #3 div.face
+         #4 div.time
+           #34 "HH:MM:SS"
+         #5 div.date
+           #35 "DATE"
+         #6 div.zone
+           #36 "Asia/Tashkent · UTC+05:00"
+       #7 div.watch {click}
+         #8 div.title
+           #9 "Stopwatch"
+         #10 div.elapsed
+           #37 "MM:SS.t"
+         #11 div.buttons
+           #12 button.go [data-k="go"]
+             #23 "Stop"
+           #14 button [data-k="lap"]
+             #15 "Lap"
+           #16 button [data-k="reset"]
+             #17 "Reset"
+         #18 div.laps
+           #32 div.lap
+             #33 "Lap 1   MM:SS.t   MM:SS.t"
+           #38 div.lap
+             #39 "Lap 2   MM:SS.t   MM:SS.t"
+   [next frame in N ms]
+
+--- frame 4  (clicks fed to guest: []) ---
+   [tap] #12
+   [page] 26 nodes
+   #1 body
+     #2 div.clock
+       #3 div.face
+         #4 div.time
+           #41 "HH:MM:SS"
+         #5 div.date
+           #42 "DATE"
+         #6 div.zone
+           #43 "Asia/Tashkent · UTC+05:00"
+       #7 div.watch {click}
+         #8 div.title
+           #9 "Stopwatch"
+         #10 div.elapsed
+           #44 "MM:SS.t"
+         #11 div.buttons
+           #12 button.go [data-k="go"]
+             #40 "Start"
+           #14 button [data-k="lap"]
+             #15 "Lap"
+           #16 button [data-k="reset"]
+             #17 "Reset"
+         #18 div.laps
+           #32 div.lap
+             #33 "Lap 1   MM:SS.t   MM:SS.t"
+           #38 div.lap
+             #39 "Lap 2   MM:SS.t   MM:SS.t"
+   [next frame in N ms]
+
+--- frame 5  (clicks fed to guest: []) ---
+   [tap] #16
+   [page] 22 nodes
+   #1 body
+     #2 div.clock
+       #3 div.face
+         #4 div.time
+           #45 "HH:MM:SS"
+         #5 div.date
+           #46 "DATE"
+         #6 div.zone
+           #47 "Asia/Tashkent · UTC+05:00"
+       #7 div.watch {click}
+         #8 div.title
+           #9 "Stopwatch"
+         #10 div.elapsed
+           #48 "MM:SS.t"
+         #11 div.buttons
+           #12 button.go [data-k="go"]
+             #40 "Start"
+           #14 button [data-k="lap"]
+             #15 "Lap"
+           #16 button [data-k="reset"]
+             #17 "Reset"
+         #18 div.laps
+   [next frame in N ms]

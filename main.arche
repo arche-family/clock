@@ -1,0 +1,270 @@
+/// Clock, the Arche phone's, written in Arche, as Android's: the time,
+/// large, the date and the time zone under it, and a stopwatch with its
+/// laps. An app of the page: its buttons' taps come as click events. The
+/// time is the shell's (now-millis), as the user reads it (utc-offset and
+/// time-zone); a frame is asked for as the second turns, and ten times a
+/// second while the stopwatch runs.
+import alloc;
+import dom;
+import host_api;
+import std;
+
+const SHEET: str = "body { padding: 0; } .clock { display: flex; flex-direction: column; gap: 16px; padding: 16px; } .face { display: flex; flex-direction: column; align-items: center; padding-top: 48px; padding-bottom: 24px; gap: 6px; } .time { font-size: 64px; color: var(--nimadir-text); } .date { font-size: 18px; color: var(--nimadir-text); } .zone { font-size: 14px; color: var(--nimadir-muted); } .watch { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 20px; border-radius: 24px; background: var(--nimadir-surface); } .title { font-size: 16px; color: var(--nimadir-muted); } .elapsed { font-size: 44px; color: var(--nimadir-text); } .buttons { display: flex; flex-direction: row; gap: 12px; } button { padding: 12px 24px; border-radius: 24px; font-size: 16px; border: 0; background: var(--nimadir-accent-wash); color: var(--nimadir-text); } button.go { background: var(--nimadir-accent); color: var(--nimadir-bg); } .laps { display: flex; flex-direction: column; gap: 4px; } .lap { font-size: 15px; color: var(--nimadir-muted); }";
+
+type Clock = struct {
+    /// The stopwatch: whether it runs, since when (ms), and what it had
+    /// counted before that; the laps, in ms from its start.
+    running: bool,
+    since: i64,
+    counted: i64,
+    laps: alloc.List(i64),
+    laps_shown: usize,
+    /// The page's nodes.
+    time: u32,
+    date: u32,
+    zone: u32,
+    elapsed: u32,
+    go: u32,
+    lap_list: u32,
+}
+
+fn init(host: &mut std.Host, a: alloc.Allocator) -> Clock {
+    _ = dom.add_stylesheet(host, css: SHEET);
+    let root = dom.root(host);
+    let markup = "<div class='clock'><div class='face'><div class='time'></div><div class='date'></div><div class='zone'></div></div><div class='watch'><div class='title'>Stopwatch</div><div class='elapsed'></div><div class='buttons'><button class='go' data-k='go'>Start</button><button data-k='lap'>Lap</button><button data-k='reset'>Reset</button></div><div class='laps'></div></div></div>";
+    var why = alloc.String.init(a);
+    if not dom.set_markup(host, item: root, markup: markup, why: &mut why, a: a) {
+        host_api.log(host, msg: why.view());
+    }
+    let watch = first(host, selector: ".watch", a: a);
+    dom.listen(host, item: watch, kind: "click");
+    return Clock {
+        running: false,
+        since: 0,
+        counted: 0,
+        laps: alloc.List(i64).init(a),
+        laps_shown: 0,
+        time: first(host, selector: ".time", a: a),
+        date: first(host, selector: ".date", a: a),
+        zone: first(host, selector: ".zone", a: a),
+        elapsed: first(host, selector: ".elapsed", a: a),
+        go: first(host, selector: ".go", a: a),
+        lap_list: first(host, selector: ".laps", a: a),
+    };
+}
+
+/// The first node under the page that selector finds; 0 for none.
+fn first(host: &mut std.Host, selector: str, a: alloc.Allocator) -> u32 {
+    let found = dom.query_all(host, scope: dom.root(host), selector: selector, a: a);
+    if found.len() == 0 {
+        return 0;
+    }
+    return found.items()[0];
+}
+
+/// The key a click on n is: its data-k, or its nearest ancestor's.
+fn key_of(host: &mut std.Host, n: u32, a: alloc.Allocator) -> ?alloc.String {
+    var at = n;
+    var hops: u32 = 0;
+    while at != 0 and hops < 8 : (hops += 1) {
+        match dom.get_attribute(host, item: at, name: "data-k", a: a) {
+            some(k) => { return k; }
+            none => { }
+        }
+        at = dom.parent(host, item: at) orelse 0;
+    }
+    return none;
+}
+
+/// What the stopwatch shows at now, in ms.
+fn counted(state: &Clock, now: i64) -> i64 {
+    if state.running {
+        return state.counted + now - state.since;
+    }
+    return state.counted;
+}
+
+fn update(state: &mut Clock, host: &mut std.Host, a: alloc.Allocator) {
+    let now = host_api.now_millis(host);
+    for e in dom.events(host, a: a).items() {
+        if e.kind.view().eq("click") {
+            match key_of(host, n: e.target, a: a) {
+                some(k) => { press(state, host: host, key: k.view(), now: now, a: a); }
+                none => { }
+            }
+        }
+    }
+    // The time as the user reads it.
+    let offset = host_api.utc_offset(host) as i64;
+    let local = now + offset * 60000;
+    var time = alloc.String.init(a);
+    clock_text(local, out: &mut time);
+    dom.set_text(host, item: state.time, text: time.view());
+    var date = alloc.String.init(a);
+    date_text(local, out: &mut date);
+    dom.set_text(host, item: state.date, text: date.view());
+    var zone = alloc.String.init(a);
+    let name = host_api.time_zone(host, a: a);
+    if name.len() > 0 {
+        zone.push_str(name.view());
+        zone.push_str(" · ");
+    }
+    zone.push_str("UTC");
+    if offset < 0 {
+        zone.push_str("−");
+    } else {
+        zone.push_str("+");
+    }
+    var off = offset;
+    if off < 0 {
+        off = 0 - off;
+    }
+    two(&mut zone, n: off / 60);
+    zone.push_str(":");
+    two(&mut zone, n: off % 60);
+    dom.set_text(host, item: state.zone, text: zone.view());
+    // The stopwatch, and its laps not shown yet.
+    var shown = alloc.String.init(a);
+    watch_text(counted(state, now: now), out: &mut shown);
+    dom.set_text(host, item: state.elapsed, text: shown.view());
+    while state.laps_shown < state.laps.len() {
+        let k = state.laps_shown;
+        var line = alloc.String.from("Lap ", a);
+        line.push_u64((k + 1) as u64);
+        line.push_str("   ");
+        var previous: i64 = 0;
+        if k > 0 {
+            previous = state.laps.items()[k - 1];
+        }
+        watch_text(state.laps.items()[k] - previous, out: &mut line);
+        line.push_str("   ");
+        watch_text(state.laps.items()[k], out: &mut line);
+        let row = dom.create_element(host, tag: "div");
+        dom.set_attribute(host, item: row, name: "class", value_: "lap");
+        dom.set_text(host, item: row, text: line.view());
+        dom.append_child(host, parent_: state.lap_list, child: row);
+        state.laps_shown += 1;
+    }
+    // The next frame: in a tenth of a second while it runs; else as the
+    // second turns.
+    if state.running {
+        host_api.request_frame(host, after_ms: 100);
+    } else {
+        host_api.request_frame(host, after_ms: (1000 - local % 1000) as u32);
+    }
+}
+
+fn press(state: &mut Clock, host: &mut std.Host, key: str, now: i64, a: alloc.Allocator) {
+    if key.eq("go") {
+        if state.running {
+            state.counted = counted(state, now: now);
+            state.running = false;
+            dom.set_text(host, item: state.go, text: "Start");
+        } else {
+            state.since = now;
+            state.running = true;
+            dom.set_text(host, item: state.go, text: "Stop");
+        }
+    } else if key.eq("lap") {
+        if state.running {
+            state.laps.push(counted(state, now: now));
+        }
+    } else if key.eq("reset") {
+        if not state.running {
+            state.counted = 0;
+            state.laps = alloc.List(i64).init(a);
+            state.laps_shown = 0;
+            // The lap rows go with them.
+            for row in dom.children(host, item: state.lap_list, a: a).items() {
+                dom.release(host, item: row.*);
+            }
+        }
+    }
+}
+
+fn two(s: &mut alloc.String, n: i64) {
+    if n < 10 {
+        s.push_str("0");
+    }
+    s.push_u64(n as u64);
+}
+
+/// Hours, minutes and seconds of local, ms since 1970 as the user's
+/// clock reads.
+fn clock_text(local: i64, out: &mut alloc.String) {
+    var seconds = (local / 1000) % 86400;
+    if seconds < 0 {
+        seconds += 86400;
+    }
+    two(out, n: seconds / 3600);
+    out.push_str(":");
+    two(out, n: (seconds / 60) % 60);
+    out.push_str(":");
+    two(out, n: seconds % 60);
+}
+
+/// The n-th word of words, from 0.
+fn nth_word(words: str, n: i64) -> str {
+    let b = words.bytes();
+    var at: usize = 0;
+    var k: i64 = 0;
+    while at < b.len() {
+        var e = at;
+        while e < b.len() and b[e] != ' ' {
+            e += 1;
+        }
+        if k == n {
+            return words[at..e];
+        }
+        k += 1;
+        at = e + 1;
+    }
+    return "";
+}
+
+/// The day of local: "Tuesday, November 10".
+fn date_text(local: i64, out: &mut alloc.String) {
+    var days = local / 86400000;
+    if local < 0 and local % 86400000 != 0 {
+        days -= 1;
+    }
+    // The civil date from the days since 1970 (Howard Hinnant's
+    // civil_from_days).
+    let z = days + 719468;
+    var era = z / 146097;
+    if z < 0 {
+        era = (z - 146096) / 146097;
+    }
+    let doe = z - era * 146097;
+    let yoe = (doe - doe / 1460 + doe / 36524 - doe / 146096) / 365;
+    let doy = doe - (365 * yoe + yoe / 4 - yoe / 100);
+    let mp = (5 * doy + 2) / 153;
+    let day = doy - (153 * mp + 2) / 5 + 1;
+    var month = mp + 3;
+    if mp >= 10 {
+        month = mp - 9;
+    }
+    // 1970-01-01 was a Thursday.
+    var weekday = days % 7;
+    if weekday < 0 {
+        weekday += 7;
+    }
+    out.push_str(nth_word("Thursday Friday Saturday Sunday Monday Tuesday Wednesday", n: weekday));
+    out.push_str(", ");
+    out.push_str(nth_word("January February March April May June July August September October November December", n: month - 1));
+    out.push_str(" ");
+    out.push_u64(day as u64);
+}
+
+/// A stopwatch's ms as minutes, seconds and tenths: "01:23.4".
+fn watch_text(ms: i64, out: &mut alloc.String) {
+    var m = ms;
+    if m < 0 {
+        m = 0;
+    }
+    two(out, n: m / 60000);
+    out.push_str(":");
+    two(out, n: (m / 1000) % 60);
+    out.push_str(".");
+    out.push_u64(((m / 100) % 10) as u64);
+}
