@@ -18,7 +18,7 @@ With [arche-lang](https://github.com/arche-family/arche-lang) checked out next t
 ../arche-lang/wasm/nimadir-app.sh . clock.component.wasm
 ```
 
-`manifest` is what the phone's repository packages with the component. It gives the app's name, version and title, and what it may do: keep its data (`storage`), for the alarm's time, and ring as an alarm (`alarm`).
+`manifest` is what the phone's repository packages with the component. It gives the app's name, version and title, and what it may do: keep its data (`storage`), for the alarm's time; ring as an alarm (`alarm`); be woken off the screen (`background`), at the alarm's time; and post a notification (`notify`), on a phone that does not ring it.
 
 ## Test
 

@@ -3,4 +3,4 @@ version: 1
 title: Clock
 about: The time, an alarm and a stopwatch, in Arche
 publisher: arche
-needs: storage alarm
+needs: storage alarm notify background
