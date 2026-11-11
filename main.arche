@@ -7,9 +7,13 @@
 ///
 /// An app of the phone's world (arche:phone, wit/): the alarm, once on,
 /// has the phone wake the app at its time (background's wake-at), off the
-/// screen or asleep; woken, it posts a notification (notify's post) and
-/// turns itself off, as a one-time alarm of Android's does. Its time and
-/// whether it is on are kept in the app's storage.
+/// screen or asleep; woken, it rings (alarm's ring: the phone's alarm
+/// screen, Snooze and Dismiss, its sound until one is tapped, in Do Not
+/// Disturb too) and turns itself off, as a one-time alarm of Android's
+/// does; a phone that will not ring it gets a notification (notify's post)
+/// instead. Snoozed, the card says until when, and Dismiss ends it. Its
+/// time and whether it is on are kept in the app's storage.
+import alarm;
 import alloc;
 import background;
 import dom;
@@ -40,7 +44,7 @@ type Clock = struct {
     lap_list: u32,
     /// The alarm: its time, in minutes of the day as the user reads it,
     /// and whether it is on; its nodes.
-    alarm: i64,
+    alarm_at: i64,
     alarm_on: bool,
     alarm_set: u32,
     alarm_rings: u32,
@@ -59,12 +63,12 @@ fn init(host: &mut std.Host, a: alloc.Allocator) -> Clock {
     dom.listen(host, item: clock, kind: "click");
     // The alarm kept; none yet, the time now, as Android's picker starts.
     let now = host_api.now_millis(host);
-    var alarm = minute_of(now + host_api.utc_offset(host) as i64 * 60000);
+    var at = minute_of(now + host_api.utc_offset(host) as i64 * 60000);
     var alarm_on = false;
     match host_api.storage_get(host, key: "alarm", a: a) {
         some(kept) => {
             let k = kept.view();
-            alarm = number(k) % DAY_MINUTES;
+            at = number(k) % DAY_MINUTES;
             alarm_on = k.len() > 0 and k.bytes()[k.len() - 1] == 'n';
         }
         none => { }
@@ -81,7 +85,7 @@ fn init(host: &mut std.Host, a: alloc.Allocator) -> Clock {
         elapsed: first(host, selector: ".elapsed", a: a),
         go: first(host, selector: ".start", a: a),
         lap_list: first(host, selector: ".laps", a: a),
-        alarm: alarm,
+        alarm_at: at,
         alarm_on: alarm_on,
         alarm_set: first(host, selector: ".set", a: a),
         alarm_rings: first(host, selector: ".rings", a: a),
@@ -118,7 +122,7 @@ fn until_alarm(state: &Clock, local: i64) -> i64 {
     if into_day < 0 {
         into_day += DAY_MS;
     }
-    var left = state.alarm * 60000 - into_day;
+    var left = state.alarm_at * 60000 - into_day;
     if left <= 0 {
         left += DAY_MS;
     }
@@ -129,7 +133,7 @@ fn until_alarm(state: &Clock, local: i64) -> i64 {
 /// app; 0 takes the wake back.
 fn arm(state: &Clock, host: &mut std.Host, now: i64, a: alloc.Allocator) {
     var kept = alloc.String.init(a);
-    kept.push_u64(state.alarm as u64);
+    kept.push_u64(state.alarm_at as u64);
     if state.alarm_on {
         kept.push_str(" on");
         let local = now + host_api.utc_offset(host) as i64 * 60000;
@@ -144,25 +148,34 @@ fn arm(state: &Clock, host: &mut std.Host, now: i64, a: alloc.Allocator) {
     }
 }
 
-/// The alarm's time has come: its notification, and it is off.
+/// The alarm's time has come: it rings, or else its notification, and it
+/// is off.
 fn ring(state: &mut Clock, host: &mut std.Host, now: i64, a: alloc.Allocator) {
     if not state.alarm_on {
         return;
     }
-    var text = alloc.String.init(a);
-    hours_minutes(state.alarm, out: &mut text);
-    _ = notify.post(host, title: "Alarm", text: text.view());
+    if not alarm.ring(host, label: "Alarm") {
+        var text = alloc.String.init(a);
+        hours_minutes(state.alarm_at, out: &mut text);
+        _ = notify.post(host, title: "Alarm", text: text.view());
+    }
     state.alarm_on = false;
     arm(state, host: host, now: now, a: a);
 }
 
-/// The alarm's card as it is: its time, when it rings, and its button.
+/// The alarm's card as it is: its time, when it rings, and its button;
+/// snoozed, until when, and Dismiss.
 fn show_alarm(state: &Clock, host: &mut std.Host, local: i64, a: alloc.Allocator) {
     var set = alloc.String.init(a);
-    hours_minutes(state.alarm, out: &mut set);
+    hours_minutes(state.alarm_at, out: &mut set);
     dom.set_text(host, item: state.alarm_set, text: set.view());
     var rings = alloc.String.init(a);
-    if state.alarm_on {
+    let until = snoozed_until(host);
+    if until >= 0 {
+        rings.push_str("Snoozed until ");
+        hours_minutes(minute_of(until + host_api.utc_offset(host) as i64 * 60000), out: &mut rings);
+        dom.set_text(host, item: state.alarm_go, text: "Dismiss");
+    } else if state.alarm_on {
         // As Android says it, the minutes rounded up.
         let minutes = (until_alarm(state, local: local) + 59999) / 60000;
         rings.push_str("Rings in ");
@@ -183,6 +196,15 @@ fn show_alarm(state: &Clock, host: &mut std.Host, local: i64, a: alloc.Allocator
         dom.set_text(host, item: state.alarm_go, text: "Turn on");
     }
     dom.set_text(host, item: state.alarm_rings, text: rings.view());
+}
+
+/// When the phone rings the app's snoozed alarm again, in ms since 1970;
+/// -1 when it has none.
+fn snoozed_until(host: &mut std.Host) -> i64 {
+    match alarm.snoozed(host) {
+        some(ms) => { return ms; }
+        none => { return -1; }
+    }
 }
 
 /// Minutes of the day as "07:05".
@@ -313,8 +335,13 @@ fn press(state: &mut Clock, host: &mut std.Host, key: str, now: i64, a: alloc.Al
             state.laps.push(counted(state, now: now));
         }
     } else if key.eq("alarm") {
-        state.alarm_on = not state.alarm_on;
-        arm(state, host: host, now: now, a: a);
+        if snoozed_until(host) >= 0 {
+            // Snoozed: Dismiss.
+            alarm.dismiss(host);
+        } else {
+            state.alarm_on = not state.alarm_on;
+            arm(state, host: host, now: now, a: a);
+        }
     } else if key.eq("h+") or key.eq("h-") or key.eq("m+") or key.eq("m-") {
         var step: i64 = 1;
         if key.starts_with("h") {
@@ -323,7 +350,7 @@ fn press(state: &mut Clock, host: &mut std.Host, key: str, now: i64, a: alloc.Al
         if key.bytes()[1] == '-' {
             step = DAY_MINUTES - step;
         }
-        state.alarm = (state.alarm + step) % DAY_MINUTES;
+        state.alarm_at = (state.alarm_at + step) % DAY_MINUTES;
         arm(state, host: host, now: now, a: a);
     } else if key.eq("reset") {
         if not state.running {

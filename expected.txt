@@ -43,6 +43,7 @@
              #32 "Reset"
          #33 div.laps
    [call] arche:phone/background@0.1.0#woken()
+   [call] arche:phone/alarm@0.1.0#snoozed()
    [next frame in N ms]
 
 --- frame 1  (clicks fed to guest: []) ---
@@ -90,6 +91,7 @@
          #33 div.laps
    [call] arche:phone/background@0.1.0#woken()
    [call] arche:phone/background@0.1.0#wake-at(0)
+   [call] arche:phone/alarm@0.1.0#snoozed()
    [next frame in N ms]
 
 --- frame 2  (clicks fed to guest: []) ---
@@ -136,7 +138,9 @@
              #32 "Reset"
          #33 div.laps
    [call] arche:phone/background@0.1.0#woken()
+   [call] arche:phone/alarm@0.1.0#snoozed()
    [call] arche:phone/background@0.1.0#wake-at(N)
+   [call] arche:phone/alarm@0.1.0#snoozed()
    [next frame in N ms]
 
 --- frame 3  (clicks fed to guest: []) ---
@@ -184,6 +188,7 @@
          #33 div.laps
    [call] arche:phone/background@0.1.0#woken()
    [call] arche:phone/background@0.1.0#wake-at(N)
+   [call] arche:phone/alarm@0.1.0#snoozed()
    [next frame in N ms]
 
 --- frame 4  (clicks fed to guest: []) ---
@@ -230,7 +235,9 @@
              #32 "Reset"
          #33 div.laps
    [call] arche:phone/background@0.1.0#woken()
+   [call] arche:phone/alarm@0.1.0#snoozed()
    [call] arche:phone/background@0.1.0#wake-at(0)
+   [call] arche:phone/alarm@0.1.0#snoozed()
    [next frame in N ms]
 
 --- frame 5  (clicks fed to guest: []) ---
@@ -277,6 +284,7 @@
              #32 "Reset"
          #33 div.laps
    [call] arche:phone/background@0.1.0#woken()
+   [call] arche:phone/alarm@0.1.0#snoozed()
    [next frame in N ms]
 
 --- frame 6  (clicks fed to guest: []) ---
@@ -325,6 +333,7 @@
            #84 div.lap
              #85 "Lap 1   MM:SS.t   MM:SS.t"
    [call] arche:phone/background@0.1.0#woken()
+   [call] arche:phone/alarm@0.1.0#snoozed()
    [next frame in N ms]
 
 --- frame 7  (clicks fed to guest: []) ---
@@ -375,6 +384,7 @@
            #93 div.lap
              #94 "Lap 2   MM:SS.t   MM:SS.t"
    [call] arche:phone/background@0.1.0#woken()
+   [call] arche:phone/alarm@0.1.0#snoozed()
    [next frame in N ms]
 
 --- frame 8  (clicks fed to guest: []) ---
@@ -425,6 +435,7 @@
            #93 div.lap
              #94 "Lap 2   MM:SS.t   MM:SS.t"
    [call] arche:phone/background@0.1.0#woken()
+   [call] arche:phone/alarm@0.1.0#snoozed()
    [next frame in N ms]
 
 --- frame 9  (clicks fed to guest: []) ---
@@ -471,4 +482,5 @@
              #32 "Reset"
          #33 div.laps
    [call] arche:phone/background@0.1.0#woken()
+   [call] arche:phone/alarm@0.1.0#snoozed()
    [next frame in N ms]
