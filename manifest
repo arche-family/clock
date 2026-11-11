@@ -1,5 +1,6 @@
 name: clock
 version: 1
 title: Clock
-about: The time, and a stopwatch, in Arche
+about: The time, an alarm and a stopwatch, in Arche
 publisher: arche
+needs: storage

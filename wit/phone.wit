@@ -1,0 +1,33 @@
+// The Arche phone's world (docs/sprints.md T5): Nimadir's, and what a
+// phone gives an app more. An app of it is built as Nimadir's are
+// (arche-lang's wasm/nimadir-app.sh), with this directory as its wit/ and
+// phone-app as its world; Nimadir's own world is in deps/.
+package arche:phone@0.1.0;
+
+/// Notifications: what an app tells its user while it is not looked at.
+/// They are in the shade, and one that comes is shown over the top of the
+/// screen for a while; a tap on one opens its app.
+interface notify {
+    /// A notification of title and text; its number, to cancel it by.
+    post: func(title: string, text: string) -> u32;
+    /// The app's notification of that number taken away.
+    cancel: func(id: u32);
+}
+
+/// An app woken off the screen, as an alarm or a messenger is: the phone
+/// runs its update once then, for at most 2 s, and what it draws is not
+/// shown; it may post a notification, and ask to be woken again.
+interface background {
+    /// Wake this app at about at-millis (as now-millis counts): one time an
+    /// app, a later call replacing it; 0 asks for none. The phone keeps it
+    /// across a restart.
+    wake-at: func(at-millis: s64);
+    /// Whether this init or update is such a wake.
+    woken: func() -> bool;
+}
+
+world phone-app {
+    include nimadir:shell/mini-app@1.2.0;
+    import notify;
+    import background;
+}

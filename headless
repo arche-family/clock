@@ -1,1 +1,1 @@
---frames 6 --click 1:12,2:14,3:14,4:12,5:16
+--frames 10 --click 1:18,2:21,3:14,4:21,5:27,6:29,7:29,8:27,9:31 --add arche:phone/notify@0.1.0#post=numbered --add arche:phone/notify@0.1.0#cancel --add arche:phone/background@0.1.0#wake-at --add arche:phone/background@0.1.0#woken=false

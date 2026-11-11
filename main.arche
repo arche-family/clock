@@ -1,15 +1,27 @@
 /// Clock, the Arche phone's, written in Arche, as Android's: the time,
-/// large, the date and the time zone under it, and a stopwatch with its
-/// laps. An app of the page: its buttons' taps come as click events. The
-/// time is the shell's (now-millis), as the user reads it (utc-offset and
-/// time-zone); a frame is asked for as the second turns, and ten times a
-/// second while the stopwatch runs.
+/// large, the date and the time zone under it, an alarm, and a stopwatch
+/// with its laps. An app of the page: its buttons' taps come as click
+/// events. The time is the shell's (now-millis), as the user reads it
+/// (utc-offset and time-zone); a frame is asked for as the second turns,
+/// and ten times a second while the stopwatch runs.
+///
+/// An app of the phone's world (arche:phone, wit/): the alarm, once on,
+/// has the phone wake the app at its time (background's wake-at), off the
+/// screen or asleep; woken, it posts a notification (notify's post) and
+/// turns itself off, as a one-time alarm of Android's does. Its time and
+/// whether it is on are kept in the app's storage.
 import alloc;
+import background;
 import dom;
 import host_api;
+import notify;
 import std;
 
-const SHEET: str = "body { padding: 0; } .clock { display: flex; flex-direction: column; gap: 16px; padding: 16px; } .face { display: flex; flex-direction: column; align-items: center; padding-top: 48px; padding-bottom: 24px; gap: 6px; } .time { font-size: 64px; color: var(--nimadir-text); } .date { font-size: 18px; color: var(--nimadir-text); } .zone { font-size: 14px; color: var(--nimadir-muted); } .watch { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 20px; border-radius: 24px; background: var(--nimadir-surface); } .title { font-size: 16px; color: var(--nimadir-muted); } .elapsed { font-size: 44px; color: var(--nimadir-text); } .buttons { display: flex; flex-direction: row; gap: 12px; } button { padding: 12px 24px; border-radius: 24px; font-size: 16px; border: 0; background: var(--nimadir-accent-wash); color: var(--nimadir-text); } button.go { background: var(--nimadir-accent); color: var(--nimadir-bg); } .laps { display: flex; flex-direction: column; gap: 4px; } .lap { font-size: 15px; color: var(--nimadir-muted); }";
+const SHEET: str = "body { padding: 0; } .clock { display: flex; flex-direction: column; gap: 16px; padding: 16px; } .face { display: flex; flex-direction: column; align-items: center; padding-top: 48px; padding-bottom: 24px; gap: 6px; } .time { font-size: 64px; color: var(--nimadir-text); } .date { font-size: 18px; color: var(--nimadir-text); } .zone { font-size: 14px; color: var(--nimadir-muted); } .watch { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 20px; border-radius: 24px; background: var(--nimadir-surface); } .title { font-size: 16px; color: var(--nimadir-muted); } .elapsed { font-size: 44px; color: var(--nimadir-text); } .buttons { display: flex; flex-direction: row; gap: 12px; } button { padding: 12px 24px; border-radius: 24px; font-size: 16px; border: 0; background: var(--nimadir-accent-wash); color: var(--nimadir-text); } button.go { background: var(--nimadir-accent); color: var(--nimadir-bg); } .laps { display: flex; flex-direction: column; gap: 4px; } .lap { font-size: 15px; color: var(--nimadir-muted); } .alarm { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 20px; border-radius: 24px; background: var(--nimadir-surface); } .set { font-size: 44px; color: var(--nimadir-text); } .rings { font-size: 15px; color: var(--nimadir-muted); } .alarm button { padding: 10px 14px; } .alarm button.go { padding: 12px 24px; }";
+
+/// Minutes in a day, and ms.
+const DAY_MINUTES: i64 = 1440;
+const DAY_MS: i64 = 86400000;
 
 type Clock = struct {
     /// The stopwatch: whether it runs, since when (ms), and what it had
@@ -26,18 +38,37 @@ type Clock = struct {
     elapsed: u32,
     go: u32,
     lap_list: u32,
+    /// The alarm: its time, in minutes of the day as the user reads it,
+    /// and whether it is on; its nodes.
+    alarm: i64,
+    alarm_on: bool,
+    alarm_set: u32,
+    alarm_rings: u32,
+    alarm_go: u32,
 }
 
 fn init(host: &mut std.Host, a: alloc.Allocator) -> Clock {
     _ = dom.add_stylesheet(host, css: SHEET);
     let root = dom.root(host);
-    let markup = "<div class='clock'><div class='face'><div class='time'></div><div class='date'></div><div class='zone'></div></div><div class='watch'><div class='title'>Stopwatch</div><div class='elapsed'></div><div class='buttons'><button class='go' data-k='go'>Start</button><button data-k='lap'>Lap</button><button data-k='reset'>Reset</button></div><div class='laps'></div></div></div>";
+    let markup = "<div class='clock'><div class='face'><div class='time'></div><div class='date'></div><div class='zone'></div></div><div class='alarm'><div class='title'>Alarm</div><div class='set'></div><div class='buttons'><button data-k='h-'>−1 h</button><button data-k='h+'>+1 h</button><button data-k='m-'>−1 min</button><button data-k='m+'>+1 min</button></div><div class='rings'></div><button class='go turn' data-k='alarm'></button></div><div class='watch'><div class='title'>Stopwatch</div><div class='elapsed'></div><div class='buttons'><button class='go start' data-k='go'>Start</button><button data-k='lap'>Lap</button><button data-k='reset'>Reset</button></div><div class='laps'></div></div></div>";
     var why = alloc.String.init(a);
     if not dom.set_markup(host, item: root, markup: markup, why: &mut why, a: a) {
         host_api.log(host, msg: why.view());
     }
-    let watch = first(host, selector: ".watch", a: a);
-    dom.listen(host, item: watch, kind: "click");
+    let clock = first(host, selector: ".clock", a: a);
+    dom.listen(host, item: clock, kind: "click");
+    // The alarm kept; none yet, the time now, as Android's picker starts.
+    let now = host_api.now_millis(host);
+    var alarm = minute_of(now + host_api.utc_offset(host) as i64 * 60000);
+    var alarm_on = false;
+    match host_api.storage_get(host, key: "alarm", a: a) {
+        some(kept) => {
+            let k = kept.view();
+            alarm = number(k) % DAY_MINUTES;
+            alarm_on = k.len() > 0 and k.bytes()[k.len() - 1] == 'n';
+        }
+        none => { }
+    }
     return Clock {
         running: false,
         since: 0,
@@ -48,9 +79,117 @@ fn init(host: &mut std.Host, a: alloc.Allocator) -> Clock {
         date: first(host, selector: ".date", a: a),
         zone: first(host, selector: ".zone", a: a),
         elapsed: first(host, selector: ".elapsed", a: a),
-        go: first(host, selector: ".go", a: a),
+        go: first(host, selector: ".start", a: a),
         lap_list: first(host, selector: ".laps", a: a),
+        alarm: alarm,
+        alarm_on: alarm_on,
+        alarm_set: first(host, selector: ".set", a: a),
+        alarm_rings: first(host, selector: ".rings", a: a),
+        alarm_go: first(host, selector: ".turn", a: a),
     };
+}
+
+/// The minute of the day local is in, ms since 1970 as the user's clock
+/// reads.
+fn minute_of(local: i64) -> i64 {
+    var m = (local / 60000) % DAY_MINUTES;
+    if m < 0 {
+        m += DAY_MINUTES;
+    }
+    return m;
+}
+
+/// The number s begins with.
+fn number(s: str) -> i64 {
+    var n: i64 = 0;
+    for c in s.bytes() {
+        if c.* < '0' or c.* > '9' {
+            break;
+        }
+        n = n * 10 + (c.* - '0') as i64;
+    }
+    return n;
+}
+
+/// How long from now until the alarm rings, in ms: its next time, today
+/// or tomorrow.
+fn until_alarm(state: &Clock, local: i64) -> i64 {
+    var into_day = local % DAY_MS;
+    if into_day < 0 {
+        into_day += DAY_MS;
+    }
+    var left = state.alarm * 60000 - into_day;
+    if left <= 0 {
+        left += DAY_MS;
+    }
+    return left;
+}
+
+/// The alarm kept, and, while it is on, the phone told when to wake the
+/// app; 0 takes the wake back.
+fn arm(state: &Clock, host: &mut std.Host, now: i64, a: alloc.Allocator) {
+    var kept = alloc.String.init(a);
+    kept.push_u64(state.alarm as u64);
+    if state.alarm_on {
+        kept.push_str(" on");
+        let local = now + host_api.utc_offset(host) as i64 * 60000;
+        background.wake_at(host, at_millis: now + until_alarm(state, local: local));
+    } else {
+        kept.push_str(" off");
+        background.wake_at(host, at_millis: 0);
+    }
+    var why = alloc.String.init(a);
+    if not host_api.storage_set(host, key: "alarm", value: kept.view(), why: &mut why, a: a) {
+        host_api.log(host, msg: why.view());
+    }
+}
+
+/// The alarm's time has come: its notification, and it is off.
+fn ring(state: &mut Clock, host: &mut std.Host, now: i64, a: alloc.Allocator) {
+    if not state.alarm_on {
+        return;
+    }
+    var text = alloc.String.init(a);
+    hours_minutes(state.alarm, out: &mut text);
+    _ = notify.post(host, title: "Alarm", text: text.view());
+    state.alarm_on = false;
+    arm(state, host: host, now: now, a: a);
+}
+
+/// The alarm's card as it is: its time, when it rings, and its button.
+fn show_alarm(state: &Clock, host: &mut std.Host, local: i64, a: alloc.Allocator) {
+    var set = alloc.String.init(a);
+    hours_minutes(state.alarm, out: &mut set);
+    dom.set_text(host, item: state.alarm_set, text: set.view());
+    var rings = alloc.String.init(a);
+    if state.alarm_on {
+        // As Android says it, the minutes rounded up.
+        let minutes = (until_alarm(state, local: local) + 59999) / 60000;
+        rings.push_str("Rings in ");
+        if minutes >= 60 {
+            rings.push_u64((minutes / 60) as u64);
+            rings.push_str(" h");
+            if minutes % 60 > 0 {
+                rings.push_str(" ");
+            }
+        }
+        if minutes % 60 > 0 {
+            rings.push_u64((minutes % 60) as u64);
+            rings.push_str(" min");
+        }
+        dom.set_text(host, item: state.alarm_go, text: "Turn off");
+    } else {
+        rings.push_str("Off");
+        dom.set_text(host, item: state.alarm_go, text: "Turn on");
+    }
+    dom.set_text(host, item: state.alarm_rings, text: rings.view());
+}
+
+/// Minutes of the day as "07:05".
+fn hours_minutes(minutes: i64, out: &mut alloc.String) {
+    two(out, n: minutes / 60);
+    out.push_str(":");
+    two(out, n: minutes % 60);
 }
 
 /// The first node under the page that selector finds; 0 for none.
@@ -86,6 +225,9 @@ fn counted(state: &Clock, now: i64) -> i64 {
 
 fn update(state: &mut Clock, host: &mut std.Host, a: alloc.Allocator) {
     let now = host_api.now_millis(host);
+    if background.woken(host) {
+        ring(state, host: host, now: now, a: a);
+    }
     for e in dom.events(host, a: a).items() {
         if e.kind.view().eq("click") {
             match key_of(host, n: e.target, a: a) {
@@ -123,6 +265,7 @@ fn update(state: &mut Clock, host: &mut std.Host, a: alloc.Allocator) {
     zone.push_str(":");
     two(&mut zone, n: off % 60);
     dom.set_text(host, item: state.zone, text: zone.view());
+    show_alarm(state, host: host, local: local, a: a);
     // The stopwatch, and its laps not shown yet.
     var shown = alloc.String.init(a);
     watch_text(counted(state, now: now), out: &mut shown);
@@ -169,6 +312,19 @@ fn press(state: &mut Clock, host: &mut std.Host, key: str, now: i64, a: alloc.Al
         if state.running {
             state.laps.push(counted(state, now: now));
         }
+    } else if key.eq("alarm") {
+        state.alarm_on = not state.alarm_on;
+        arm(state, host: host, now: now, a: a);
+    } else if key.eq("h+") or key.eq("h-") or key.eq("m+") or key.eq("m-") {
+        var step: i64 = 1;
+        if key.starts_with("h") {
+            step = 60;
+        }
+        if key.bytes()[1] == '-' {
+            step = DAY_MINUTES - step;
+        }
+        state.alarm = (state.alarm + step) % DAY_MINUTES;
+        arm(state, host: host, now: now, a: a);
     } else if key.eq("reset") {
         if not state.running {
             state.counted = 0;
