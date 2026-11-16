@@ -19,13 +19,14 @@
 /// how, are kept in the app's storage.
 import alarm;
 import alloc;
+import appkit;
 import background;
 import dom;
 import host_api;
 import notify;
 import std;
 
-const SHEET: str = "body { padding: 0; } .clock { display: flex; flex-direction: column; gap: 16px; padding: 16px; } .face { display: flex; flex-direction: column; align-items: center; padding-top: 48px; padding-bottom: 24px; gap: 6px; } .time { font-size: 64px; color: var(--nimadir-text); } .date { font-size: 18px; color: var(--nimadir-text); } .zone { font-size: 14px; color: var(--nimadir-muted); } .watch { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 20px; border-radius: 24px; background: var(--nimadir-surface); } .title { font-size: 16px; color: var(--nimadir-muted); } .elapsed { font-size: 44px; color: var(--nimadir-text); } .buttons { display: flex; flex-direction: row; gap: 12px; } button { padding: 12px 24px; border-radius: 24px; font-size: 16px; border: 0; background: var(--nimadir-accent-wash); color: var(--nimadir-text); } button.go { background: var(--nimadir-accent); color: var(--nimadir-bg); } .laps { display: flex; flex-direction: column; gap: 4px; } .lap { font-size: 15px; color: var(--nimadir-muted); } .alarm { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 20px; border-radius: 24px; background: var(--nimadir-surface); } .set { font-size: 44px; color: var(--nimadir-text); } .rings { font-size: 15px; color: var(--nimadir-muted); } .alarm button { padding: 10px 14px; } .alarm button.go { padding: 12px 24px; }";
+const SHEET: str = ".clock { display: flex; flex-direction: column; min-height: 100vh; } .face { display: flex; flex-direction: column; align-items: center; padding: 40px 0 26px; gap: 6px; } .time { font-size: 64px; font-weight: 400; color: var(--kit-text); } .date { font-size: 17px; font-weight: 500; color: var(--kit-text); } .zone { font-size: 14px; color: var(--kit-muted); } .card { padding: 14px 16px 16px; gap: 10px; } .cardhead { display: flex; flex-direction: row; align-items: center; gap: 8px; } .cardhead .icon { font-size: 22px; color: var(--kit-accent); } .cardhead .title { font-size: 15px; font-weight: 500; color: var(--kit-muted); flex-grow: 1; } .set { font-size: 48px; color: var(--kit-text); text-align: center; } .rings { font-size: 14px; color: var(--kit-muted); text-align: center; } .chips { display: flex; flex-direction: row; justify-content: center; gap: 8px; padding: 0; } .chip { background: var(--kit-ground); } .turn { padding: 8px 18px; border-radius: 18px; border: 0; font-size: 15px; font-weight: 500; background: var(--kit-ground); color: var(--kit-text); } .turn.on { background: var(--kit-accent); color: #ffffff; } .elapsed { font-size: 44px; color: var(--kit-text); text-align: center; } .buttons { display: flex; flex-direction: row; justify-content: center; gap: 10px; } .buttons button { padding: 12px 24px; border-radius: 24px; border: 0; font-size: 16px; font-weight: 500; background: var(--kit-ground); color: var(--kit-text); } .buttons button.go { background: var(--kit-accent); color: #ffffff; } .laps { display: flex; flex-direction: column; gap: 4px; align-items: center; } .lap { font-size: 15px; color: var(--kit-muted); }";
 
 /// Minutes in a day, and ms.
 const DAY_MINUTES: i64 = 1440;
@@ -58,9 +59,11 @@ type Clock = struct {
 }
 
 fn init(host: &mut std.Host, a: alloc.Allocator) -> Clock {
+    let kit = appkit.css(a);
+    _ = dom.add_stylesheet(host, css: kit.view());
     _ = dom.add_stylesheet(host, css: SHEET);
     let root = dom.root(host);
-    let markup = "<div class='clock'><div class='face'><div class='time'></div><div class='date'></div><div class='zone'></div></div><div class='alarm'><div class='title'>Alarm</div><div class='set'></div><div class='buttons'><button data-k='h-'>−1 h</button><button data-k='h+'>+1 h</button><button data-k='m-'>−1 min</button><button data-k='m+'>+1 min</button></div><div class='rings'></div><button class='go turn' data-k='alarm'></button></div><div class='watch'><div class='title'>Stopwatch</div><div class='elapsed'></div><div class='buttons'><button class='go start' data-k='go'>Start</button><button data-k='lap'>Lap</button><button data-k='reset'>Reset</button></div><div class='laps'></div></div></div>";
+    let markup = "<div class='clock'><div class='face'><div class='time'></div><div class='date'></div><div class='zone'></div></div><div class='group card'><div class='cardhead'><span class='icon fill'>alarm</span><span class='title'>Alarm</span><button class='turn' data-k='alarm'></button></div><div class='set'></div><div class='rings'></div><div class='chips'><button class='chip' data-k='h-'>−1 h</button><button class='chip' data-k='h+'>+1 h</button><button class='chip' data-k='m-'>−1 min</button><button class='chip' data-k='m+'>+1 min</button></div></div><div class='group card'><div class='cardhead'><span class='icon fill'>avg_time</span><span class='title'>Stopwatch</span></div><div class='elapsed'></div><div class='buttons'><button class='go start' data-k='go'>Start</button><button data-k='lap'>Lap</button><button data-k='reset'>Reset</button></div><div class='laps'></div></div></div>";
     var why = alloc.String.init(a);
     if not dom.set_markup(host, item: root, markup: markup, why: &mut why, a: a) {
         host_api.log(host, msg: why.view());
@@ -214,9 +217,11 @@ fn show_alarm(state: &Clock, host: &mut std.Host, local: i64, a: alloc.Allocator
             rings.push_str(" min");
         }
         dom.set_text(host, item: state.alarm_go, text: "Turn off");
+        dom.toggle_class(host, item: state.alarm_go, name: "on", on: true);
     } else {
         rings.push_str("Off");
         dom.set_text(host, item: state.alarm_go, text: "Turn on");
+        dom.toggle_class(host, item: state.alarm_go, name: "on", on: false);
     }
     dom.set_text(host, item: state.alarm_rings, text: rings.view());
 }

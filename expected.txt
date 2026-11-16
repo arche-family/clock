@@ -1,94 +1,106 @@
 === headless run: 10 frames ===
 
 --- frame 0  (clicks fed to guest: []) ---
-   [page] 40 nodes
+   [page] 46 nodes
    #1 body
      #2 div.clock {click}
        #3 div.face
          #4 div.time
-           #34 "HH:MM:SS"
+           #40 "HH:MM:SS"
          #5 div.date
-           #35 "DATE"
+           #41 "DATE"
          #6 div.zone
-           #36 "Asia/Tashkent · UTC+05:00"
-       #7 div.alarm
-         #8 div.title
-           #9 "Alarm"
-         #10 div.set
-           #37 "HH:MM"
-         #11 div.buttons
-           #12 button [data-k="h-"]
-             #13 "−1 h"
-           #14 button [data-k="h+"]
-             #15 "+1 h"
-           #16 button [data-k="m-"]
-             #17 "−1 min"
-           #18 button [data-k="m+"]
-             #19 "+1 min"
-         #20 div.rings
-           #39 "Off"
-         #21 button.go.turn [data-k="alarm"]
-           #38 "Turn on"
-       #22 div.watch
-         #23 div.title
-           #24 "Stopwatch"
-         #25 div.elapsed
-           #40 "MM:SS.t"
-         #26 div.buttons
-           #27 button.go.start [data-k="go"]
-             #28 "Start"
-           #29 button [data-k="lap"]
-             #30 "Lap"
-           #31 button [data-k="reset"]
-             #32 "Reset"
-         #33 div.laps
+           #42 "Asia/Tashkent · UTC+05:00"
+       #7 div.group.card
+         #8 div.cardhead
+           #9 span.icon.fill
+             #10 "alarm"
+           #11 span.title
+             #12 "Alarm"
+           #13 button.turn [data-k="alarm"]
+             #44 "Turn on"
+         #14 div.set
+           #43 "HH:MM"
+         #15 div.rings
+           #45 "Off"
+         #16 div.chips
+           #17 button.chip [data-k="h-"]
+             #18 "−1 h"
+           #19 button.chip [data-k="h+"]
+             #20 "+1 h"
+           #21 button.chip [data-k="m-"]
+             #22 "−1 min"
+           #23 button.chip [data-k="m+"]
+             #24 "+1 min"
+       #25 div.group.card
+         #26 div.cardhead
+           #27 span.icon.fill
+             #28 "avg_time"
+           #29 span.title
+             #30 "Stopwatch"
+         #31 div.elapsed
+           #46 "MM:SS.t"
+         #32 div.buttons
+           #33 button.go.start [data-k="go"]
+             #34 "Start"
+           #35 button [data-k="lap"]
+             #36 "Lap"
+           #37 button [data-k="reset"]
+             #38 "Reset"
+         #39 div.laps
    [call] arche:phone/background@0.1.0#woken()
    [call] arche:phone/alarm@0.1.0#snoozed()
    [next frame in N ms]
 
 --- frame 1  (clicks fed to guest: []) ---
-   [tap] #18
-   [page] 40 nodes
+   [tap] #23
+   [page] 46 nodes
    #1 body
      #2 div.clock {click}
        #3 div.face
          #4 div.time
-           #41 "HH:MM:SS"
+           #47 "HH:MM:SS"
          #5 div.date
-           #42 "DATE"
+           #48 "DATE"
          #6 div.zone
-           #43 "Asia/Tashkent · UTC+05:00"
-       #7 div.alarm
-         #8 div.title
-           #9 "Alarm"
-         #10 div.set
-           #44 "HH:MM"
-         #11 div.buttons
-           #12 button [data-k="h-"]
-             #13 "−1 h"
-           #14 button [data-k="h+"]
-             #15 "+1 h"
-           #16 button [data-k="m-"]
-             #17 "−1 min"
-           #18 button [data-k="m+"]
-             #19 "+1 min"
-         #20 div.rings
-           #46 "Off"
-         #21 button.go.turn [data-k="alarm"]
-           #45 "Turn on"
-       #22 div.watch
-         #23 div.title
-           #24 "Stopwatch"
-         #25 div.elapsed
-           #47 "MM:SS.t"
-         #26 div.buttons
-           #27 button.go.start [data-k="go"]
-             #28 "Start"
-           #29 button [data-k="lap"]
-             #30 "Lap"
-           #31 button [data-k="reset"]
-             #32 "Reset"
-         #33 div.laps
+           #49 "Asia/Tashkent · UTC+05:00"
+       #7 div.group.card
+         #8 div.cardhead
+           #9 span.icon.fill
+             #10 "alarm"
+           #11 span.title
+             #12 "Alarm"
+           #13 button.turn [data-k="alarm"]
+             #51 "Turn on"
+         #14 div.set
+           #50 "HH:MM"
+         #15 div.rings
+           #52 "Off"
+         #16 div.chips
+           #17 button.chip [data-k="h-"]
+             #18 "−1 h"
+           #19 button.chip [data-k="h+"]
+             #20 "+1 h"
+           #21 button.chip [data-k="m-"]
+             #22 "−1 min"
+           #23 button.chip [data-k="m+"]
+             #24 "+1 min"
+       #25 div.group.card
+         #26 div.cardhead
+           #27 span.icon.fill
+             #28 "avg_time"
+           #29 span.title
+             #30 "Stopwatch"
+         #31 div.elapsed
+           #53 "MM:SS.t"
+         #32 div.buttons
+           #33 button.go.start [data-k="go"]
+             #34 "Start"
+           #35 button [data-k="lap"]
+             #36 "Lap"
+           #37 button [data-k="reset"]
+             #38 "Reset"
+         #39 div.laps
    [call] arche:phone/background@0.1.0#woken()
    [call] arche:phone/alarm@0.1.0#set(0, "")
    [call] arche:phone/background@0.1.0#wake-at(0)
@@ -96,48 +108,54 @@
    [next frame in N ms]
 
 --- frame 2  (clicks fed to guest: []) ---
-   [tap] #21
-   [page] 40 nodes
+   [tap] #13
+   [page] 46 nodes
    #1 body
      #2 div.clock {click}
        #3 div.face
          #4 div.time
-           #48 "HH:MM:SS"
+           #54 "HH:MM:SS"
          #5 div.date
-           #49 "DATE"
+           #55 "DATE"
          #6 div.zone
-           #50 "Asia/Tashkent · UTC+05:00"
-       #7 div.alarm
-         #8 div.title
-           #9 "Alarm"
-         #10 div.set
-           #51 "HH:MM"
-         #11 div.buttons
-           #12 button [data-k="h-"]
-             #13 "−1 h"
-           #14 button [data-k="h+"]
-             #15 "+1 h"
-           #16 button [data-k="m-"]
-             #17 "−1 min"
-           #18 button [data-k="m+"]
-             #19 "+1 min"
-         #20 div.rings
-           #53 "Rings in T"
-         #21 button.go.turn [data-k="alarm"]
-           #52 "Turn off"
-       #22 div.watch
-         #23 div.title
-           #24 "Stopwatch"
-         #25 div.elapsed
-           #54 "MM:SS.t"
-         #26 div.buttons
-           #27 button.go.start [data-k="go"]
-             #28 "Start"
-           #29 button [data-k="lap"]
-             #30 "Lap"
-           #31 button [data-k="reset"]
-             #32 "Reset"
-         #33 div.laps
+           #56 "Asia/Tashkent · UTC+05:00"
+       #7 div.group.card
+         #8 div.cardhead
+           #9 span.icon.fill
+             #10 "alarm"
+           #11 span.title
+             #12 "Alarm"
+           #13 button.turn.on [data-k="alarm"]
+             #58 "Turn off"
+         #14 div.set
+           #57 "HH:MM"
+         #15 div.rings
+           #59 "Rings in T"
+         #16 div.chips
+           #17 button.chip [data-k="h-"]
+             #18 "−1 h"
+           #19 button.chip [data-k="h+"]
+             #20 "+1 h"
+           #21 button.chip [data-k="m-"]
+             #22 "−1 min"
+           #23 button.chip [data-k="m+"]
+             #24 "+1 min"
+       #25 div.group.card
+         #26 div.cardhead
+           #27 span.icon.fill
+             #28 "avg_time"
+           #29 span.title
+             #30 "Stopwatch"
+         #31 div.elapsed
+           #60 "MM:SS.t"
+         #32 div.buttons
+           #33 button.go.start [data-k="go"]
+             #34 "Start"
+           #35 button [data-k="lap"]
+             #36 "Lap"
+           #37 button [data-k="reset"]
+             #38 "Reset"
+         #39 div.laps
    [call] arche:phone/background@0.1.0#woken()
    [call] arche:phone/alarm@0.1.0#snoozed()
    [call] arche:phone/alarm@0.1.0#set(N, "Alarm")
@@ -146,48 +164,54 @@
    [next frame in N ms]
 
 --- frame 3  (clicks fed to guest: []) ---
-   [tap] #14
-   [page] 40 nodes
+   [tap] #19
+   [page] 46 nodes
    #1 body
      #2 div.clock {click}
        #3 div.face
          #4 div.time
-           #55 "HH:MM:SS"
+           #61 "HH:MM:SS"
          #5 div.date
-           #56 "DATE"
+           #62 "DATE"
          #6 div.zone
-           #57 "Asia/Tashkent · UTC+05:00"
-       #7 div.alarm
-         #8 div.title
-           #9 "Alarm"
-         #10 div.set
-           #58 "HH:MM"
-         #11 div.buttons
-           #12 button [data-k="h-"]
-             #13 "−1 h"
-           #14 button [data-k="h+"]
-             #15 "+1 h"
-           #16 button [data-k="m-"]
-             #17 "−1 min"
-           #18 button [data-k="m+"]
-             #19 "+1 min"
-         #20 div.rings
-           #60 "Rings in T"
-         #21 button.go.turn [data-k="alarm"]
-           #59 "Turn off"
-       #22 div.watch
-         #23 div.title
-           #24 "Stopwatch"
-         #25 div.elapsed
-           #61 "MM:SS.t"
-         #26 div.buttons
-           #27 button.go.start [data-k="go"]
-             #28 "Start"
-           #29 button [data-k="lap"]
-             #30 "Lap"
-           #31 button [data-k="reset"]
-             #32 "Reset"
-         #33 div.laps
+           #63 "Asia/Tashkent · UTC+05:00"
+       #7 div.group.card
+         #8 div.cardhead
+           #9 span.icon.fill
+             #10 "alarm"
+           #11 span.title
+             #12 "Alarm"
+           #13 button.turn.on [data-k="alarm"]
+             #65 "Turn off"
+         #14 div.set
+           #64 "HH:MM"
+         #15 div.rings
+           #66 "Rings in T"
+         #16 div.chips
+           #17 button.chip [data-k="h-"]
+             #18 "−1 h"
+           #19 button.chip [data-k="h+"]
+             #20 "+1 h"
+           #21 button.chip [data-k="m-"]
+             #22 "−1 min"
+           #23 button.chip [data-k="m+"]
+             #24 "+1 min"
+       #25 div.group.card
+         #26 div.cardhead
+           #27 span.icon.fill
+             #28 "avg_time"
+           #29 span.title
+             #30 "Stopwatch"
+         #31 div.elapsed
+           #67 "MM:SS.t"
+         #32 div.buttons
+           #33 button.go.start [data-k="go"]
+             #34 "Start"
+           #35 button [data-k="lap"]
+             #36 "Lap"
+           #37 button [data-k="reset"]
+             #38 "Reset"
+         #39 div.laps
    [call] arche:phone/background@0.1.0#woken()
    [call] arche:phone/alarm@0.1.0#set(N, "Alarm")
    [call] arche:phone/background@0.1.0#wake-at(N)
@@ -195,48 +219,54 @@
    [next frame in N ms]
 
 --- frame 4  (clicks fed to guest: []) ---
-   [tap] #21
-   [page] 40 nodes
+   [tap] #13
+   [page] 46 nodes
    #1 body
      #2 div.clock {click}
        #3 div.face
          #4 div.time
-           #62 "HH:MM:SS"
+           #68 "HH:MM:SS"
          #5 div.date
-           #63 "DATE"
+           #69 "DATE"
          #6 div.zone
-           #64 "Asia/Tashkent · UTC+05:00"
-       #7 div.alarm
-         #8 div.title
-           #9 "Alarm"
-         #10 div.set
-           #65 "HH:MM"
-         #11 div.buttons
-           #12 button [data-k="h-"]
-             #13 "−1 h"
-           #14 button [data-k="h+"]
-             #15 "+1 h"
-           #16 button [data-k="m-"]
-             #17 "−1 min"
-           #18 button [data-k="m+"]
-             #19 "+1 min"
-         #20 div.rings
-           #67 "Off"
-         #21 button.go.turn [data-k="alarm"]
-           #66 "Turn on"
-       #22 div.watch
-         #23 div.title
-           #24 "Stopwatch"
-         #25 div.elapsed
-           #68 "MM:SS.t"
-         #26 div.buttons
-           #27 button.go.start [data-k="go"]
-             #28 "Start"
-           #29 button [data-k="lap"]
-             #30 "Lap"
-           #31 button [data-k="reset"]
-             #32 "Reset"
-         #33 div.laps
+           #70 "Asia/Tashkent · UTC+05:00"
+       #7 div.group.card
+         #8 div.cardhead
+           #9 span.icon.fill
+             #10 "alarm"
+           #11 span.title
+             #12 "Alarm"
+           #13 button.turn [data-k="alarm"]
+             #72 "Turn on"
+         #14 div.set
+           #71 "HH:MM"
+         #15 div.rings
+           #73 "Off"
+         #16 div.chips
+           #17 button.chip [data-k="h-"]
+             #18 "−1 h"
+           #19 button.chip [data-k="h+"]
+             #20 "+1 h"
+           #21 button.chip [data-k="m-"]
+             #22 "−1 min"
+           #23 button.chip [data-k="m+"]
+             #24 "+1 min"
+       #25 div.group.card
+         #26 div.cardhead
+           #27 span.icon.fill
+             #28 "avg_time"
+           #29 span.title
+             #30 "Stopwatch"
+         #31 div.elapsed
+           #74 "MM:SS.t"
+         #32 div.buttons
+           #33 button.go.start [data-k="go"]
+             #34 "Start"
+           #35 button [data-k="lap"]
+             #36 "Lap"
+           #37 button [data-k="reset"]
+             #38 "Reset"
+         #39 div.laps
    [call] arche:phone/background@0.1.0#woken()
    [call] arche:phone/alarm@0.1.0#snoozed()
    [call] arche:phone/alarm@0.1.0#set(0, "")
@@ -245,246 +275,276 @@
    [next frame in N ms]
 
 --- frame 5  (clicks fed to guest: []) ---
-   [tap] #27
-   [page] 40 nodes
+   [tap] #33
+   [page] 46 nodes
    #1 body
      #2 div.clock {click}
        #3 div.face
          #4 div.time
-           #70 "HH:MM:SS"
+           #76 "HH:MM:SS"
          #5 div.date
-           #71 "DATE"
+           #77 "DATE"
          #6 div.zone
-           #72 "Asia/Tashkent · UTC+05:00"
-       #7 div.alarm
-         #8 div.title
-           #9 "Alarm"
-         #10 div.set
-           #73 "HH:MM"
-         #11 div.buttons
-           #12 button [data-k="h-"]
-             #13 "−1 h"
-           #14 button [data-k="h+"]
-             #15 "+1 h"
-           #16 button [data-k="m-"]
-             #17 "−1 min"
-           #18 button [data-k="m+"]
-             #19 "+1 min"
-         #20 div.rings
-           #75 "Off"
-         #21 button.go.turn [data-k="alarm"]
-           #74 "Turn on"
-       #22 div.watch
-         #23 div.title
-           #24 "Stopwatch"
-         #25 div.elapsed
-           #76 "MM:SS.t"
-         #26 div.buttons
-           #27 button.go.start [data-k="go"]
-             #69 "Stop"
-           #29 button [data-k="lap"]
-             #30 "Lap"
-           #31 button [data-k="reset"]
-             #32 "Reset"
-         #33 div.laps
+           #78 "Asia/Tashkent · UTC+05:00"
+       #7 div.group.card
+         #8 div.cardhead
+           #9 span.icon.fill
+             #10 "alarm"
+           #11 span.title
+             #12 "Alarm"
+           #13 button.turn [data-k="alarm"]
+             #80 "Turn on"
+         #14 div.set
+           #79 "HH:MM"
+         #15 div.rings
+           #81 "Off"
+         #16 div.chips
+           #17 button.chip [data-k="h-"]
+             #18 "−1 h"
+           #19 button.chip [data-k="h+"]
+             #20 "+1 h"
+           #21 button.chip [data-k="m-"]
+             #22 "−1 min"
+           #23 button.chip [data-k="m+"]
+             #24 "+1 min"
+       #25 div.group.card
+         #26 div.cardhead
+           #27 span.icon.fill
+             #28 "avg_time"
+           #29 span.title
+             #30 "Stopwatch"
+         #31 div.elapsed
+           #82 "MM:SS.t"
+         #32 div.buttons
+           #33 button.go.start [data-k="go"]
+             #75 "Stop"
+           #35 button [data-k="lap"]
+             #36 "Lap"
+           #37 button [data-k="reset"]
+             #38 "Reset"
+         #39 div.laps
    [call] arche:phone/background@0.1.0#woken()
    [call] arche:phone/alarm@0.1.0#snoozed()
    [next frame in N ms]
 
 --- frame 6  (clicks fed to guest: []) ---
-   [tap] #29
-   [page] 42 nodes
+   [tap] #35
+   [page] 48 nodes
    #1 body
      #2 div.clock {click}
        #3 div.face
          #4 div.time
-           #77 "HH:MM:SS"
+           #83 "HH:MM:SS"
          #5 div.date
-           #78 "DATE"
+           #84 "DATE"
          #6 div.zone
-           #79 "Asia/Tashkent · UTC+05:00"
-       #7 div.alarm
-         #8 div.title
-           #9 "Alarm"
-         #10 div.set
-           #80 "HH:MM"
-         #11 div.buttons
-           #12 button [data-k="h-"]
-             #13 "−1 h"
-           #14 button [data-k="h+"]
-             #15 "+1 h"
-           #16 button [data-k="m-"]
-             #17 "−1 min"
-           #18 button [data-k="m+"]
-             #19 "+1 min"
-         #20 div.rings
-           #82 "Off"
-         #21 button.go.turn [data-k="alarm"]
-           #81 "Turn on"
-       #22 div.watch
-         #23 div.title
-           #24 "Stopwatch"
-         #25 div.elapsed
-           #83 "MM:SS.t"
-         #26 div.buttons
-           #27 button.go.start [data-k="go"]
-             #69 "Stop"
-           #29 button [data-k="lap"]
-             #30 "Lap"
-           #31 button [data-k="reset"]
-             #32 "Reset"
-         #33 div.laps
-           #84 div.lap
-             #85 "Lap 1   MM:SS.t   MM:SS.t"
+           #85 "Asia/Tashkent · UTC+05:00"
+       #7 div.group.card
+         #8 div.cardhead
+           #9 span.icon.fill
+             #10 "alarm"
+           #11 span.title
+             #12 "Alarm"
+           #13 button.turn [data-k="alarm"]
+             #87 "Turn on"
+         #14 div.set
+           #86 "HH:MM"
+         #15 div.rings
+           #88 "Off"
+         #16 div.chips
+           #17 button.chip [data-k="h-"]
+             #18 "−1 h"
+           #19 button.chip [data-k="h+"]
+             #20 "+1 h"
+           #21 button.chip [data-k="m-"]
+             #22 "−1 min"
+           #23 button.chip [data-k="m+"]
+             #24 "+1 min"
+       #25 div.group.card
+         #26 div.cardhead
+           #27 span.icon.fill
+             #28 "avg_time"
+           #29 span.title
+             #30 "Stopwatch"
+         #31 div.elapsed
+           #89 "MM:SS.t"
+         #32 div.buttons
+           #33 button.go.start [data-k="go"]
+             #75 "Stop"
+           #35 button [data-k="lap"]
+             #36 "Lap"
+           #37 button [data-k="reset"]
+             #38 "Reset"
+         #39 div.laps
+           #90 div.lap
+             #91 "Lap 1   MM:SS.t   MM:SS.t"
    [call] arche:phone/background@0.1.0#woken()
    [call] arche:phone/alarm@0.1.0#snoozed()
    [next frame in N ms]
 
 --- frame 7  (clicks fed to guest: []) ---
-   [tap] #29
-   [page] 44 nodes
+   [tap] #35
+   [page] 50 nodes
    #1 body
      #2 div.clock {click}
        #3 div.face
          #4 div.time
-           #86 "HH:MM:SS"
+           #92 "HH:MM:SS"
          #5 div.date
-           #87 "DATE"
+           #93 "DATE"
          #6 div.zone
-           #88 "Asia/Tashkent · UTC+05:00"
-       #7 div.alarm
-         #8 div.title
-           #9 "Alarm"
-         #10 div.set
-           #89 "HH:MM"
-         #11 div.buttons
-           #12 button [data-k="h-"]
-             #13 "−1 h"
-           #14 button [data-k="h+"]
-             #15 "+1 h"
-           #16 button [data-k="m-"]
-             #17 "−1 min"
-           #18 button [data-k="m+"]
-             #19 "+1 min"
-         #20 div.rings
-           #91 "Off"
-         #21 button.go.turn [data-k="alarm"]
-           #90 "Turn on"
-       #22 div.watch
-         #23 div.title
-           #24 "Stopwatch"
-         #25 div.elapsed
-           #92 "MM:SS.t"
-         #26 div.buttons
-           #27 button.go.start [data-k="go"]
-             #69 "Stop"
-           #29 button [data-k="lap"]
-             #30 "Lap"
-           #31 button [data-k="reset"]
-             #32 "Reset"
-         #33 div.laps
-           #84 div.lap
-             #85 "Lap 1   MM:SS.t   MM:SS.t"
-           #93 div.lap
-             #94 "Lap 2   MM:SS.t   MM:SS.t"
+           #94 "Asia/Tashkent · UTC+05:00"
+       #7 div.group.card
+         #8 div.cardhead
+           #9 span.icon.fill
+             #10 "alarm"
+           #11 span.title
+             #12 "Alarm"
+           #13 button.turn [data-k="alarm"]
+             #96 "Turn on"
+         #14 div.set
+           #95 "HH:MM"
+         #15 div.rings
+           #97 "Off"
+         #16 div.chips
+           #17 button.chip [data-k="h-"]
+             #18 "−1 h"
+           #19 button.chip [data-k="h+"]
+             #20 "+1 h"
+           #21 button.chip [data-k="m-"]
+             #22 "−1 min"
+           #23 button.chip [data-k="m+"]
+             #24 "+1 min"
+       #25 div.group.card
+         #26 div.cardhead
+           #27 span.icon.fill
+             #28 "avg_time"
+           #29 span.title
+             #30 "Stopwatch"
+         #31 div.elapsed
+           #98 "MM:SS.t"
+         #32 div.buttons
+           #33 button.go.start [data-k="go"]
+             #75 "Stop"
+           #35 button [data-k="lap"]
+             #36 "Lap"
+           #37 button [data-k="reset"]
+             #38 "Reset"
+         #39 div.laps
+           #90 div.lap
+             #91 "Lap 1   MM:SS.t   MM:SS.t"
+           #99 div.lap
+             #100 "Lap 2   MM:SS.t   MM:SS.t"
    [call] arche:phone/background@0.1.0#woken()
    [call] arche:phone/alarm@0.1.0#snoozed()
    [next frame in N ms]
 
 --- frame 8  (clicks fed to guest: []) ---
-   [tap] #27
-   [page] 44 nodes
+   [tap] #33
+   [page] 50 nodes
    #1 body
      #2 div.clock {click}
        #3 div.face
          #4 div.time
-           #96 "HH:MM:SS"
+           #102 "HH:MM:SS"
          #5 div.date
-           #97 "DATE"
+           #103 "DATE"
          #6 div.zone
-           #98 "Asia/Tashkent · UTC+05:00"
-       #7 div.alarm
-         #8 div.title
-           #9 "Alarm"
-         #10 div.set
-           #99 "HH:MM"
-         #11 div.buttons
-           #12 button [data-k="h-"]
-             #13 "−1 h"
-           #14 button [data-k="h+"]
-             #15 "+1 h"
-           #16 button [data-k="m-"]
-             #17 "−1 min"
-           #18 button [data-k="m+"]
-             #19 "+1 min"
-         #20 div.rings
-           #101 "Off"
-         #21 button.go.turn [data-k="alarm"]
-           #100 "Turn on"
-       #22 div.watch
-         #23 div.title
-           #24 "Stopwatch"
-         #25 div.elapsed
-           #102 "MM:SS.t"
-         #26 div.buttons
-           #27 button.go.start [data-k="go"]
-             #95 "Start"
-           #29 button [data-k="lap"]
-             #30 "Lap"
-           #31 button [data-k="reset"]
-             #32 "Reset"
-         #33 div.laps
-           #84 div.lap
-             #85 "Lap 1   MM:SS.t   MM:SS.t"
-           #93 div.lap
-             #94 "Lap 2   MM:SS.t   MM:SS.t"
+           #104 "Asia/Tashkent · UTC+05:00"
+       #7 div.group.card
+         #8 div.cardhead
+           #9 span.icon.fill
+             #10 "alarm"
+           #11 span.title
+             #12 "Alarm"
+           #13 button.turn [data-k="alarm"]
+             #106 "Turn on"
+         #14 div.set
+           #105 "HH:MM"
+         #15 div.rings
+           #107 "Off"
+         #16 div.chips
+           #17 button.chip [data-k="h-"]
+             #18 "−1 h"
+           #19 button.chip [data-k="h+"]
+             #20 "+1 h"
+           #21 button.chip [data-k="m-"]
+             #22 "−1 min"
+           #23 button.chip [data-k="m+"]
+             #24 "+1 min"
+       #25 div.group.card
+         #26 div.cardhead
+           #27 span.icon.fill
+             #28 "avg_time"
+           #29 span.title
+             #30 "Stopwatch"
+         #31 div.elapsed
+           #108 "MM:SS.t"
+         #32 div.buttons
+           #33 button.go.start [data-k="go"]
+             #101 "Start"
+           #35 button [data-k="lap"]
+             #36 "Lap"
+           #37 button [data-k="reset"]
+             #38 "Reset"
+         #39 div.laps
+           #90 div.lap
+             #91 "Lap 1   MM:SS.t   MM:SS.t"
+           #99 div.lap
+             #100 "Lap 2   MM:SS.t   MM:SS.t"
    [call] arche:phone/background@0.1.0#woken()
    [call] arche:phone/alarm@0.1.0#snoozed()
    [next frame in N ms]
 
 --- frame 9  (clicks fed to guest: []) ---
-   [tap] #31
-   [page] 40 nodes
+   [tap] #37
+   [page] 46 nodes
    #1 body
      #2 div.clock {click}
        #3 div.face
          #4 div.time
-           #103 "HH:MM:SS"
+           #109 "HH:MM:SS"
          #5 div.date
-           #104 "DATE"
+           #110 "DATE"
          #6 div.zone
-           #105 "Asia/Tashkent · UTC+05:00"
-       #7 div.alarm
-         #8 div.title
-           #9 "Alarm"
-         #10 div.set
-           #106 "HH:MM"
-         #11 div.buttons
-           #12 button [data-k="h-"]
-             #13 "−1 h"
-           #14 button [data-k="h+"]
-             #15 "+1 h"
-           #16 button [data-k="m-"]
-             #17 "−1 min"
-           #18 button [data-k="m+"]
-             #19 "+1 min"
-         #20 div.rings
-           #108 "Off"
-         #21 button.go.turn [data-k="alarm"]
-           #107 "Turn on"
-       #22 div.watch
-         #23 div.title
-           #24 "Stopwatch"
-         #25 div.elapsed
-           #109 "MM:SS.t"
-         #26 div.buttons
-           #27 button.go.start [data-k="go"]
-             #95 "Start"
-           #29 button [data-k="lap"]
-             #30 "Lap"
-           #31 button [data-k="reset"]
-             #32 "Reset"
-         #33 div.laps
+           #111 "Asia/Tashkent · UTC+05:00"
+       #7 div.group.card
+         #8 div.cardhead
+           #9 span.icon.fill
+             #10 "alarm"
+           #11 span.title
+             #12 "Alarm"
+           #13 button.turn [data-k="alarm"]
+             #113 "Turn on"
+         #14 div.set
+           #112 "HH:MM"
+         #15 div.rings
+           #114 "Off"
+         #16 div.chips
+           #17 button.chip [data-k="h-"]
+             #18 "−1 h"
+           #19 button.chip [data-k="h+"]
+             #20 "+1 h"
+           #21 button.chip [data-k="m-"]
+             #22 "−1 min"
+           #23 button.chip [data-k="m+"]
+             #24 "+1 min"
+       #25 div.group.card
+         #26 div.cardhead
+           #27 span.icon.fill
+             #28 "avg_time"
+           #29 span.title
+             #30 "Stopwatch"
+         #31 div.elapsed
+           #115 "MM:SS.t"
+         #32 div.buttons
+           #33 button.go.start [data-k="go"]
+             #101 "Start"
+           #35 button [data-k="lap"]
+             #36 "Lap"
+           #37 button [data-k="reset"]
+             #38 "Reset"
+         #39 div.laps
    [call] arche:phone/background@0.1.0#woken()
    [call] arche:phone/alarm@0.1.0#snoozed()
    [next frame in N ms]
