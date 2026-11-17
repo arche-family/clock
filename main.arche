@@ -31,7 +31,7 @@ import host_api;
 import notify;
 import std;
 
-const SHEET: str = ".page { display: flex; flex-direction: column; flex-grow: 1; } .next { font-size: 15px; color: var(--kit-muted); padding: 0 24px 16px; margin-top: -8px; } .acard { padding: 0; } .arow { display: flex; flex-direction: row; align-items: center; gap: 12px; padding: 14px 16px 14px 20px; } .atext { display: flex; flex-direction: column; flex-grow: 1; gap: 2px; } .atime { font-size: 40px; font-weight: 300; color: var(--kit-text); line-height: 48px; } .arow.off .atime { color: var(--kit-muted); } .switch { width: 52px; height: 32px; border-radius: 16px; border: 0; padding: 4px; display: flex; flex-direction: row; justify-content: flex-start; align-items: center; background: var(--kit-line); flex-shrink: 0; } .switch.on { justify-content: flex-end; background: var(--kit-accent); } .knob { width: 24px; height: 24px; border-radius: 12px; background: #ffffff; } .face { display: flex; flex-direction: column; align-items: center; padding: 48px 0 0; gap: 8px; } .time { font-size: 64px; font-weight: 300; color: var(--kit-text); } .date { font-size: 17px; font-weight: 500; color: var(--kit-text); } .zone { font-size: 14px; color: var(--kit-muted); } .elapsed { font-size: 60px; font-weight: 300; color: var(--kit-text); text-align: center; padding: 56px 0 24px; } .laps { display: flex; flex-direction: column; margin: 0 16px; } .lap { display: flex; flex-direction: row; justify-content: space-between; padding: 12px 8px; font-size: 16px; color: var(--kit-text); border-bottom: 1px solid var(--kit-line); } .lap .n { color: var(--kit-muted); } .controls { display: flex; flex-direction: row; justify-content: space-evenly; padding: 24px 0 20px; margin-top: auto; } .round { width: 76px; height: 76px; border-radius: 38px; border: 0; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 500; background: var(--kit-card); color: var(--kit-text); } .round.go { background: var(--kit-accent); color: #ffffff; } .round.stop { background: var(--kit-danger); color: #ffffff; } .pick { display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 8px; padding: 32px 0 16px; } .spin { display: flex; flex-direction: column; align-items: center; } .spin .iconbtn { width: 56px; height: 44px; } .val { font-size: 56px; font-weight: 300; color: var(--kit-text); width: 96px; text-align: center; } .colon { font-size: 48px; font-weight: 300; color: var(--kit-muted); } .unit { font-size: 13px; color: var(--kit-muted); } .presets { display: flex; flex-direction: row; justify-content: center; gap: 8px; padding: 8px 16px; } .countdown { font-size: 64px; font-weight: 300; color: var(--kit-text); text-align: center; padding: 72px 0 8px; } .left { font-size: 15px; color: var(--kit-muted); text-align: center; } .head .title { flex-grow: 1; } .drop { margin: 24px auto 0; } .hidden { display: none; }";
+const SHEET: str = ".page { display: flex; flex-direction: column; flex-grow: 1; } .next { font-size: 15px; color: var(--kit-muted); padding: 0 24px 16px; margin-top: -8px; } .acard { padding: 0; } .arow { display: flex; flex-direction: row; align-items: center; gap: 12px; padding: 14px 16px 14px 20px; } .atext { display: flex; flex-direction: column; flex-grow: 1; gap: 2px; } .atime { font-size: 40px; font-weight: 300; color: var(--kit-text); line-height: 48px; } .arow.off .atime { color: var(--kit-muted); } .switch { width: 52px; height: 32px; border-radius: 16px; border: 0; padding: 4px; display: flex; flex-direction: row; justify-content: flex-start; align-items: center; background: var(--kit-line); flex-shrink: 0; } .switch.on { justify-content: flex-end; background: var(--kit-accent); } .knob { width: 24px; height: 24px; border-radius: 12px; background: #ffffff; } .face { display: flex; flex-direction: column; align-items: center; padding: 48px 0 0; gap: 8px; } .time { font-size: 64px; font-weight: 300; color: var(--kit-text); } .date { font-size: 17px; font-weight: 500; color: var(--kit-text); } .zone { font-size: 14px; color: var(--kit-muted); } .elapsed { font-size: 60px; font-weight: 300; color: var(--kit-text); text-align: center; padding: 56px 0 24px; } .laps { display: flex; flex-direction: column; margin: 0 16px; } .lap { display: flex; flex-direction: row; justify-content: space-between; padding: 12px 8px; font-size: 16px; color: var(--kit-text); border-bottom: 1px solid var(--kit-line); } .lap .n { color: var(--kit-muted); } .controls { display: flex; flex-direction: row; justify-content: space-evenly; padding: 24px 0 20px; margin-top: auto; } .round { width: 76px; height: 76px; border-radius: 38px; border: 0; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 500; background: var(--kit-card); color: var(--kit-text); } .round.go { background: var(--kit-accent); color: #ffffff; } .round.stop { background: var(--kit-danger); color: #ffffff; } .pick { display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 8px; padding: 32px 0 16px; } .spin { display: flex; flex-direction: column; align-items: center; } .spin .iconbtn { width: 56px; height: 44px; } .val { font-size: 56px; font-weight: 300; color: var(--kit-text); width: 96px; text-align: center; } .colon { font-size: 48px; font-weight: 300; color: var(--kit-muted); } .unit { font-size: 13px; color: var(--kit-muted); } .presets { display: flex; flex-direction: row; justify-content: center; gap: 8px; padding: 8px 16px; } .countdown { font-size: 64px; font-weight: 300; color: var(--kit-text); text-align: center; padding: 72px 0 8px; } .left { font-size: 15px; color: var(--kit-muted); text-align: center; } .head .title { flex-grow: 1; } .drop { margin: 24px auto 0; } .dismiss { margin: 0 16px 14px; align-self: flex-start; } .hidden { display: none; }";
 
 /// Minutes in a day, and ms.
 const DAY_MINUTES: i64 = 1440;
@@ -86,6 +86,7 @@ type Clock = struct {
     tab_bar: u32,
     fab: u32,
     next: u32,
+    dismiss: u32,
     alarm_list: u32,
     empty: u32,
     time: u32,
@@ -127,7 +128,7 @@ fn init(host: &mut std.Host, a: alloc.Allocator) -> Clock {
     _ = dom.add_stylesheet(host, css: kit.view());
     _ = dom.add_stylesheet(host, css: SHEET);
     var m = alloc.String.from("<div class='app tabbed'><div class='content'>", a);
-    m.push_str("<div class='page'><div class='big'>Alarm</div><div class='next'></div><div class='alarms'></div><div class='empty hidden'><span class='icon'>alarm</span><div>No alarms</div></div></div>");
+    m.push_str("<div class='page'><div class='big'>Alarm</div><div class='next'></div><button class='btn dismiss hidden' data-k='dismiss'>Dismiss</button><div class='alarms'></div><div class='empty hidden'><span class='icon'>alarm</span><div>No alarms</div></div></div>");
     m.push_str("<div class='page hidden'><div class='big'>Clock</div><div class='face'><div class='time'></div><div class='date'></div><div class='zone'></div></div></div>");
     m.push_str("<div class='page hidden'><div class='big'>Stopwatch</div><div class='elapsed'></div><div class='laps'></div><div class='controls'><button class='round lapgo' data-k='lap'>Reset</button><button class='round go start' data-k='go'>Start</button></div></div>");
     m.push_str("<div class='page hidden'><div class='big'>Timer</div><div class='pick timerpick'>");
@@ -174,6 +175,7 @@ fn init(host: &mut std.Host, a: alloc.Allocator) -> Clock {
         tab_bar: first(host, selector: ".tabs", a: a),
         fab: first(host, selector: ".fab", a: a),
         next: first(host, selector: ".next", a: a),
+        dismiss: first(host, selector: ".dismiss", a: a),
         alarm_list: first(host, selector: ".alarms", a: a),
         empty: first(host, selector: ".empty", a: a),
         time: first(host, selector: ".time", a: a),
@@ -517,6 +519,8 @@ fn show_alarms(state: &mut Clock, host: &mut std.Host, local: i64, a: alloc.Allo
         next.push_str("All alarms are off");
     }
     dom.set_text(host, item: state.next, text: next.view());
+    // Snoozed, Dismiss under it, as the phone's notification has.
+    dom.toggle_class(host, item: state.dismiss, name: "hidden", on: until_snooze < 0);
     if state.alarms_shown {
         return;
     }
@@ -798,6 +802,8 @@ fn press(state: &mut Clock, host: &mut std.Host, key: str, now: i64, a: alloc.Al
             arm(state, host: host, a: a);
             state.alarms_shown = false;
         }
+    } else if key.eq("dismiss") {
+        alarm.dismiss(host);
     } else if key.eq("eclose") {
         state.open = NO;
         go_to(state, host: host, page: ALARMS);
