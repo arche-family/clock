@@ -1,22 +1,27 @@
-/// Clock, the Arche phone's, written in Arche, as Android's: the time,
-/// large, the date and the time zone under it, an alarm, and a stopwatch
-/// with its laps. An app of the page: its buttons' taps come as click
-/// events. The time is the shell's (now-millis), as the user reads it
+/// Clock, the Arche phone's, written in Arche, as a phone's clock is
+/// (arche-os T7, T12): four pages, tabs along the bottom. Alarm: the
+/// alarms, a card each, its time and a switch, the next one's time to go
+/// at the top, + for a new one; a tap on one opens its time, set by
+/// steppers, Save and Delete. Clock: the time, large, the date and the
+/// time zone. Stopwatch: its time, Lap and Start, the laps under it.
+/// Timer: minutes and seconds, set by steppers or a preset, counted down,
+/// paused and resumed; at its end it rings. An app of the page: its taps
+/// come as click events, the phone's Back as a back event while an alarm
+/// is open. The time is the shell's (now-millis), as the user reads it
 /// (utc-offset and time-zone); a frame is asked for as the second turns,
-/// and ten times a second while the stopwatch runs.
+/// and ten times a second while the stopwatch or the timer runs.
 ///
-/// An app of the phone's world (arche:phone, wit/): the alarm, once on, is
+/// An app of the phone's world (arche:phone, wit/): the alarm due first is
 /// set with the phone (alarm's set), which keeps it and rings it at its
 /// time itself, as Android's alarm clocks are: the app need not run, and
 /// it rings after a restart too, before the PIN opens the user's data.
 /// Rung (alarm's next says none), it is off, as a one-time alarm of
-/// Android's is. A phone that will not set it wakes the app at its time
-/// instead (background's wake-at), off the screen or asleep, and the app
+/// Android's is, and the next one is set. A phone that will not set it
+/// wakes the app at its time instead (background's wake-at), and the app
 /// rings it then (alarm's ring: the phone's alarm screen, Snooze and
-/// Dismiss, its sound until one is tapped, in Do Not Disturb too); one that
-/// will not ring it gets a notification (notify's post). Snoozed, the card
-/// says until when, and Dismiss ends it. Its time, whether it is on, and
-/// how, are kept in the app's storage.
+/// Dismiss); one that will not ring it gets a notification (notify's
+/// post). The timer's end wakes the app the same way. The alarms are kept
+/// in the app's storage.
 import alarm;
 import alloc;
 import appkit;
@@ -26,13 +31,43 @@ import host_api;
 import notify;
 import std;
 
-const SHEET: str = ".clock { display: flex; flex-direction: column; min-height: 100vh; } .face { display: flex; flex-direction: column; align-items: center; padding: 40px 0 26px; gap: 6px; } .time { font-size: 64px; font-weight: 400; color: var(--kit-text); } .date { font-size: 17px; font-weight: 500; color: var(--kit-text); } .zone { font-size: 14px; color: var(--kit-muted); } .card { padding: 14px 16px 16px; gap: 10px; } .cardhead { display: flex; flex-direction: row; align-items: center; gap: 8px; } .cardhead .icon { font-size: 22px; color: var(--kit-accent); } .cardhead .title { font-size: 15px; font-weight: 500; color: var(--kit-muted); flex-grow: 1; } .set { font-size: 48px; color: var(--kit-text); text-align: center; } .rings { font-size: 14px; color: var(--kit-muted); text-align: center; } .chips { display: flex; flex-direction: row; justify-content: center; gap: 8px; padding: 0; } .chip { background: var(--kit-ground); } .turn { padding: 8px 18px; border-radius: 18px; border: 0; font-size: 15px; font-weight: 500; background: var(--kit-ground); color: var(--kit-text); } .turn.on { background: var(--kit-accent); color: #ffffff; } .elapsed { font-size: 44px; color: var(--kit-text); text-align: center; } .buttons { display: flex; flex-direction: row; justify-content: center; gap: 10px; } .buttons button { padding: 12px 24px; border-radius: 24px; border: 0; font-size: 16px; font-weight: 500; background: var(--kit-ground); color: var(--kit-text); } .buttons button.go { background: var(--kit-accent); color: #ffffff; } .laps { display: flex; flex-direction: column; gap: 4px; align-items: center; } .lap { font-size: 15px; color: var(--kit-muted); }";
+const SHEET: str = ".page { display: flex; flex-direction: column; flex-grow: 1; } .next { font-size: 15px; color: var(--kit-muted); padding: 0 24px 16px; margin-top: -8px; } .acard { padding: 0; } .arow { display: flex; flex-direction: row; align-items: center; gap: 12px; padding: 14px 16px 14px 20px; } .atext { display: flex; flex-direction: column; flex-grow: 1; gap: 2px; } .atime { font-size: 40px; font-weight: 300; color: var(--kit-text); line-height: 48px; } .arow.off .atime { color: var(--kit-muted); } .switch { width: 52px; height: 32px; border-radius: 16px; border: 0; padding: 4px; display: flex; flex-direction: row; justify-content: flex-start; align-items: center; background: var(--kit-line); flex-shrink: 0; } .switch.on { justify-content: flex-end; background: var(--kit-accent); } .knob { width: 24px; height: 24px; border-radius: 12px; background: #ffffff; } .face { display: flex; flex-direction: column; align-items: center; padding: 48px 0 0; gap: 8px; } .time { font-size: 64px; font-weight: 300; color: var(--kit-text); } .date { font-size: 17px; font-weight: 500; color: var(--kit-text); } .zone { font-size: 14px; color: var(--kit-muted); } .elapsed { font-size: 60px; font-weight: 300; color: var(--kit-text); text-align: center; padding: 56px 0 24px; } .laps { display: flex; flex-direction: column; margin: 0 16px; } .lap { display: flex; flex-direction: row; justify-content: space-between; padding: 12px 8px; font-size: 16px; color: var(--kit-text); border-bottom: 1px solid var(--kit-line); } .lap .n { color: var(--kit-muted); } .controls { display: flex; flex-direction: row; justify-content: space-evenly; padding: 24px 0 20px; margin-top: auto; } .round { width: 76px; height: 76px; border-radius: 38px; border: 0; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 500; background: var(--kit-card); color: var(--kit-text); } .round.go { background: var(--kit-accent); color: #ffffff; } .round.stop { background: var(--kit-danger); color: #ffffff; } .pick { display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 8px; padding: 32px 0 16px; } .spin { display: flex; flex-direction: column; align-items: center; } .spin .iconbtn { width: 56px; height: 44px; } .val { font-size: 56px; font-weight: 300; color: var(--kit-text); width: 96px; text-align: center; } .colon { font-size: 48px; font-weight: 300; color: var(--kit-muted); } .unit { font-size: 13px; color: var(--kit-muted); } .presets { display: flex; flex-direction: row; justify-content: center; gap: 8px; padding: 8px 16px; } .countdown { font-size: 64px; font-weight: 300; color: var(--kit-text); text-align: center; padding: 72px 0 8px; } .left { font-size: 15px; color: var(--kit-muted); text-align: center; } .head .title { flex-grow: 1; } .drop { margin: 24px auto 0; } .hidden { display: none; }";
 
 /// Minutes in a day, and ms.
 const DAY_MINUTES: i64 = 1440;
 const DAY_MS: i64 = 86400000;
 
+/// The pages, as the tabs order them; and the alarm's page, over them.
+const ALARMS: u32 = 0;
+const CLOCK: u32 = 1;
+const WATCH: u32 = 2;
+const TIMER: u32 = 3;
+const EDIT: u32 = 4;
+const PAGES: usize = 5;
+
+/// No alarm: none open, none set with the phone.
+const NO: i64 = -1;
+/// The alarm open is a new one.
+const NEW: i64 = -2;
+
+/// An alarm: its time, in minutes of the day as the user reads it, and
+/// whether it is on.
+type Alarm = struct {
+    minute: i64,
+    on: bool,
+}
+
 type Clock = struct {
+    page: u32,
+    /// The alarms, by their time; the one set with the phone (its place),
+    /// whether the phone keeps it (alarm's set) or wakes the app for it;
+    /// the one open, and the time it is set to there.
+    alarms: alloc.List(Alarm),
+    armed: i64,
+    by_phone: bool,
+    open: i64,
+    edit_minute: i64,
+    alarms_shown: bool,
     /// The stopwatch: whether it runs, since when (ms), and what it had
     /// counted before that; the laps, in ms from its start.
     running: bool,
@@ -40,70 +75,205 @@ type Clock = struct {
     counted: i64,
     laps: alloc.List(i64),
     laps_shown: usize,
-    /// The page's nodes.
+    /// The timer: the seconds it is set to; when it ends (ms), while it
+    /// runs; what is left (ms), paused; 0 for neither.
+    timer_set: i64,
+    timer_end: i64,
+    timer_left: i64,
+    /// The page's nodes: the pages, the tabs, and what changes on them.
+    pages: [5]u32,
+    tabs: [4]u32,
+    tab_bar: u32,
+    fab: u32,
+    next: u32,
+    alarm_list: u32,
+    empty: u32,
     time: u32,
     date: u32,
     zone: u32,
     elapsed: u32,
     go: u32,
+    lap_go: u32,
     lap_list: u32,
-    /// The alarm: its time, in minutes of the day as the user reads it,
-    /// whether it is on, and whether the phone keeps it (alarm's set) or
-    /// wakes the app for it; its nodes.
-    alarm_at: i64,
-    alarm_on: bool,
-    by_phone: bool,
-    alarm_set: u32,
-    alarm_rings: u32,
-    alarm_go: u32,
+    pick_timer: u32,
+    countdown: u32,
+    left: u32,
+    t_min: u32,
+    t_sec: u32,
+    t_go: u32,
+    t_cancel: u32,
+    e_title: u32,
+    e_hour: u32,
+    e_min: u32,
+    e_drop: u32,
+}
+
+const TABS: str = "<div class='tabs'><button class='tab on' data-k='tab:0'><span class='icon'>alarm</span><span>Alarm</span></button><button class='tab' data-k='tab:1'><span class='icon'>schedule</span><span>Clock</span></button><button class='tab' data-k='tab:2'><span class='icon'>timer</span><span>Stopwatch</span></button><button class='tab' data-k='tab:3'><span class='icon'>hourglass_empty</span><span>Timer</span></button></div>";
+
+fn spin(out: &mut alloc.String, key: str, class: str, unit: str) {
+    out.push_str("<div class='spin'><button class='iconbtn' data-k='");
+    out.push_str(key);
+    out.push_str("+'><span class='icon'>expand_less</span></button><div class='val ");
+    out.push_str(class);
+    out.push_str("'></div><button class='iconbtn' data-k='");
+    out.push_str(key);
+    out.push_str("-'><span class='icon'>expand_more</span></button><div class='unit'>");
+    out.push_str(unit);
+    out.push_str("</div></div>");
 }
 
 fn init(host: &mut std.Host, a: alloc.Allocator) -> Clock {
     let kit = appkit.css(a);
     _ = dom.add_stylesheet(host, css: kit.view());
     _ = dom.add_stylesheet(host, css: SHEET);
-    let root = dom.root(host);
-    let markup = "<div class='clock'><div class='face'><div class='time'></div><div class='date'></div><div class='zone'></div></div><div class='group card'><div class='cardhead'><span class='icon fill'>alarm</span><span class='title'>Alarm</span><button class='turn' data-k='alarm'></button></div><div class='set'></div><div class='rings'></div><div class='chips'><button class='chip' data-k='h-'>−1 h</button><button class='chip' data-k='h+'>+1 h</button><button class='chip' data-k='m-'>−1 min</button><button class='chip' data-k='m+'>+1 min</button></div></div><div class='group card'><div class='cardhead'><span class='icon fill'>avg_time</span><span class='title'>Stopwatch</span></div><div class='elapsed'></div><div class='buttons'><button class='go start' data-k='go'>Start</button><button data-k='lap'>Lap</button><button data-k='reset'>Reset</button></div><div class='laps'></div></div></div>";
+    var m = alloc.String.from("<div class='app tabbed'><div class='content'>", a);
+    m.push_str("<div class='page'><div class='big'>Alarm</div><div class='next'></div><div class='alarms'></div><div class='empty hidden'><span class='icon'>alarm</span><div>No alarms</div></div></div>");
+    m.push_str("<div class='page hidden'><div class='big'>Clock</div><div class='face'><div class='time'></div><div class='date'></div><div class='zone'></div></div></div>");
+    m.push_str("<div class='page hidden'><div class='big'>Stopwatch</div><div class='elapsed'></div><div class='laps'></div><div class='controls'><button class='round lapgo' data-k='lap'>Reset</button><button class='round go start' data-k='go'>Start</button></div></div>");
+    m.push_str("<div class='page hidden'><div class='big'>Timer</div><div class='pick timerpick'>");
+    spin(&mut m, key: "tm", class: "tmin", unit: "min");
+    m.push_str("<div class='colon'>:</div>");
+    spin(&mut m, key: "ts", class: "tsec", unit: "sec");
+    m.push_str("</div><div class='presets timerpick'><button class='chip' data-k='preset:60'>1 min</button><button class='chip' data-k='preset:300'>5 min</button><button class='chip' data-k='preset:600'>10 min</button><button class='chip' data-k='preset:900'>15 min</button></div><div class='countdown hidden'></div><div class='left hidden'></div><div class='controls'><button class='round tcancel hidden' data-k='tcancel'>Cancel</button><button class='round go tgo' data-k='tgo'>Start</button></div></div>");
+    m.push_str("<div class='page hidden'><div class='head'><button class='iconbtn' data-k='eclose'><span class='icon'>close</span></button><div class='title etitle'>Add alarm</div><button class='iconbtn' data-k='esave'><span class='icon'>check</span></button></div><div class='pick'>");
+    spin(&mut m, key: "eh", class: "ehour", unit: "hour");
+    m.push_str("<div class='colon'>:</div>");
+    spin(&mut m, key: "em", class: "emin", unit: "min");
+    m.push_str("</div><button class='btn danger drop' data-k='edelete'>Delete alarm</button></div>");
+    m.push_str("</div>");
+    m.push_str(TABS);
+    m.push_str("<button class='fab' data-k='add'><span class='icon'>add</span></button></div>");
     var why = alloc.String.init(a);
-    if not dom.set_markup(host, item: root, markup: markup, why: &mut why, a: a) {
+    let root = dom.root(host);
+    if not dom.set_markup(host, item: root, markup: m.view(), why: &mut why, a: a) {
         host_api.log(host, msg: why.view());
     }
-    let clock = first(host, selector: ".clock", a: a);
-    dom.listen(host, item: clock, kind: "click");
-    // The alarm kept; none yet, the time now, as Android's picker starts.
-    let now = host_api.now_millis(host);
-    var at = minute_of(now + host_api.utc_offset(host) as i64 * 60000);
-    var alarm_on = false;
-    var by_phone = false;
-    match host_api.storage_get(host, key: "alarm", a: a) {
-        some(kept) => {
-            let k = kept.view();
-            at = number(k) % DAY_MINUTES;
-            // "420 on", woken for it; "420 set", the phone keeps it.
-            alarm_on = ends(s: k, tail: " on") or ends(s: k, tail: " set");
-            by_phone = ends(s: k, tail: " set");
-        }
-        none => { }
-    }
-    return Clock {
+    let app = first(host, selector: ".app", a: a);
+    dom.listen(host, item: app, kind: "click");
+    dom.listen(host, item: root, kind: "back");
+    let pages = dom.query_all(host, scope: root, selector: ".page", a: a);
+    let tabs = dom.query_all(host, scope: root, selector: ".tab", a: a);
+    var state = Clock {
+        page: ALARMS,
+        alarms: load(host, a: a),
+        armed: NO,
+        by_phone: false,
+        open: NO,
+        edit_minute: 420,
+        alarms_shown: false,
         running: false,
         since: 0,
         counted: 0,
         laps: alloc.List(i64).init(a),
         laps_shown: 0,
+        timer_set: 300,
+        timer_end: 0,
+        timer_left: 0,
+        pages: [pages.items()[0], pages.items()[1], pages.items()[2], pages.items()[3], pages.items()[4]],
+        tabs: [tabs.items()[0], tabs.items()[1], tabs.items()[2], tabs.items()[3]],
+        tab_bar: first(host, selector: ".tabs", a: a),
+        fab: first(host, selector: ".fab", a: a),
+        next: first(host, selector: ".next", a: a),
+        alarm_list: first(host, selector: ".alarms", a: a),
+        empty: first(host, selector: ".empty", a: a),
         time: first(host, selector: ".time", a: a),
         date: first(host, selector: ".date", a: a),
         zone: first(host, selector: ".zone", a: a),
         elapsed: first(host, selector: ".elapsed", a: a),
         go: first(host, selector: ".start", a: a),
+        lap_go: first(host, selector: ".lapgo", a: a),
         lap_list: first(host, selector: ".laps", a: a),
-        alarm_at: at,
-        alarm_on: alarm_on,
-        by_phone: by_phone,
-        alarm_set: first(host, selector: ".set", a: a),
-        alarm_rings: first(host, selector: ".rings", a: a),
-        alarm_go: first(host, selector: ".turn", a: a),
+        pick_timer: first(host, selector: ".timerpick", a: a),
+        countdown: first(host, selector: ".countdown", a: a),
+        left: first(host, selector: ".left", a: a),
+        t_min: first(host, selector: ".tmin", a: a),
+        t_sec: first(host, selector: ".tsec", a: a),
+        t_go: first(host, selector: ".tgo", a: a),
+        t_cancel: first(host, selector: ".tcancel", a: a),
+        e_title: first(host, selector: ".etitle", a: a),
+        e_hour: first(host, selector: ".ehour", a: a),
+        e_min: first(host, selector: ".emin", a: a),
+        e_drop: first(host, selector: ".drop", a: a),
     };
+    match host_api.storage_get(host, key: "timer", a: a) {
+        some(kept) => {
+            // "set end left": what the timer was at when the app last ran.
+            state.timer_set = word_number(kept.view(), n: 0);
+            state.timer_end = word_number(kept.view(), n: 1);
+            state.timer_left = word_number(kept.view(), n: 2);
+            if state.timer_set <= 0 {
+                state.timer_set = 300;
+            }
+        }
+        none => { }
+    }
+    // The alarm the phone keeps is the one due first.
+    state.armed = soonest(&state, local: local_now(host));
+    state.by_phone = has_next(host);
+    return state;
+}
+
+/// The alarms kept: "420 on,450 off", by their time; one older app's
+/// alarm, "420 on" or "420 set", too.
+fn load(host: &mut std.Host, a: alloc.Allocator) -> alloc.List(Alarm) {
+    var out = alloc.List(Alarm).init(a);
+    var text = alloc.String.init(a);
+    match host_api.storage_get(host, key: "alarms", a: a) {
+        some(kept) => { text = kept; }
+        none => {
+            match host_api.storage_get(host, key: "alarm", a: a) {
+                some(kept) => { text = kept; }
+                none => { }
+            }
+        }
+    }
+    let b = text.view().bytes();
+    var at: usize = 0;
+    while at < b.len() {
+        var end = at;
+        while end < b.len() and b[end] != ',' {
+            end += 1;
+        }
+        let one = text.view()[at..end];
+        if one.len() > 0 {
+            let minute = number(one) % DAY_MINUTES;
+            let on = ends(s: one, tail: " on") or ends(s: one, tail: " set");
+            _ = insert(&mut out, one: Alarm { minute: minute, on: on });
+        }
+        at = end + 1;
+    }
+    return out;
+}
+
+/// alarm put among alarms by its time; none of the same time twice.
+fn insert(alarms: &mut alloc.List(Alarm), one: Alarm) -> usize {
+    var k: usize = 0;
+    while k < alarms.len() and alarms.items()[k].minute < one.minute : (k += 1) {
+    }
+    if k < alarms.len() and alarms.items()[k].minute == one.minute {
+        alarms.items_mut()[k].on = one.on;
+        return k;
+    }
+    alarms.push(one);
+    var at = alarms.len() - 1;
+    while at > k {
+        let prev = alarms.items()[at - 1];
+        alarms.items_mut()[at] = prev;
+        at -= 1;
+    }
+    alarms.items_mut()[k] = one;
+    return k;
+}
+
+fn without(alarms: &alloc.List(Alarm), but: usize, a: alloc.Allocator) -> alloc.List(Alarm) {
+    var out = alloc.List(Alarm).init(a);
+    var k: usize = 0;
+    while k < alarms.len() : (k += 1) {
+        if k != but {
+            out.push(alarms.items()[k]);
+        }
+    }
+    return out;
 }
 
 /// The minute of the day local is in, ms since 1970 as the user's clock
@@ -133,97 +303,150 @@ fn number(s: str) -> i64 {
     return n;
 }
 
-/// How long from now until the alarm rings, in ms: its next time, today
-/// or tomorrow.
-fn until_alarm(state: &Clock, local: i64) -> i64 {
+/// The number the n-th word of s, from 0, begins with.
+fn word_number(s: str, n: i64) -> i64 {
+    let b = s.bytes();
+    var at: usize = 0;
+    var k: i64 = 0;
+    while at < b.len() {
+        var e = at;
+        while e < b.len() and b[e] != ' ' {
+            e += 1;
+        }
+        if k == n {
+            return number(s[at..e]);
+        }
+        k += 1;
+        at = e + 1;
+    }
+    return 0;
+}
+
+/// Now as the user's clock reads it, in ms since 1970.
+fn local_now(host: &mut std.Host) -> i64 {
+    return host_api.now_millis(host) + host_api.utc_offset(host) as i64 * 60000;
+}
+
+/// How long from local until minute comes, in ms: today or tomorrow.
+fn until(minute: i64, local: i64) -> i64 {
     var into_day = local % DAY_MS;
     if into_day < 0 {
         into_day += DAY_MS;
     }
-    var left = state.alarm_at * 60000 - into_day;
+    var left = minute * 60000 - into_day;
     if left <= 0 {
         left += DAY_MS;
     }
     return left;
 }
 
-/// The alarm kept, and, while it is on, set with the phone, or else the
-/// phone told when to wake the app; off, both taken back.
-fn arm(state: &mut Clock, host: &mut std.Host, now: i64, a: alloc.Allocator) {
-    var kept = alloc.String.init(a);
-    kept.push_u64(state.alarm_at as u64);
-    if state.alarm_on {
-        let local = now + host_api.utc_offset(host) as i64 * 60000;
-        let at = now + until_alarm(state, local: local);
-        state.by_phone = alarm.set(host, at_millis: at, label: "Alarm");
-        if state.by_phone {
-            kept.push_str(" set");
-            background.wake_at(host, at_millis: 0);
-        } else {
-            kept.push_str(" on");
-            background.wake_at(host, at_millis: at);
+/// The place of the alarm on that comes first after local; NO for none.
+fn soonest(state: &Clock, local: i64) -> i64 {
+    var best = NO;
+    var best_left: i64 = 0;
+    var k: usize = 0;
+    while k < state.alarms.len() : (k += 1) {
+        let al = state.alarms.items()[k];
+        if al.on {
+            let left = until(minute: al.minute, local: local);
+            if best == NO or left < best_left {
+                best = k as i64;
+                best_left = left;
+            }
         }
-    } else {
-        kept.push_str(" off");
-        _ = alarm.set(host, at_millis: 0, label: "");
-        background.wake_at(host, at_millis: 0);
+    }
+    return best;
+}
+
+/// The alarms kept, and the one due first set with the phone, or else the
+/// phone told when to wake the app (for it, or the timer's end, the
+/// sooner); none on, both taken back.
+fn arm(state: &mut Clock, host: &mut std.Host, a: alloc.Allocator) {
+    var kept = alloc.String.init(a);
+    for al in state.alarms.items() {
+        if kept.len() > 0 {
+            kept.push_str(",");
+        }
+        kept.push_u64(al.minute as u64);
+        if al.on {
+            kept.push_str(" on");
+        } else {
+            kept.push_str(" off");
+        }
     }
     var why = alloc.String.init(a);
-    if not host_api.storage_set(host, key: "alarm", value: kept.view(), why: &mut why, a: a) {
+    if not host_api.storage_set(host, key: "alarms", value: kept.view(), why: &mut why, a: a) {
+        host_api.log(host, msg: why.view());
+    }
+    let now = host_api.now_millis(host);
+    let local = local_now(host);
+    state.armed = soonest(state, local: local);
+    var wake: i64 = 0;
+    if state.armed != NO {
+        let at = now + until(minute: state.alarms.items()[state.armed as usize].minute, local: local);
+        state.by_phone = alarm.set(host, at_millis: at, label: "Alarm");
+        if not state.by_phone {
+            wake = at;
+        }
+    } else {
+        state.by_phone = false;
+        _ = alarm.set(host, at_millis: 0, label: "");
+    }
+    if state.timer_end > 0 and (wake == 0 or state.timer_end < wake) {
+        wake = state.timer_end;
+    }
+    background.wake_at(host, at_millis: wake);
+}
+
+/// The timer kept: what it is set to, when it ends, what is left.
+fn keep_timer(state: &Clock, host: &mut std.Host, a: alloc.Allocator) {
+    var kept = alloc.String.init(a);
+    kept.push_u64(state.timer_set as u64);
+    kept.push_str(" ");
+    kept.push_u64(state.timer_end as u64);
+    kept.push_str(" ");
+    kept.push_u64(state.timer_left as u64);
+    var why = alloc.String.init(a);
+    if not host_api.storage_set(host, key: "timer", value: kept.view(), why: &mut why, a: a) {
         host_api.log(host, msg: why.view());
     }
 }
 
-/// The alarm's time has come: it rings, or else its notification, and it
-/// is off.
-fn ring(state: &mut Clock, host: &mut std.Host, now: i64, a: alloc.Allocator) {
-    if not state.alarm_on {
-        return;
+/// label rings: the phone's alarm screen, or else a notification.
+fn ring_now(host: &mut std.Host, label: str, text: str) {
+    if not alarm.ring(host, label: label) {
+        _ = notify.post(host, title: label, text: text);
     }
-    if not alarm.ring(host, label: "Alarm") {
-        var text = alloc.String.init(a);
-        hours_minutes(state.alarm_at, out: &mut text);
-        _ = notify.post(host, title: "Alarm", text: text.view());
-    }
-    state.alarm_on = false;
-    arm(state, host: host, now: now, a: a);
 }
 
-/// The alarm's card as it is: its time, when it rings, and its button;
-/// snoozed, until when, and Dismiss.
-fn show_alarm(state: &Clock, host: &mut std.Host, local: i64, a: alloc.Allocator) {
-    var set = alloc.String.init(a);
-    hours_minutes(state.alarm_at, out: &mut set);
-    dom.set_text(host, item: state.alarm_set, text: set.view());
-    var rings = alloc.String.init(a);
-    let until = snoozed_until(host);
-    if until >= 0 {
-        rings.push_str("Snoozed until ");
-        hours_minutes(minute_of(until + host_api.utc_offset(host) as i64 * 60000), out: &mut rings);
-        dom.set_text(host, item: state.alarm_go, text: "Dismiss");
-    } else if state.alarm_on {
-        // As Android says it, the minutes rounded up.
-        let minutes = (until_alarm(state, local: local) + 59999) / 60000;
-        rings.push_str("Rings in ");
-        if minutes >= 60 {
-            rings.push_u64((minutes / 60) as u64);
-            rings.push_str(" h");
-            if minutes % 60 > 0 {
-                rings.push_str(" ");
-            }
-        }
-        if minutes % 60 > 0 {
-            rings.push_u64((minutes % 60) as u64);
-            rings.push_str(" min");
-        }
-        dom.set_text(host, item: state.alarm_go, text: "Turn off");
-        dom.toggle_class(host, item: state.alarm_go, name: "on", on: true);
-    } else {
-        rings.push_str("Off");
-        dom.set_text(host, item: state.alarm_go, text: "Turn on");
-        dom.toggle_class(host, item: state.alarm_go, name: "on", on: false);
+/// Woken, or the phone having rung the alarm it kept: what was due rings
+/// (the timer's end, an alarm the phone did not keep), and the alarm that
+/// rang is off, the next one set.
+fn due(state: &mut Clock, host: &mut std.Host, woken: bool, a: alloc.Allocator) {
+    let now = host_api.now_millis(host);
+    if state.timer_end > 0 and now >= state.timer_end {
+        state.timer_end = 0;
+        state.timer_left = 0;
+        keep_timer(state, host: host, a: a);
+        ring_now(host, label: "Timer", text: "Time's up");
+        arm(state, host: host, a: a);
     }
-    dom.set_text(host, item: state.alarm_rings, text: rings.view());
+    if state.armed == NO or state.armed as usize >= state.alarms.len() {
+        return;
+    }
+    let rang_by_phone = state.by_phone and not has_next(host);
+    if woken and not state.by_phone {
+        var text = alloc.String.init(a);
+        hours_minutes(state.alarms.items()[state.armed as usize].minute, out: &mut text);
+        ring_now(host, label: "Alarm", text: text.view());
+        state.alarms.items_mut()[state.armed as usize].on = false;
+        arm(state, host: host, a: a);
+        state.alarms_shown = false;
+    } else if rang_by_phone {
+        state.alarms.items_mut()[state.armed as usize].on = false;
+        arm(state, host: host, a: a);
+        state.alarms_shown = false;
+    }
 }
 
 /// Whether the phone keeps an alarm of the app's, not yet rung.
@@ -248,6 +471,110 @@ fn hours_minutes(minutes: i64, out: &mut alloc.String) {
     two(out, n: minutes / 60);
     out.push_str(":");
     two(out, n: minutes % 60);
+}
+
+/// How long ms is, as a clock says it: "17 hours 12 minutes", "5
+/// minutes", "less than a minute".
+fn long_said(ms: i64, out: &mut alloc.String) {
+    let minutes = (ms + 59999) / 60000;
+    let h = minutes / 60;
+    let m = minutes % 60;
+    if h > 0 {
+        out.push_u64(h as u64);
+        if h == 1 {
+            out.push_str(" hour");
+        } else {
+            out.push_str(" hours");
+        }
+        if m > 0 {
+            out.push_str(" ");
+        }
+    }
+    if m > 0 {
+        out.push_u64(m as u64);
+        if m == 1 {
+            out.push_str(" minute");
+        } else {
+            out.push_str(" minutes");
+        }
+    }
+    if h == 0 and m == 0 {
+        out.push_str("less than a minute");
+    }
+}
+
+/// The alarms' page as it is: what rings next, a card an alarm.
+fn show_alarms(state: &mut Clock, host: &mut std.Host, local: i64, a: alloc.Allocator) {
+    var next = alloc.String.init(a);
+    let until_snooze = snoozed_until(host);
+    if until_snooze >= 0 {
+        next.push_str("Snoozed until ");
+        hours_minutes(minute_of(until_snooze + host_api.utc_offset(host) as i64 * 60000), out: &mut next);
+    } else if state.armed != NO and state.armed as usize < state.alarms.len() {
+        next.push_str("Alarm in ");
+        long_said(until(minute: state.alarms.items()[state.armed as usize].minute, local: local), out: &mut next);
+    } else if state.alarms.len() > 0 {
+        next.push_str("All alarms are off");
+    }
+    dom.set_text(host, item: state.next, text: next.view());
+    if state.alarms_shown {
+        return;
+    }
+    state.alarms_shown = true;
+    for old in dom.children(host, item: state.alarm_list, a: a).items() {
+        dom.release(host, item: old.*);
+    }
+    dom.toggle_class(host, item: state.empty, name: "hidden", on: state.alarms.len() > 0);
+    var k: usize = 0;
+    while k < state.alarms.len() : (k += 1) {
+        let al = state.alarms.items()[k];
+        let card = dom.create_element(host, tag: "div");
+        dom.set_attribute(host, item: card, name: "class", value_: "group acard");
+        let row = dom.create_element(host, tag: "div");
+        if al.on {
+            dom.set_attribute(host, item: row, name: "class", value_: "arow");
+        } else {
+            dom.set_attribute(host, item: row, name: "class", value_: "arow off");
+        }
+        var key = alloc.String.from("a:", a);
+        key.push_u64(k as u64);
+        dom.set_attribute(host, item: row, name: "data-k", value_: key.view());
+        let text = dom.create_element(host, tag: "div");
+        dom.set_attribute(host, item: text, name: "class", value_: "atext");
+        var t = alloc.String.init(a);
+        hours_minutes(al.minute, out: &mut t);
+        line(host, parent_: text, class: "atime", text: t.view(), a: a);
+        var under = alloc.String.from("Once", a);
+        if al.on {
+            under.push_str(" · in ");
+            long_said(until(minute: al.minute, local: local), out: &mut under);
+        }
+        line(host, parent_: text, class: "secondary", text: under.view(), a: a);
+        dom.append_child(host, parent_: row, child: text);
+        let sw = dom.create_element(host, tag: "button");
+        if al.on {
+            dom.set_attribute(host, item: sw, name: "class", value_: "switch on");
+        } else {
+            dom.set_attribute(host, item: sw, name: "class", value_: "switch");
+        }
+        var tk = alloc.String.from("t:", a);
+        tk.push_u64(k as u64);
+        dom.set_attribute(host, item: sw, name: "data-k", value_: tk.view());
+        let knob = dom.create_element(host, tag: "span");
+        dom.set_attribute(host, item: knob, name: "class", value_: "knob");
+        dom.append_child(host, parent_: sw, child: knob);
+        dom.append_child(host, parent_: row, child: sw);
+        dom.append_child(host, parent_: card, child: row);
+        dom.append_child(host, parent_: state.alarm_list, child: card);
+    }
+}
+
+/// A div of class with text, last under parent_.
+fn line(host: &mut std.Host, parent_: u32, class: str, text: str, a: alloc.Allocator) {
+    let d = dom.create_element(host, tag: "div");
+    dom.set_attribute(host, item: d, name: "class", value_: class);
+    dom.set_text(host, item: d, text: text);
+    dom.append_child(host, parent_: parent_, child: d);
 }
 
 /// The first node under the page that selector finds; 0 for none.
@@ -281,27 +608,56 @@ fn counted(state: &Clock, now: i64) -> i64 {
     return state.counted;
 }
 
+/// What is left of the timer at now, in ms; 0 when it is not set going.
+fn timer_left(state: &Clock, now: i64) -> i64 {
+    if state.timer_end > 0 {
+        let left = state.timer_end - now;
+        if left < 0 {
+            return 0;
+        }
+        return left;
+    }
+    return state.timer_left;
+}
+
+/// The page shown, its tab marked; the + only on the alarms'; Back the
+/// page's while an alarm is open.
+fn go_to(state: &mut Clock, host: &mut std.Host, page: u32) {
+    state.page = page;
+    var k: usize = 0;
+    while k < PAGES : (k += 1) {
+        dom.toggle_class(host, item: state.pages[k], name: "hidden", on: k as u32 != page);
+    }
+    k = 0;
+    while k < 4 : (k += 1) {
+        dom.toggle_class(host, item: state.tabs[k], name: "on", on: k as u32 == page);
+    }
+    dom.toggle_class(host, item: state.fab, name: "hidden", on: page != ALARMS);
+    dom.toggle_class(host, item: state.tab_bar, name: "hidden", on: page == EDIT);
+    if page == EDIT {
+        dom.set_attribute(host, item: dom.root(host), name: "data-back", value_: "1");
+    } else {
+        dom.remove_attribute(host, item: dom.root(host), name: "data-back");
+    }
+}
+
 fn update(state: &mut Clock, host: &mut std.Host, a: alloc.Allocator) {
     let now = host_api.now_millis(host);
-    if background.woken(host) {
-        ring(state, host: host, now: now, a: a);
-    }
-    // The phone rang the alarm it kept, the app running or not: it is off.
-    if state.alarm_on and state.by_phone and not has_next(host) {
-        state.alarm_on = false;
-        arm(state, host: host, now: now, a: a);
-    }
+    due(state, host: host, woken: background.woken(host), a: a);
     for e in dom.events(host, a: a).items() {
-        if e.kind.view().eq("click") {
+        if e.kind.view().eq("back") {
+            press(state, host: host, key: "eclose", now: now, a: a);
+        } else if e.kind.view().eq("click") {
             match key_of(host, n: e.target, a: a) {
                 some(k) => { press(state, host: host, key: k.view(), now: now, a: a); }
                 none => { }
             }
         }
     }
-    // The time as the user reads it.
     let offset = host_api.utc_offset(host) as i64;
     let local = now + offset * 60000;
+    show_alarms(state, host: host, local: local, a: a);
+    // The clock's page: the time as the user reads it.
     var time = alloc.String.init(a);
     clock_text(local, out: &mut time);
     dom.set_text(host, item: state.time, text: time.view());
@@ -328,32 +684,82 @@ fn update(state: &mut Clock, host: &mut std.Host, a: alloc.Allocator) {
     zone.push_str(":");
     two(&mut zone, n: off % 60);
     dom.set_text(host, item: state.zone, text: zone.view());
-    show_alarm(state, host: host, local: local, a: a);
-    // The stopwatch, and its laps not shown yet.
+    // The stopwatch, and its laps not shown yet, the latest first.
     var shown = alloc.String.init(a);
     watch_text(counted(state, now: now), out: &mut shown);
     dom.set_text(host, item: state.elapsed, text: shown.view());
+    if state.running {
+        dom.set_text(host, item: state.go, text: "Stop");
+        dom.toggle_class(host, item: state.go, name: "stop", on: true);
+        dom.set_text(host, item: state.lap_go, text: "Lap");
+    } else {
+        dom.set_text(host, item: state.go, text: "Start");
+        dom.toggle_class(host, item: state.go, name: "stop", on: false);
+        dom.set_text(host, item: state.lap_go, text: "Reset");
+    }
     while state.laps_shown < state.laps.len() {
         let k = state.laps_shown;
-        var line = alloc.String.from("Lap ", a);
-        line.push_u64((k + 1) as u64);
-        line.push_str("   ");
         var previous: i64 = 0;
         if k > 0 {
             previous = state.laps.items()[k - 1];
         }
-        watch_text(state.laps.items()[k] - previous, out: &mut line);
-        line.push_str("   ");
-        watch_text(state.laps.items()[k], out: &mut line);
         let row = dom.create_element(host, tag: "div");
         dom.set_attribute(host, item: row, name: "class", value_: "lap");
-        dom.set_text(host, item: row, text: line.view());
-        dom.append_child(host, parent_: state.lap_list, child: row);
+        var n = alloc.String.from("Lap ", a);
+        n.push_u64((k + 1) as u64);
+        let name_span = dom.create_element(host, tag: "span");
+        dom.set_attribute(host, item: name_span, name: "class", value_: "n");
+        dom.set_text(host, item: name_span, text: n.view());
+        dom.append_child(host, parent_: row, child: name_span);
+        var split = alloc.String.init(a);
+        watch_text(state.laps.items()[k] - previous, out: &mut split);
+        let split_span = dom.create_element(host, tag: "span");
+        dom.set_text(host, item: split_span, text: split.view());
+        dom.append_child(host, parent_: row, child: split_span);
+        var total = alloc.String.init(a);
+        watch_text(state.laps.items()[k], out: &mut total);
+        let total_span = dom.create_element(host, tag: "span");
+        dom.set_text(host, item: total_span, text: total.view());
+        dom.append_child(host, parent_: row, child: total_span);
+        let rows = dom.children(host, item: state.lap_list, a: a);
+        if rows.len() > 0 {
+            dom.insert_before(host, parent_: state.lap_list, child: row, before: rows.items()[0]);
+        } else {
+            dom.append_child(host, parent_: state.lap_list, child: row);
+        }
         state.laps_shown += 1;
     }
-    // The next frame: in a tenth of a second while it runs; else as the
-    // second turns.
-    if state.running {
+    // The timer: set, or counting down.
+    let left = timer_left(state, now: now);
+    let going = state.timer_end > 0;
+    let set_going = going or state.timer_left > 0;
+    var tm = alloc.String.init(a);
+    two(&mut tm, n: state.timer_set / 60);
+    dom.set_text(host, item: state.t_min, text: tm.view());
+    var ts = alloc.String.init(a);
+    two(&mut ts, n: state.timer_set % 60);
+    dom.set_text(host, item: state.t_sec, text: ts.view());
+    var cd = alloc.String.init(a);
+    countdown_text((left + 999) / 1000, out: &mut cd);
+    dom.set_text(host, item: state.countdown, text: cd.view());
+    for p in dom.query_all(host, scope: dom.root(host), selector: ".timerpick", a: a).items() {
+        dom.toggle_class(host, item: p.*, name: "hidden", on: set_going);
+    }
+    dom.toggle_class(host, item: state.countdown, name: "hidden", on: not set_going);
+    dom.toggle_class(host, item: state.left, name: "hidden", on: not set_going);
+    dom.toggle_class(host, item: state.t_cancel, name: "hidden", on: not set_going);
+    if going {
+        dom.set_text(host, item: state.t_go, text: "Pause");
+        dom.set_text(host, item: state.left, text: "");
+    } else if set_going {
+        dom.set_text(host, item: state.t_go, text: "Resume");
+        dom.set_text(host, item: state.left, text: "Paused");
+    } else {
+        dom.set_text(host, item: state.t_go, text: "Start");
+    }
+    // The next frame: in a tenth of a second while something runs; else as
+    // the second turns.
+    if state.running or going {
         host_api.request_frame(host, after_ms: 100);
     } else {
         host_api.request_frame(host, after_ms: (1000 - local % 1000) as u32);
@@ -361,49 +767,137 @@ fn update(state: &mut Clock, host: &mut std.Host, a: alloc.Allocator) {
 }
 
 fn press(state: &mut Clock, host: &mut std.Host, key: str, now: i64, a: alloc.Allocator) {
-    if key.eq("go") {
+    if key.starts_with("tab:") {
+        go_to(state, host: host, page: number(key[4..key.len()]) as u32);
+    } else if key.eq("add") {
+        state.open = NEW;
+        // A new alarm at seven, as a phone's offers.
+        state.edit_minute = 420;
+        dom.set_text(host, item: state.e_title, text: "Add alarm");
+        dom.toggle_class(host, item: state.e_drop, name: "hidden", on: true);
+        show_edit(state, host: host, a: a);
+        go_to(state, host: host, page: EDIT);
+    } else if key.starts_with("a:") {
+        let k = number(key[2..key.len()]);
+        if k >= 0 and (k as usize) < state.alarms.len() {
+            state.open = k;
+            state.edit_minute = state.alarms.items()[k as usize].minute;
+            dom.set_text(host, item: state.e_title, text: "Edit alarm");
+            dom.toggle_class(host, item: state.e_drop, name: "hidden", on: false);
+            show_edit(state, host: host, a: a);
+            go_to(state, host: host, page: EDIT);
+        }
+    } else if key.starts_with("t:") {
+        let k = number(key[2..key.len()]);
+        if k >= 0 and (k as usize) < state.alarms.len() {
+            if snoozed_until(host) >= 0 and k == state.armed {
+                alarm.dismiss(host);
+            }
+            let on = state.alarms.items()[k as usize].on;
+            state.alarms.items_mut()[k as usize].on = not on;
+            arm(state, host: host, a: a);
+            state.alarms_shown = false;
+        }
+    } else if key.eq("eclose") {
+        state.open = NO;
+        go_to(state, host: host, page: ALARMS);
+    } else if key.eq("esave") {
+        if state.open >= 0 and (state.open as usize) < state.alarms.len() {
+            state.alarms = without(&state.alarms, but: state.open as usize, a: a);
+        }
+        _ = insert(&mut state.alarms, one: Alarm { minute: state.edit_minute, on: true });
+        state.open = NO;
+        arm(state, host: host, a: a);
+        state.alarms_shown = false;
+        go_to(state, host: host, page: ALARMS);
+    } else if key.eq("edelete") {
+        if state.open >= 0 and (state.open as usize) < state.alarms.len() {
+            state.alarms = without(&state.alarms, but: state.open as usize, a: a);
+        }
+        state.open = NO;
+        arm(state, host: host, a: a);
+        state.alarms_shown = false;
+        go_to(state, host: host, page: ALARMS);
+    } else if key.eq("eh+") or key.eq("eh-") or key.eq("em+") or key.eq("em-") {
+        var step: i64 = 1;
+        if key.bytes()[1] == 'h' {
+            step = 60;
+        }
+        if key.bytes()[2] == '-' {
+            step = DAY_MINUTES - step;
+        }
+        state.edit_minute = (state.edit_minute + step) % DAY_MINUTES;
+        show_edit(state, host: host, a: a);
+    } else if key.eq("go") {
         if state.running {
             state.counted = counted(state, now: now);
             state.running = false;
-            dom.set_text(host, item: state.go, text: "Start");
         } else {
             state.since = now;
             state.running = true;
-            dom.set_text(host, item: state.go, text: "Stop");
         }
     } else if key.eq("lap") {
         if state.running {
             state.laps.push(counted(state, now: now));
-        }
-    } else if key.eq("alarm") {
-        if snoozed_until(host) >= 0 {
-            // Snoozed: Dismiss.
-            alarm.dismiss(host);
         } else {
-            state.alarm_on = not state.alarm_on;
-            arm(state, host: host, now: now, a: a);
-        }
-    } else if key.eq("h+") or key.eq("h-") or key.eq("m+") or key.eq("m-") {
-        var step: i64 = 1;
-        if key.starts_with("h") {
-            step = 60;
-        }
-        if key.bytes()[1] == '-' {
-            step = DAY_MINUTES - step;
-        }
-        state.alarm_at = (state.alarm_at + step) % DAY_MINUTES;
-        arm(state, host: host, now: now, a: a);
-    } else if key.eq("reset") {
-        if not state.running {
             state.counted = 0;
             state.laps = alloc.List(i64).init(a);
             state.laps_shown = 0;
-            // The lap rows go with them.
             for row in dom.children(host, item: state.lap_list, a: a).items() {
                 dom.release(host, item: row.*);
             }
         }
+    } else if key.eq("tm+") or key.eq("tm-") or key.eq("ts+") or key.eq("ts-") {
+        var step: i64 = 1;
+        if key.bytes()[1] == 'm' {
+            step = 60;
+        }
+        var set = state.timer_set;
+        if key.bytes()[2] == '-' {
+            set -= step;
+        } else {
+            set += step;
+        }
+        if set < 1 {
+            set = 1;
+        }
+        if set > 99 * 60 + 59 {
+            set = 99 * 60 + 59;
+        }
+        state.timer_set = set;
+        keep_timer(state, host: host, a: a);
+    } else if key.starts_with("preset:") {
+        state.timer_set = number(key[7..key.len()]);
+        keep_timer(state, host: host, a: a);
+    } else if key.eq("tgo") {
+        if state.timer_end > 0 {
+            // Paused: what is left kept.
+            state.timer_left = timer_left(state, now: now);
+            state.timer_end = 0;
+        } else if state.timer_left > 0 {
+            state.timer_end = now + state.timer_left;
+            state.timer_left = 0;
+        } else {
+            state.timer_end = now + state.timer_set * 1000;
+        }
+        keep_timer(state, host: host, a: a);
+        arm(state, host: host, a: a);
+    } else if key.eq("tcancel") {
+        state.timer_end = 0;
+        state.timer_left = 0;
+        keep_timer(state, host: host, a: a);
+        arm(state, host: host, a: a);
     }
+}
+
+/// The alarm's page: its time on the steppers.
+fn show_edit(state: &Clock, host: &mut std.Host, a: alloc.Allocator) {
+    var h = alloc.String.init(a);
+    two(&mut h, n: state.edit_minute / 60);
+    dom.set_text(host, item: state.e_hour, text: h.view());
+    var m = alloc.String.init(a);
+    two(&mut m, n: state.edit_minute % 60);
+    dom.set_text(host, item: state.e_min, text: m.view());
 }
 
 fn two(s: &mut alloc.String, n: i64) {
@@ -480,7 +974,7 @@ fn date_text(local: i64, out: &mut alloc.String) {
     out.push_u64(day as u64);
 }
 
-/// A stopwatch's ms as minutes, seconds and tenths: "01:23.4".
+/// A stopwatch's ms as minutes, seconds and hundredths: "01:23.45".
 fn watch_text(ms: i64, out: &mut alloc.String) {
     var m = ms;
     if m < 0 {
@@ -490,5 +984,16 @@ fn watch_text(ms: i64, out: &mut alloc.String) {
     out.push_str(":");
     two(out, n: (m / 1000) % 60);
     out.push_str(".");
-    out.push_u64(((m / 100) % 10) as u64);
+    two(out, n: (m / 10) % 100);
+}
+
+/// A timer's seconds left as "04:59", or "1:04:59" past an hour.
+fn countdown_text(seconds: i64, out: &mut alloc.String) {
+    if seconds >= 3600 {
+        out.push_u64((seconds / 3600) as u64);
+        out.push_str(":");
+    }
+    two(out, n: (seconds / 60) % 60);
+    out.push_str(":");
+    two(out, n: seconds % 60);
 }

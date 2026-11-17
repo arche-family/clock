@@ -1,550 +1,2178 @@
-=== headless run: 10 frames ===
+=== headless run: 14 frames ===
 
 --- frame 0  (clicks fed to guest: []) ---
-   [page] 46 nodes
-   #1 body
-     #2 div.clock {click}
-       #3 div.face
-         #4 div.time
-           #40 "HH:MM:SS"
-         #5 div.date
-           #41 "DATE"
-         #6 div.zone
-           #42 "Asia/Tashkent · UTC+05:00"
-       #7 div.group.card
-         #8 div.cardhead
-           #9 span.icon.fill
-             #10 "alarm"
-           #11 span.title
-             #12 "Alarm"
-           #13 button.turn [data-k="alarm"]
-             #44 "Turn on"
-         #14 div.set
-           #43 "HH:MM"
-         #15 div.rings
-           #45 "Off"
-         #16 div.chips
-           #17 button.chip [data-k="h-"]
-             #18 "−1 h"
-           #19 button.chip [data-k="h+"]
-             #20 "+1 h"
-           #21 button.chip [data-k="m-"]
-             #22 "−1 min"
-           #23 button.chip [data-k="m+"]
-             #24 "+1 min"
-       #25 div.group.card
-         #26 div.cardhead
-           #27 span.icon.fill
-             #28 "avg_time"
-           #29 span.title
-             #30 "Stopwatch"
-         #31 div.elapsed
-           #46 "MM:SS.t"
-         #32 div.buttons
-           #33 button.go.start [data-k="go"]
-             #34 "Start"
-           #35 button [data-k="lap"]
-             #36 "Lap"
-           #37 button [data-k="reset"]
-             #38 "Reset"
-         #39 div.laps
+   [page] 138 nodes
+   #1 body {back}
+     #2 div.app.tabbed {click}
+       #3 div.content
+         #4 div.page
+           #5 div.big
+             #6 "Alarm"
+           #7 div.next
+           #8 div.alarms
+           #9 div.empty
+             #10 span.icon
+               #11 "alarm"
+             #12 div
+               #13 "No alarms"
+         #14 div.page.hidden
+           #15 div.big
+             #16 "Clock"
+           #17 div.face
+             #18 div.time
+               #132 "HH:MM:SS"
+             #19 div.date
+               #133 "DATE"
+             #20 div.zone
+               #134 "Asia/Tashkent · UTC+05:00"
+         #21 div.page.hidden
+           #22 div.big
+             #23 "Stopwatch"
+           #24 div.elapsed
+             #135 "MM:SS.hh"
+           #25 div.laps
+           #26 div.controls
+             #27 button.round.lapgo [data-k="lap"]
+               #137 "Reset"
+             #29 button.round.go.start [data-k="go"]
+               #136 "Start"
+         #31 div.page.hidden
+           #32 div.big
+             #33 "Timer"
+           #34 div.pick.timerpick
+             #35 div.spin
+               #36 button.iconbtn [data-k="tm+"]
+                 #37 span.icon
+                   #38 "expand_less"
+               #39 div.val.tmin
+                 #138 "05"
+               #40 button.iconbtn [data-k="tm-"]
+                 #41 span.icon
+                   #42 "expand_more"
+               #43 div.unit
+                 #44 "min"
+             #45 div.colon
+               #46 ":"
+             #47 div.spin
+               #48 button.iconbtn [data-k="ts+"]
+                 #49 span.icon
+                   #50 "expand_less"
+               #51 div.val.tsec
+                 #139 "00"
+               #52 button.iconbtn [data-k="ts-"]
+                 #53 span.icon
+                   #54 "expand_more"
+               #55 div.unit
+                 #56 "sec"
+           #57 div.presets.timerpick
+             #58 button.chip [data-k="preset:60"]
+               #59 "1 min"
+             #60 button.chip [data-k="preset:300"]
+               #61 "5 min"
+             #62 button.chip [data-k="preset:600"]
+               #63 "10 min"
+             #64 button.chip [data-k="preset:900"]
+               #65 "15 min"
+           #66 div.countdown.hidden
+             #140 "HH:MM"
+           #67 div.left.hidden
+           #68 div.controls
+             #69 button.round.tcancel.hidden [data-k="tcancel"]
+               #70 "Cancel"
+             #71 button.round.go.tgo [data-k="tgo"]
+               #141 "Start"
+         #73 div.page.hidden
+           #74 div.head
+             #75 button.iconbtn [data-k="eclose"]
+               #76 span.icon
+                 #77 "close"
+             #78 div.title.etitle
+               #79 "Add alarm"
+             #80 button.iconbtn [data-k="esave"]
+               #81 span.icon
+                 #82 "check"
+           #83 div.pick
+             #84 div.spin
+               #85 button.iconbtn [data-k="eh+"]
+                 #86 span.icon
+                   #87 "expand_less"
+               #88 div.val.ehour
+               #89 button.iconbtn [data-k="eh-"]
+                 #90 span.icon
+                   #91 "expand_more"
+               #92 div.unit
+                 #93 "hour"
+             #94 div.colon
+               #95 ":"
+             #96 div.spin
+               #97 button.iconbtn [data-k="em+"]
+                 #98 span.icon
+                   #99 "expand_less"
+               #100 div.val.emin
+               #101 button.iconbtn [data-k="em-"]
+                 #102 span.icon
+                   #103 "expand_more"
+               #104 div.unit
+                 #105 "min"
+           #106 button.btn.danger.drop [data-k="edelete"]
+             #107 "Delete alarm"
+       #108 div.tabs
+         #109 button.tab.on [data-k="tab:0"]
+           #110 span.icon
+             #111 "alarm"
+           #112 span
+             #113 "Alarm"
+         #114 button.tab [data-k="tab:1"]
+           #115 span.icon
+             #116 "schedule"
+           #117 span
+             #118 "Clock"
+         #119 button.tab [data-k="tab:2"]
+           #120 span.icon
+             #121 "timer"
+           #122 span
+             #123 "Stopwatch"
+         #124 button.tab [data-k="tab:3"]
+           #125 span.icon
+             #126 "hourglass_empty"
+           #127 span
+             #128 "Timer"
+       #129 button.fab [data-k="add"]
+         #130 span.icon
+           #131 "add"
+   [call] arche:phone/alarm@0.1.0#next()
    [call] arche:phone/background@0.1.0#woken()
    [call] arche:phone/alarm@0.1.0#snoozed()
    [next frame in N ms]
 
 --- frame 1  (clicks fed to guest: []) ---
-   [tap] #23
-   [page] 46 nodes
-   #1 body
-     #2 div.clock {click}
-       #3 div.face
-         #4 div.time
-           #47 "HH:MM:SS"
-         #5 div.date
-           #48 "DATE"
-         #6 div.zone
-           #49 "Asia/Tashkent · UTC+05:00"
-       #7 div.group.card
-         #8 div.cardhead
-           #9 span.icon.fill
-             #10 "alarm"
-           #11 span.title
-             #12 "Alarm"
-           #13 button.turn [data-k="alarm"]
-             #51 "Turn on"
-         #14 div.set
-           #50 "HH:MM"
-         #15 div.rings
-           #52 "Off"
-         #16 div.chips
-           #17 button.chip [data-k="h-"]
-             #18 "−1 h"
-           #19 button.chip [data-k="h+"]
-             #20 "+1 h"
-           #21 button.chip [data-k="m-"]
-             #22 "−1 min"
-           #23 button.chip [data-k="m+"]
-             #24 "+1 min"
-       #25 div.group.card
-         #26 div.cardhead
-           #27 span.icon.fill
-             #28 "avg_time"
-           #29 span.title
-             #30 "Stopwatch"
-         #31 div.elapsed
-           #53 "MM:SS.t"
-         #32 div.buttons
-           #33 button.go.start [data-k="go"]
-             #34 "Start"
-           #35 button [data-k="lap"]
-             #36 "Lap"
-           #37 button [data-k="reset"]
-             #38 "Reset"
-         #39 div.laps
+   [tap] #129
+   [page] 140 nodes
+   #1 body [data-back="1"] {back}
+     #2 div.app.tabbed {click}
+       #3 div.content
+         #4 div.page.hidden
+           #5 div.big
+             #6 "Alarm"
+           #7 div.next
+           #8 div.alarms
+           #9 div.empty
+             #10 span.icon
+               #11 "alarm"
+             #12 div
+               #13 "No alarms"
+         #14 div.page.hidden
+           #15 div.big
+             #16 "Clock"
+           #17 div.face
+             #18 div.time
+               #145 "HH:MM:SS"
+             #19 div.date
+               #146 "DATE"
+             #20 div.zone
+               #147 "Asia/Tashkent · UTC+05:00"
+         #21 div.page.hidden
+           #22 div.big
+             #23 "Stopwatch"
+           #24 div.elapsed
+             #148 "MM:SS.hh"
+           #25 div.laps
+           #26 div.controls
+             #27 button.round.lapgo [data-k="lap"]
+               #150 "Reset"
+             #29 button.round.go.start [data-k="go"]
+               #149 "Start"
+         #31 div.page.hidden
+           #32 div.big
+             #33 "Timer"
+           #34 div.pick.timerpick
+             #35 div.spin
+               #36 button.iconbtn [data-k="tm+"]
+                 #37 span.icon
+                   #38 "expand_less"
+               #39 div.val.tmin
+                 #151 "05"
+               #40 button.iconbtn [data-k="tm-"]
+                 #41 span.icon
+                   #42 "expand_more"
+               #43 div.unit
+                 #44 "min"
+             #45 div.colon
+               #46 ":"
+             #47 div.spin
+               #48 button.iconbtn [data-k="ts+"]
+                 #49 span.icon
+                   #50 "expand_less"
+               #51 div.val.tsec
+                 #152 "00"
+               #52 button.iconbtn [data-k="ts-"]
+                 #53 span.icon
+                   #54 "expand_more"
+               #55 div.unit
+                 #56 "sec"
+           #57 div.presets.timerpick
+             #58 button.chip [data-k="preset:60"]
+               #59 "1 min"
+             #60 button.chip [data-k="preset:300"]
+               #61 "5 min"
+             #62 button.chip [data-k="preset:600"]
+               #63 "10 min"
+             #64 button.chip [data-k="preset:900"]
+               #65 "15 min"
+           #66 div.countdown.hidden
+             #153 "HH:MM"
+           #67 div.left.hidden
+           #68 div.controls
+             #69 button.round.tcancel.hidden [data-k="tcancel"]
+               #70 "Cancel"
+             #71 button.round.go.tgo [data-k="tgo"]
+               #154 "Start"
+         #73 div.page
+           #74 div.head
+             #75 button.iconbtn [data-k="eclose"]
+               #76 span.icon
+                 #77 "close"
+             #78 div.title.etitle
+               #142 "Add alarm"
+             #80 button.iconbtn [data-k="esave"]
+               #81 span.icon
+                 #82 "check"
+           #83 div.pick
+             #84 div.spin
+               #85 button.iconbtn [data-k="eh+"]
+                 #86 span.icon
+                   #87 "expand_less"
+               #88 div.val.ehour
+                 #143 "07"
+               #89 button.iconbtn [data-k="eh-"]
+                 #90 span.icon
+                   #91 "expand_more"
+               #92 div.unit
+                 #93 "hour"
+             #94 div.colon
+               #95 ":"
+             #96 div.spin
+               #97 button.iconbtn [data-k="em+"]
+                 #98 span.icon
+                   #99 "expand_less"
+               #100 div.val.emin
+                 #144 "00"
+               #101 button.iconbtn [data-k="em-"]
+                 #102 span.icon
+                   #103 "expand_more"
+               #104 div.unit
+                 #105 "min"
+           #106 button.btn.danger.drop.hidden [data-k="edelete"]
+             #107 "Delete alarm"
+       #108 div.tabs.hidden
+         #109 button.tab [data-k="tab:0"]
+           #110 span.icon
+             #111 "alarm"
+           #112 span
+             #113 "Alarm"
+         #114 button.tab [data-k="tab:1"]
+           #115 span.icon
+             #116 "schedule"
+           #117 span
+             #118 "Clock"
+         #119 button.tab [data-k="tab:2"]
+           #120 span.icon
+             #121 "timer"
+           #122 span
+             #123 "Stopwatch"
+         #124 button.tab [data-k="tab:3"]
+           #125 span.icon
+             #126 "hourglass_empty"
+           #127 span
+             #128 "Timer"
+       #129 button.fab.hidden [data-k="add"]
+         #130 span.icon
+           #131 "add"
    [call] arche:phone/background@0.1.0#woken()
-   [call] arche:phone/alarm@0.1.0#set(0, "")
-   [call] arche:phone/background@0.1.0#wake-at(0)
    [call] arche:phone/alarm@0.1.0#snoozed()
    [next frame in N ms]
 
 --- frame 2  (clicks fed to guest: []) ---
-   [tap] #13
-   [page] 46 nodes
-   #1 body
-     #2 div.clock {click}
-       #3 div.face
-         #4 div.time
-           #54 "HH:MM:SS"
-         #5 div.date
-           #55 "DATE"
-         #6 div.zone
-           #56 "Asia/Tashkent · UTC+05:00"
-       #7 div.group.card
-         #8 div.cardhead
-           #9 span.icon.fill
-             #10 "alarm"
-           #11 span.title
-             #12 "Alarm"
-           #13 button.turn.on [data-k="alarm"]
-             #58 "Turn off"
-         #14 div.set
-           #57 "HH:MM"
-         #15 div.rings
-           #59 "Rings in T"
-         #16 div.chips
-           #17 button.chip [data-k="h-"]
-             #18 "−1 h"
-           #19 button.chip [data-k="h+"]
-             #20 "+1 h"
-           #21 button.chip [data-k="m-"]
-             #22 "−1 min"
-           #23 button.chip [data-k="m+"]
-             #24 "+1 min"
-       #25 div.group.card
-         #26 div.cardhead
-           #27 span.icon.fill
-             #28 "avg_time"
-           #29 span.title
-             #30 "Stopwatch"
-         #31 div.elapsed
-           #60 "MM:SS.t"
-         #32 div.buttons
-           #33 button.go.start [data-k="go"]
-             #34 "Start"
-           #35 button [data-k="lap"]
-             #36 "Lap"
-           #37 button [data-k="reset"]
-             #38 "Reset"
-         #39 div.laps
+   [tap] #85
+   [page] 140 nodes
+   #1 body [data-back="1"] {back}
+     #2 div.app.tabbed {click}
+       #3 div.content
+         #4 div.page.hidden
+           #5 div.big
+             #6 "Alarm"
+           #7 div.next
+           #8 div.alarms
+           #9 div.empty
+             #10 span.icon
+               #11 "alarm"
+             #12 div
+               #13 "No alarms"
+         #14 div.page.hidden
+           #15 div.big
+             #16 "Clock"
+           #17 div.face
+             #18 div.time
+               #157 "HH:MM:SS"
+             #19 div.date
+               #158 "DATE"
+             #20 div.zone
+               #159 "Asia/Tashkent · UTC+05:00"
+         #21 div.page.hidden
+           #22 div.big
+             #23 "Stopwatch"
+           #24 div.elapsed
+             #160 "MM:SS.hh"
+           #25 div.laps
+           #26 div.controls
+             #27 button.round.lapgo [data-k="lap"]
+               #162 "Reset"
+             #29 button.round.go.start [data-k="go"]
+               #161 "Start"
+         #31 div.page.hidden
+           #32 div.big
+             #33 "Timer"
+           #34 div.pick.timerpick
+             #35 div.spin
+               #36 button.iconbtn [data-k="tm+"]
+                 #37 span.icon
+                   #38 "expand_less"
+               #39 div.val.tmin
+                 #163 "05"
+               #40 button.iconbtn [data-k="tm-"]
+                 #41 span.icon
+                   #42 "expand_more"
+               #43 div.unit
+                 #44 "min"
+             #45 div.colon
+               #46 ":"
+             #47 div.spin
+               #48 button.iconbtn [data-k="ts+"]
+                 #49 span.icon
+                   #50 "expand_less"
+               #51 div.val.tsec
+                 #164 "00"
+               #52 button.iconbtn [data-k="ts-"]
+                 #53 span.icon
+                   #54 "expand_more"
+               #55 div.unit
+                 #56 "sec"
+           #57 div.presets.timerpick
+             #58 button.chip [data-k="preset:60"]
+               #59 "1 min"
+             #60 button.chip [data-k="preset:300"]
+               #61 "5 min"
+             #62 button.chip [data-k="preset:600"]
+               #63 "10 min"
+             #64 button.chip [data-k="preset:900"]
+               #65 "15 min"
+           #66 div.countdown.hidden
+             #165 "HH:MM"
+           #67 div.left.hidden
+           #68 div.controls
+             #69 button.round.tcancel.hidden [data-k="tcancel"]
+               #70 "Cancel"
+             #71 button.round.go.tgo [data-k="tgo"]
+               #166 "Start"
+         #73 div.page
+           #74 div.head
+             #75 button.iconbtn [data-k="eclose"]
+               #76 span.icon
+                 #77 "close"
+             #78 div.title.etitle
+               #142 "Add alarm"
+             #80 button.iconbtn [data-k="esave"]
+               #81 span.icon
+                 #82 "check"
+           #83 div.pick
+             #84 div.spin
+               #85 button.iconbtn [data-k="eh+"]
+                 #86 span.icon
+                   #87 "expand_less"
+               #88 div.val.ehour
+                 #155 "08"
+               #89 button.iconbtn [data-k="eh-"]
+                 #90 span.icon
+                   #91 "expand_more"
+               #92 div.unit
+                 #93 "hour"
+             #94 div.colon
+               #95 ":"
+             #96 div.spin
+               #97 button.iconbtn [data-k="em+"]
+                 #98 span.icon
+                   #99 "expand_less"
+               #100 div.val.emin
+                 #156 "00"
+               #101 button.iconbtn [data-k="em-"]
+                 #102 span.icon
+                   #103 "expand_more"
+               #104 div.unit
+                 #105 "min"
+           #106 button.btn.danger.drop.hidden [data-k="edelete"]
+             #107 "Delete alarm"
+       #108 div.tabs.hidden
+         #109 button.tab [data-k="tab:0"]
+           #110 span.icon
+             #111 "alarm"
+           #112 span
+             #113 "Alarm"
+         #114 button.tab [data-k="tab:1"]
+           #115 span.icon
+             #116 "schedule"
+           #117 span
+             #118 "Clock"
+         #119 button.tab [data-k="tab:2"]
+           #120 span.icon
+             #121 "timer"
+           #122 span
+             #123 "Stopwatch"
+         #124 button.tab [data-k="tab:3"]
+           #125 span.icon
+             #126 "hourglass_empty"
+           #127 span
+             #128 "Timer"
+       #129 button.fab.hidden [data-k="add"]
+         #130 span.icon
+           #131 "add"
    [call] arche:phone/background@0.1.0#woken()
-   [call] arche:phone/alarm@0.1.0#snoozed()
-   [call] arche:phone/alarm@0.1.0#set(N, "Alarm")
-   [call] arche:phone/background@0.1.0#wake-at(N)
    [call] arche:phone/alarm@0.1.0#snoozed()
    [next frame in N ms]
 
 --- frame 3  (clicks fed to guest: []) ---
-   [tap] #19
-   [page] 46 nodes
-   #1 body
-     #2 div.clock {click}
-       #3 div.face
-         #4 div.time
-           #61 "HH:MM:SS"
-         #5 div.date
-           #62 "DATE"
-         #6 div.zone
-           #63 "Asia/Tashkent · UTC+05:00"
-       #7 div.group.card
-         #8 div.cardhead
-           #9 span.icon.fill
-             #10 "alarm"
-           #11 span.title
-             #12 "Alarm"
-           #13 button.turn.on [data-k="alarm"]
-             #65 "Turn off"
-         #14 div.set
-           #64 "HH:MM"
-         #15 div.rings
-           #66 "Rings in T"
-         #16 div.chips
-           #17 button.chip [data-k="h-"]
-             #18 "−1 h"
-           #19 button.chip [data-k="h+"]
-             #20 "+1 h"
-           #21 button.chip [data-k="m-"]
-             #22 "−1 min"
-           #23 button.chip [data-k="m+"]
-             #24 "+1 min"
-       #25 div.group.card
-         #26 div.cardhead
-           #27 span.icon.fill
-             #28 "avg_time"
-           #29 span.title
-             #30 "Stopwatch"
-         #31 div.elapsed
-           #67 "MM:SS.t"
-         #32 div.buttons
-           #33 button.go.start [data-k="go"]
-             #34 "Start"
-           #35 button [data-k="lap"]
-             #36 "Lap"
-           #37 button [data-k="reset"]
-             #38 "Reset"
-         #39 div.laps
+   [tap] #97
+   [page] 140 nodes
+   #1 body [data-back="1"] {back}
+     #2 div.app.tabbed {click}
+       #3 div.content
+         #4 div.page.hidden
+           #5 div.big
+             #6 "Alarm"
+           #7 div.next
+           #8 div.alarms
+           #9 div.empty
+             #10 span.icon
+               #11 "alarm"
+             #12 div
+               #13 "No alarms"
+         #14 div.page.hidden
+           #15 div.big
+             #16 "Clock"
+           #17 div.face
+             #18 div.time
+               #169 "HH:MM:SS"
+             #19 div.date
+               #170 "DATE"
+             #20 div.zone
+               #171 "Asia/Tashkent · UTC+05:00"
+         #21 div.page.hidden
+           #22 div.big
+             #23 "Stopwatch"
+           #24 div.elapsed
+             #172 "MM:SS.hh"
+           #25 div.laps
+           #26 div.controls
+             #27 button.round.lapgo [data-k="lap"]
+               #174 "Reset"
+             #29 button.round.go.start [data-k="go"]
+               #173 "Start"
+         #31 div.page.hidden
+           #32 div.big
+             #33 "Timer"
+           #34 div.pick.timerpick
+             #35 div.spin
+               #36 button.iconbtn [data-k="tm+"]
+                 #37 span.icon
+                   #38 "expand_less"
+               #39 div.val.tmin
+                 #175 "05"
+               #40 button.iconbtn [data-k="tm-"]
+                 #41 span.icon
+                   #42 "expand_more"
+               #43 div.unit
+                 #44 "min"
+             #45 div.colon
+               #46 ":"
+             #47 div.spin
+               #48 button.iconbtn [data-k="ts+"]
+                 #49 span.icon
+                   #50 "expand_less"
+               #51 div.val.tsec
+                 #176 "00"
+               #52 button.iconbtn [data-k="ts-"]
+                 #53 span.icon
+                   #54 "expand_more"
+               #55 div.unit
+                 #56 "sec"
+           #57 div.presets.timerpick
+             #58 button.chip [data-k="preset:60"]
+               #59 "1 min"
+             #60 button.chip [data-k="preset:300"]
+               #61 "5 min"
+             #62 button.chip [data-k="preset:600"]
+               #63 "10 min"
+             #64 button.chip [data-k="preset:900"]
+               #65 "15 min"
+           #66 div.countdown.hidden
+             #177 "HH:MM"
+           #67 div.left.hidden
+           #68 div.controls
+             #69 button.round.tcancel.hidden [data-k="tcancel"]
+               #70 "Cancel"
+             #71 button.round.go.tgo [data-k="tgo"]
+               #178 "Start"
+         #73 div.page
+           #74 div.head
+             #75 button.iconbtn [data-k="eclose"]
+               #76 span.icon
+                 #77 "close"
+             #78 div.title.etitle
+               #142 "Add alarm"
+             #80 button.iconbtn [data-k="esave"]
+               #81 span.icon
+                 #82 "check"
+           #83 div.pick
+             #84 div.spin
+               #85 button.iconbtn [data-k="eh+"]
+                 #86 span.icon
+                   #87 "expand_less"
+               #88 div.val.ehour
+                 #167 "08"
+               #89 button.iconbtn [data-k="eh-"]
+                 #90 span.icon
+                   #91 "expand_more"
+               #92 div.unit
+                 #93 "hour"
+             #94 div.colon
+               #95 ":"
+             #96 div.spin
+               #97 button.iconbtn [data-k="em+"]
+                 #98 span.icon
+                   #99 "expand_less"
+               #100 div.val.emin
+                 #168 "01"
+               #101 button.iconbtn [data-k="em-"]
+                 #102 span.icon
+                   #103 "expand_more"
+               #104 div.unit
+                 #105 "min"
+           #106 button.btn.danger.drop.hidden [data-k="edelete"]
+             #107 "Delete alarm"
+       #108 div.tabs.hidden
+         #109 button.tab [data-k="tab:0"]
+           #110 span.icon
+             #111 "alarm"
+           #112 span
+             #113 "Alarm"
+         #114 button.tab [data-k="tab:1"]
+           #115 span.icon
+             #116 "schedule"
+           #117 span
+             #118 "Clock"
+         #119 button.tab [data-k="tab:2"]
+           #120 span.icon
+             #121 "timer"
+           #122 span
+             #123 "Stopwatch"
+         #124 button.tab [data-k="tab:3"]
+           #125 span.icon
+             #126 "hourglass_empty"
+           #127 span
+             #128 "Timer"
+       #129 button.fab.hidden [data-k="add"]
+         #130 span.icon
+           #131 "add"
+   [call] arche:phone/background@0.1.0#woken()
+   [call] arche:phone/alarm@0.1.0#snoozed()
+   [next frame in N ms]
+
+--- frame 4  (clicks fed to guest: []) ---
+   [tap] #80
+   [page] 150 nodes
+   #1 body {back}
+     #2 div.app.tabbed {click}
+       #3 div.content
+         #4 div.page
+           #5 div.big
+             #6 "Alarm"
+           #7 div.next
+             #179 "Alarm in T"
+           #8 div.alarms
+             #180 div.group.acard
+               #181 div.arow [data-k="a:0"]
+                 #182 div.atext
+                   #183 div.atime
+                     #184 "HH:MM"
+                   #185 div.secondary
+                     #186 "Once · in T"
+                 #187 button.switch.on [data-k="t:0"]
+                   #188 span.knob
+           #9 div.empty.hidden
+             #10 span.icon
+               #11 "alarm"
+             #12 div
+               #13 "No alarms"
+         #14 div.page.hidden
+           #15 div.big
+             #16 "Clock"
+           #17 div.face
+             #18 div.time
+               #189 "HH:MM:SS"
+             #19 div.date
+               #190 "DATE"
+             #20 div.zone
+               #191 "Asia/Tashkent · UTC+05:00"
+         #21 div.page.hidden
+           #22 div.big
+             #23 "Stopwatch"
+           #24 div.elapsed
+             #192 "MM:SS.hh"
+           #25 div.laps
+           #26 div.controls
+             #27 button.round.lapgo [data-k="lap"]
+               #194 "Reset"
+             #29 button.round.go.start [data-k="go"]
+               #193 "Start"
+         #31 div.page.hidden
+           #32 div.big
+             #33 "Timer"
+           #34 div.pick.timerpick
+             #35 div.spin
+               #36 button.iconbtn [data-k="tm+"]
+                 #37 span.icon
+                   #38 "expand_less"
+               #39 div.val.tmin
+                 #195 "05"
+               #40 button.iconbtn [data-k="tm-"]
+                 #41 span.icon
+                   #42 "expand_more"
+               #43 div.unit
+                 #44 "min"
+             #45 div.colon
+               #46 ":"
+             #47 div.spin
+               #48 button.iconbtn [data-k="ts+"]
+                 #49 span.icon
+                   #50 "expand_less"
+               #51 div.val.tsec
+                 #196 "00"
+               #52 button.iconbtn [data-k="ts-"]
+                 #53 span.icon
+                   #54 "expand_more"
+               #55 div.unit
+                 #56 "sec"
+           #57 div.presets.timerpick
+             #58 button.chip [data-k="preset:60"]
+               #59 "1 min"
+             #60 button.chip [data-k="preset:300"]
+               #61 "5 min"
+             #62 button.chip [data-k="preset:600"]
+               #63 "10 min"
+             #64 button.chip [data-k="preset:900"]
+               #65 "15 min"
+           #66 div.countdown.hidden
+             #197 "HH:MM"
+           #67 div.left.hidden
+           #68 div.controls
+             #69 button.round.tcancel.hidden [data-k="tcancel"]
+               #70 "Cancel"
+             #71 button.round.go.tgo [data-k="tgo"]
+               #198 "Start"
+         #73 div.page.hidden
+           #74 div.head
+             #75 button.iconbtn [data-k="eclose"]
+               #76 span.icon
+                 #77 "close"
+             #78 div.title.etitle
+               #142 "Add alarm"
+             #80 button.iconbtn [data-k="esave"]
+               #81 span.icon
+                 #82 "check"
+           #83 div.pick
+             #84 div.spin
+               #85 button.iconbtn [data-k="eh+"]
+                 #86 span.icon
+                   #87 "expand_less"
+               #88 div.val.ehour
+                 #167 "08"
+               #89 button.iconbtn [data-k="eh-"]
+                 #90 span.icon
+                   #91 "expand_more"
+               #92 div.unit
+                 #93 "hour"
+             #94 div.colon
+               #95 ":"
+             #96 div.spin
+               #97 button.iconbtn [data-k="em+"]
+                 #98 span.icon
+                   #99 "expand_less"
+               #100 div.val.emin
+                 #168 "01"
+               #101 button.iconbtn [data-k="em-"]
+                 #102 span.icon
+                   #103 "expand_more"
+               #104 div.unit
+                 #105 "min"
+           #106 button.btn.danger.drop.hidden [data-k="edelete"]
+             #107 "Delete alarm"
+       #108 div.tabs
+         #109 button.tab.on [data-k="tab:0"]
+           #110 span.icon
+             #111 "alarm"
+           #112 span
+             #113 "Alarm"
+         #114 button.tab [data-k="tab:1"]
+           #115 span.icon
+             #116 "schedule"
+           #117 span
+             #118 "Clock"
+         #119 button.tab [data-k="tab:2"]
+           #120 span.icon
+             #121 "timer"
+           #122 span
+             #123 "Stopwatch"
+         #124 button.tab [data-k="tab:3"]
+           #125 span.icon
+             #126 "hourglass_empty"
+           #127 span
+             #128 "Timer"
+       #129 button.fab [data-k="add"]
+         #130 span.icon
+           #131 "add"
    [call] arche:phone/background@0.1.0#woken()
    [call] arche:phone/alarm@0.1.0#set(N, "Alarm")
    [call] arche:phone/background@0.1.0#wake-at(N)
    [call] arche:phone/alarm@0.1.0#snoozed()
    [next frame in N ms]
 
---- frame 4  (clicks fed to guest: []) ---
-   [tap] #13
-   [page] 46 nodes
-   #1 body
-     #2 div.clock {click}
-       #3 div.face
-         #4 div.time
-           #68 "HH:MM:SS"
-         #5 div.date
-           #69 "DATE"
-         #6 div.zone
-           #70 "Asia/Tashkent · UTC+05:00"
-       #7 div.group.card
-         #8 div.cardhead
-           #9 span.icon.fill
-             #10 "alarm"
-           #11 span.title
-             #12 "Alarm"
-           #13 button.turn [data-k="alarm"]
-             #72 "Turn on"
-         #14 div.set
-           #71 "HH:MM"
-         #15 div.rings
-           #73 "Off"
-         #16 div.chips
-           #17 button.chip [data-k="h-"]
-             #18 "−1 h"
-           #19 button.chip [data-k="h+"]
-             #20 "+1 h"
-           #21 button.chip [data-k="m-"]
-             #22 "−1 min"
-           #23 button.chip [data-k="m+"]
-             #24 "+1 min"
-       #25 div.group.card
-         #26 div.cardhead
-           #27 span.icon.fill
-             #28 "avg_time"
-           #29 span.title
-             #30 "Stopwatch"
-         #31 div.elapsed
-           #74 "MM:SS.t"
-         #32 div.buttons
-           #33 button.go.start [data-k="go"]
-             #34 "Start"
-           #35 button [data-k="lap"]
-             #36 "Lap"
-           #37 button [data-k="reset"]
-             #38 "Reset"
-         #39 div.laps
-   [call] arche:phone/background@0.1.0#woken()
-   [call] arche:phone/alarm@0.1.0#snoozed()
-   [call] arche:phone/alarm@0.1.0#set(0, "")
-   [call] arche:phone/background@0.1.0#wake-at(0)
-   [call] arche:phone/alarm@0.1.0#snoozed()
-   [next frame in N ms]
-
 --- frame 5  (clicks fed to guest: []) ---
-   [tap] #33
-   [page] 46 nodes
-   #1 body
-     #2 div.clock {click}
-       #3 div.face
-         #4 div.time
-           #76 "HH:MM:SS"
-         #5 div.date
-           #77 "DATE"
-         #6 div.zone
-           #78 "Asia/Tashkent · UTC+05:00"
-       #7 div.group.card
-         #8 div.cardhead
-           #9 span.icon.fill
-             #10 "alarm"
-           #11 span.title
-             #12 "Alarm"
-           #13 button.turn [data-k="alarm"]
-             #80 "Turn on"
-         #14 div.set
-           #79 "HH:MM"
-         #15 div.rings
-           #81 "Off"
-         #16 div.chips
-           #17 button.chip [data-k="h-"]
-             #18 "−1 h"
-           #19 button.chip [data-k="h+"]
-             #20 "+1 h"
-           #21 button.chip [data-k="m-"]
-             #22 "−1 min"
-           #23 button.chip [data-k="m+"]
-             #24 "+1 min"
-       #25 div.group.card
-         #26 div.cardhead
-           #27 span.icon.fill
-             #28 "avg_time"
-           #29 span.title
-             #30 "Stopwatch"
-         #31 div.elapsed
-           #82 "MM:SS.t"
-         #32 div.buttons
-           #33 button.go.start [data-k="go"]
-             #75 "Stop"
-           #35 button [data-k="lap"]
-             #36 "Lap"
-           #37 button [data-k="reset"]
-             #38 "Reset"
-         #39 div.laps
+   [tap] #119
+   [page] 150 nodes
+   #1 body {back}
+     #2 div.app.tabbed {click}
+       #3 div.content
+         #4 div.page.hidden
+           #5 div.big
+             #6 "Alarm"
+           #7 div.next
+             #199 "Alarm in T"
+           #8 div.alarms
+             #180 div.group.acard
+               #181 div.arow [data-k="a:0"]
+                 #182 div.atext
+                   #183 div.atime
+                     #184 "HH:MM"
+                   #185 div.secondary
+                     #186 "Once · in T"
+                 #187 button.switch.on [data-k="t:0"]
+                   #188 span.knob
+           #9 div.empty.hidden
+             #10 span.icon
+               #11 "alarm"
+             #12 div
+               #13 "No alarms"
+         #14 div.page.hidden
+           #15 div.big
+             #16 "Clock"
+           #17 div.face
+             #18 div.time
+               #200 "HH:MM:SS"
+             #19 div.date
+               #201 "DATE"
+             #20 div.zone
+               #202 "Asia/Tashkent · UTC+05:00"
+         #21 div.page
+           #22 div.big
+             #23 "Stopwatch"
+           #24 div.elapsed
+             #203 "MM:SS.hh"
+           #25 div.laps
+           #26 div.controls
+             #27 button.round.lapgo [data-k="lap"]
+               #205 "Reset"
+             #29 button.round.go.start [data-k="go"]
+               #204 "Start"
+         #31 div.page.hidden
+           #32 div.big
+             #33 "Timer"
+           #34 div.pick.timerpick
+             #35 div.spin
+               #36 button.iconbtn [data-k="tm+"]
+                 #37 span.icon
+                   #38 "expand_less"
+               #39 div.val.tmin
+                 #206 "05"
+               #40 button.iconbtn [data-k="tm-"]
+                 #41 span.icon
+                   #42 "expand_more"
+               #43 div.unit
+                 #44 "min"
+             #45 div.colon
+               #46 ":"
+             #47 div.spin
+               #48 button.iconbtn [data-k="ts+"]
+                 #49 span.icon
+                   #50 "expand_less"
+               #51 div.val.tsec
+                 #207 "00"
+               #52 button.iconbtn [data-k="ts-"]
+                 #53 span.icon
+                   #54 "expand_more"
+               #55 div.unit
+                 #56 "sec"
+           #57 div.presets.timerpick
+             #58 button.chip [data-k="preset:60"]
+               #59 "1 min"
+             #60 button.chip [data-k="preset:300"]
+               #61 "5 min"
+             #62 button.chip [data-k="preset:600"]
+               #63 "10 min"
+             #64 button.chip [data-k="preset:900"]
+               #65 "15 min"
+           #66 div.countdown.hidden
+             #208 "HH:MM"
+           #67 div.left.hidden
+           #68 div.controls
+             #69 button.round.tcancel.hidden [data-k="tcancel"]
+               #70 "Cancel"
+             #71 button.round.go.tgo [data-k="tgo"]
+               #209 "Start"
+         #73 div.page.hidden
+           #74 div.head
+             #75 button.iconbtn [data-k="eclose"]
+               #76 span.icon
+                 #77 "close"
+             #78 div.title.etitle
+               #142 "Add alarm"
+             #80 button.iconbtn [data-k="esave"]
+               #81 span.icon
+                 #82 "check"
+           #83 div.pick
+             #84 div.spin
+               #85 button.iconbtn [data-k="eh+"]
+                 #86 span.icon
+                   #87 "expand_less"
+               #88 div.val.ehour
+                 #167 "08"
+               #89 button.iconbtn [data-k="eh-"]
+                 #90 span.icon
+                   #91 "expand_more"
+               #92 div.unit
+                 #93 "hour"
+             #94 div.colon
+               #95 ":"
+             #96 div.spin
+               #97 button.iconbtn [data-k="em+"]
+                 #98 span.icon
+                   #99 "expand_less"
+               #100 div.val.emin
+                 #168 "01"
+               #101 button.iconbtn [data-k="em-"]
+                 #102 span.icon
+                   #103 "expand_more"
+               #104 div.unit
+                 #105 "min"
+           #106 button.btn.danger.drop.hidden [data-k="edelete"]
+             #107 "Delete alarm"
+       #108 div.tabs
+         #109 button.tab [data-k="tab:0"]
+           #110 span.icon
+             #111 "alarm"
+           #112 span
+             #113 "Alarm"
+         #114 button.tab [data-k="tab:1"]
+           #115 span.icon
+             #116 "schedule"
+           #117 span
+             #118 "Clock"
+         #119 button.tab.on [data-k="tab:2"]
+           #120 span.icon
+             #121 "timer"
+           #122 span
+             #123 "Stopwatch"
+         #124 button.tab [data-k="tab:3"]
+           #125 span.icon
+             #126 "hourglass_empty"
+           #127 span
+             #128 "Timer"
+       #129 button.fab.hidden [data-k="add"]
+         #130 span.icon
+           #131 "add"
    [call] arche:phone/background@0.1.0#woken()
    [call] arche:phone/alarm@0.1.0#snoozed()
    [next frame in N ms]
 
 --- frame 6  (clicks fed to guest: []) ---
-   [tap] #35
-   [page] 48 nodes
-   #1 body
-     #2 div.clock {click}
-       #3 div.face
-         #4 div.time
-           #83 "HH:MM:SS"
-         #5 div.date
-           #84 "DATE"
-         #6 div.zone
-           #85 "Asia/Tashkent · UTC+05:00"
-       #7 div.group.card
-         #8 div.cardhead
-           #9 span.icon.fill
-             #10 "alarm"
-           #11 span.title
-             #12 "Alarm"
-           #13 button.turn [data-k="alarm"]
-             #87 "Turn on"
-         #14 div.set
-           #86 "HH:MM"
-         #15 div.rings
-           #88 "Off"
-         #16 div.chips
-           #17 button.chip [data-k="h-"]
-             #18 "−1 h"
-           #19 button.chip [data-k="h+"]
-             #20 "+1 h"
-           #21 button.chip [data-k="m-"]
-             #22 "−1 min"
-           #23 button.chip [data-k="m+"]
-             #24 "+1 min"
-       #25 div.group.card
-         #26 div.cardhead
-           #27 span.icon.fill
-             #28 "avg_time"
-           #29 span.title
-             #30 "Stopwatch"
-         #31 div.elapsed
-           #89 "MM:SS.t"
-         #32 div.buttons
-           #33 button.go.start [data-k="go"]
-             #75 "Stop"
-           #35 button [data-k="lap"]
-             #36 "Lap"
-           #37 button [data-k="reset"]
-             #38 "Reset"
-         #39 div.laps
-           #90 div.lap
-             #91 "Lap 1   MM:SS.t   MM:SS.t"
+   [tap] #29
+   [page] 150 nodes
+   #1 body {back}
+     #2 div.app.tabbed {click}
+       #3 div.content
+         #4 div.page.hidden
+           #5 div.big
+             #6 "Alarm"
+           #7 div.next
+             #210 "Alarm in T"
+           #8 div.alarms
+             #180 div.group.acard
+               #181 div.arow [data-k="a:0"]
+                 #182 div.atext
+                   #183 div.atime
+                     #184 "HH:MM"
+                   #185 div.secondary
+                     #186 "Once · in T"
+                 #187 button.switch.on [data-k="t:0"]
+                   #188 span.knob
+           #9 div.empty.hidden
+             #10 span.icon
+               #11 "alarm"
+             #12 div
+               #13 "No alarms"
+         #14 div.page.hidden
+           #15 div.big
+             #16 "Clock"
+           #17 div.face
+             #18 div.time
+               #211 "HH:MM:SS"
+             #19 div.date
+               #212 "DATE"
+             #20 div.zone
+               #213 "Asia/Tashkent · UTC+05:00"
+         #21 div.page
+           #22 div.big
+             #23 "Stopwatch"
+           #24 div.elapsed
+             #214 "MM:SS.hh"
+           #25 div.laps
+           #26 div.controls
+             #27 button.round.lapgo [data-k="lap"]
+               #216 "Lap"
+             #29 button.round.go.start.stop [data-k="go"]
+               #215 "Stop"
+         #31 div.page.hidden
+           #32 div.big
+             #33 "Timer"
+           #34 div.pick.timerpick
+             #35 div.spin
+               #36 button.iconbtn [data-k="tm+"]
+                 #37 span.icon
+                   #38 "expand_less"
+               #39 div.val.tmin
+                 #217 "05"
+               #40 button.iconbtn [data-k="tm-"]
+                 #41 span.icon
+                   #42 "expand_more"
+               #43 div.unit
+                 #44 "min"
+             #45 div.colon
+               #46 ":"
+             #47 div.spin
+               #48 button.iconbtn [data-k="ts+"]
+                 #49 span.icon
+                   #50 "expand_less"
+               #51 div.val.tsec
+                 #218 "00"
+               #52 button.iconbtn [data-k="ts-"]
+                 #53 span.icon
+                   #54 "expand_more"
+               #55 div.unit
+                 #56 "sec"
+           #57 div.presets.timerpick
+             #58 button.chip [data-k="preset:60"]
+               #59 "1 min"
+             #60 button.chip [data-k="preset:300"]
+               #61 "5 min"
+             #62 button.chip [data-k="preset:600"]
+               #63 "10 min"
+             #64 button.chip [data-k="preset:900"]
+               #65 "15 min"
+           #66 div.countdown.hidden
+             #219 "HH:MM"
+           #67 div.left.hidden
+           #68 div.controls
+             #69 button.round.tcancel.hidden [data-k="tcancel"]
+               #70 "Cancel"
+             #71 button.round.go.tgo [data-k="tgo"]
+               #220 "Start"
+         #73 div.page.hidden
+           #74 div.head
+             #75 button.iconbtn [data-k="eclose"]
+               #76 span.icon
+                 #77 "close"
+             #78 div.title.etitle
+               #142 "Add alarm"
+             #80 button.iconbtn [data-k="esave"]
+               #81 span.icon
+                 #82 "check"
+           #83 div.pick
+             #84 div.spin
+               #85 button.iconbtn [data-k="eh+"]
+                 #86 span.icon
+                   #87 "expand_less"
+               #88 div.val.ehour
+                 #167 "08"
+               #89 button.iconbtn [data-k="eh-"]
+                 #90 span.icon
+                   #91 "expand_more"
+               #92 div.unit
+                 #93 "hour"
+             #94 div.colon
+               #95 ":"
+             #96 div.spin
+               #97 button.iconbtn [data-k="em+"]
+                 #98 span.icon
+                   #99 "expand_less"
+               #100 div.val.emin
+                 #168 "01"
+               #101 button.iconbtn [data-k="em-"]
+                 #102 span.icon
+                   #103 "expand_more"
+               #104 div.unit
+                 #105 "min"
+           #106 button.btn.danger.drop.hidden [data-k="edelete"]
+             #107 "Delete alarm"
+       #108 div.tabs
+         #109 button.tab [data-k="tab:0"]
+           #110 span.icon
+             #111 "alarm"
+           #112 span
+             #113 "Alarm"
+         #114 button.tab [data-k="tab:1"]
+           #115 span.icon
+             #116 "schedule"
+           #117 span
+             #118 "Clock"
+         #119 button.tab.on [data-k="tab:2"]
+           #120 span.icon
+             #121 "timer"
+           #122 span
+             #123 "Stopwatch"
+         #124 button.tab [data-k="tab:3"]
+           #125 span.icon
+             #126 "hourglass_empty"
+           #127 span
+             #128 "Timer"
+       #129 button.fab.hidden [data-k="add"]
+         #130 span.icon
+           #131 "add"
    [call] arche:phone/background@0.1.0#woken()
    [call] arche:phone/alarm@0.1.0#snoozed()
    [next frame in N ms]
 
 --- frame 7  (clicks fed to guest: []) ---
-   [tap] #35
-   [page] 50 nodes
-   #1 body
-     #2 div.clock {click}
-       #3 div.face
-         #4 div.time
-           #92 "HH:MM:SS"
-         #5 div.date
-           #93 "DATE"
-         #6 div.zone
-           #94 "Asia/Tashkent · UTC+05:00"
-       #7 div.group.card
-         #8 div.cardhead
-           #9 span.icon.fill
-             #10 "alarm"
-           #11 span.title
-             #12 "Alarm"
-           #13 button.turn [data-k="alarm"]
-             #96 "Turn on"
-         #14 div.set
-           #95 "HH:MM"
-         #15 div.rings
-           #97 "Off"
-         #16 div.chips
-           #17 button.chip [data-k="h-"]
-             #18 "−1 h"
-           #19 button.chip [data-k="h+"]
-             #20 "+1 h"
-           #21 button.chip [data-k="m-"]
-             #22 "−1 min"
-           #23 button.chip [data-k="m+"]
-             #24 "+1 min"
-       #25 div.group.card
-         #26 div.cardhead
-           #27 span.icon.fill
-             #28 "avg_time"
-           #29 span.title
-             #30 "Stopwatch"
-         #31 div.elapsed
-           #98 "MM:SS.t"
-         #32 div.buttons
-           #33 button.go.start [data-k="go"]
-             #75 "Stop"
-           #35 button [data-k="lap"]
-             #36 "Lap"
-           #37 button [data-k="reset"]
-             #38 "Reset"
-         #39 div.laps
-           #90 div.lap
-             #91 "Lap 1   MM:SS.t   MM:SS.t"
-           #99 div.lap
-             #100 "Lap 2   MM:SS.t   MM:SS.t"
+   [tap] #27
+   [page] 157 nodes
+   #1 body {back}
+     #2 div.app.tabbed {click}
+       #3 div.content
+         #4 div.page.hidden
+           #5 div.big
+             #6 "Alarm"
+           #7 div.next
+             #221 "Alarm in T"
+           #8 div.alarms
+             #180 div.group.acard
+               #181 div.arow [data-k="a:0"]
+                 #182 div.atext
+                   #183 div.atime
+                     #184 "HH:MM"
+                   #185 div.secondary
+                     #186 "Once · in T"
+                 #187 button.switch.on [data-k="t:0"]
+                   #188 span.knob
+           #9 div.empty.hidden
+             #10 span.icon
+               #11 "alarm"
+             #12 div
+               #13 "No alarms"
+         #14 div.page.hidden
+           #15 div.big
+             #16 "Clock"
+           #17 div.face
+             #18 div.time
+               #222 "HH:MM:SS"
+             #19 div.date
+               #223 "DATE"
+             #20 div.zone
+               #224 "Asia/Tashkent · UTC+05:00"
+         #21 div.page
+           #22 div.big
+             #23 "Stopwatch"
+           #24 div.elapsed
+             #225 "MM:SS.hh"
+           #25 div.laps
+             #228 div.lap
+               #229 span.n
+                 #230 "Lap 1"
+               #231 span
+                 #232 "MM:SS.hh"
+               #233 span
+                 #234 "MM:SS.hh"
+           #26 div.controls
+             #27 button.round.lapgo [data-k="lap"]
+               #227 "Lap"
+             #29 button.round.go.start.stop [data-k="go"]
+               #226 "Stop"
+         #31 div.page.hidden
+           #32 div.big
+             #33 "Timer"
+           #34 div.pick.timerpick
+             #35 div.spin
+               #36 button.iconbtn [data-k="tm+"]
+                 #37 span.icon
+                   #38 "expand_less"
+               #39 div.val.tmin
+                 #235 "05"
+               #40 button.iconbtn [data-k="tm-"]
+                 #41 span.icon
+                   #42 "expand_more"
+               #43 div.unit
+                 #44 "min"
+             #45 div.colon
+               #46 ":"
+             #47 div.spin
+               #48 button.iconbtn [data-k="ts+"]
+                 #49 span.icon
+                   #50 "expand_less"
+               #51 div.val.tsec
+                 #236 "00"
+               #52 button.iconbtn [data-k="ts-"]
+                 #53 span.icon
+                   #54 "expand_more"
+               #55 div.unit
+                 #56 "sec"
+           #57 div.presets.timerpick
+             #58 button.chip [data-k="preset:60"]
+               #59 "1 min"
+             #60 button.chip [data-k="preset:300"]
+               #61 "5 min"
+             #62 button.chip [data-k="preset:600"]
+               #63 "10 min"
+             #64 button.chip [data-k="preset:900"]
+               #65 "15 min"
+           #66 div.countdown.hidden
+             #237 "HH:MM"
+           #67 div.left.hidden
+           #68 div.controls
+             #69 button.round.tcancel.hidden [data-k="tcancel"]
+               #70 "Cancel"
+             #71 button.round.go.tgo [data-k="tgo"]
+               #238 "Start"
+         #73 div.page.hidden
+           #74 div.head
+             #75 button.iconbtn [data-k="eclose"]
+               #76 span.icon
+                 #77 "close"
+             #78 div.title.etitle
+               #142 "Add alarm"
+             #80 button.iconbtn [data-k="esave"]
+               #81 span.icon
+                 #82 "check"
+           #83 div.pick
+             #84 div.spin
+               #85 button.iconbtn [data-k="eh+"]
+                 #86 span.icon
+                   #87 "expand_less"
+               #88 div.val.ehour
+                 #167 "08"
+               #89 button.iconbtn [data-k="eh-"]
+                 #90 span.icon
+                   #91 "expand_more"
+               #92 div.unit
+                 #93 "hour"
+             #94 div.colon
+               #95 ":"
+             #96 div.spin
+               #97 button.iconbtn [data-k="em+"]
+                 #98 span.icon
+                   #99 "expand_less"
+               #100 div.val.emin
+                 #168 "01"
+               #101 button.iconbtn [data-k="em-"]
+                 #102 span.icon
+                   #103 "expand_more"
+               #104 div.unit
+                 #105 "min"
+           #106 button.btn.danger.drop.hidden [data-k="edelete"]
+             #107 "Delete alarm"
+       #108 div.tabs
+         #109 button.tab [data-k="tab:0"]
+           #110 span.icon
+             #111 "alarm"
+           #112 span
+             #113 "Alarm"
+         #114 button.tab [data-k="tab:1"]
+           #115 span.icon
+             #116 "schedule"
+           #117 span
+             #118 "Clock"
+         #119 button.tab.on [data-k="tab:2"]
+           #120 span.icon
+             #121 "timer"
+           #122 span
+             #123 "Stopwatch"
+         #124 button.tab [data-k="tab:3"]
+           #125 span.icon
+             #126 "hourglass_empty"
+           #127 span
+             #128 "Timer"
+       #129 button.fab.hidden [data-k="add"]
+         #130 span.icon
+           #131 "add"
    [call] arche:phone/background@0.1.0#woken()
    [call] arche:phone/alarm@0.1.0#snoozed()
    [next frame in N ms]
 
 --- frame 8  (clicks fed to guest: []) ---
-   [tap] #33
-   [page] 50 nodes
-   #1 body
-     #2 div.clock {click}
-       #3 div.face
-         #4 div.time
-           #102 "HH:MM:SS"
-         #5 div.date
-           #103 "DATE"
-         #6 div.zone
-           #104 "Asia/Tashkent · UTC+05:00"
-       #7 div.group.card
-         #8 div.cardhead
-           #9 span.icon.fill
-             #10 "alarm"
-           #11 span.title
-             #12 "Alarm"
-           #13 button.turn [data-k="alarm"]
-             #106 "Turn on"
-         #14 div.set
-           #105 "HH:MM"
-         #15 div.rings
-           #107 "Off"
-         #16 div.chips
-           #17 button.chip [data-k="h-"]
-             #18 "−1 h"
-           #19 button.chip [data-k="h+"]
-             #20 "+1 h"
-           #21 button.chip [data-k="m-"]
-             #22 "−1 min"
-           #23 button.chip [data-k="m+"]
-             #24 "+1 min"
-       #25 div.group.card
-         #26 div.cardhead
-           #27 span.icon.fill
-             #28 "avg_time"
-           #29 span.title
-             #30 "Stopwatch"
-         #31 div.elapsed
-           #108 "MM:SS.t"
-         #32 div.buttons
-           #33 button.go.start [data-k="go"]
-             #101 "Start"
-           #35 button [data-k="lap"]
-             #36 "Lap"
-           #37 button [data-k="reset"]
-             #38 "Reset"
-         #39 div.laps
-           #90 div.lap
-             #91 "Lap 1   MM:SS.t   MM:SS.t"
-           #99 div.lap
-             #100 "Lap 2   MM:SS.t   MM:SS.t"
+   [tap] #29
+   [page] 157 nodes
+   #1 body {back}
+     #2 div.app.tabbed {click}
+       #3 div.content
+         #4 div.page.hidden
+           #5 div.big
+             #6 "Alarm"
+           #7 div.next
+             #239 "Alarm in T"
+           #8 div.alarms
+             #180 div.group.acard
+               #181 div.arow [data-k="a:0"]
+                 #182 div.atext
+                   #183 div.atime
+                     #184 "HH:MM"
+                   #185 div.secondary
+                     #186 "Once · in T"
+                 #187 button.switch.on [data-k="t:0"]
+                   #188 span.knob
+           #9 div.empty.hidden
+             #10 span.icon
+               #11 "alarm"
+             #12 div
+               #13 "No alarms"
+         #14 div.page.hidden
+           #15 div.big
+             #16 "Clock"
+           #17 div.face
+             #18 div.time
+               #240 "HH:MM:SS"
+             #19 div.date
+               #241 "DATE"
+             #20 div.zone
+               #242 "Asia/Tashkent · UTC+05:00"
+         #21 div.page
+           #22 div.big
+             #23 "Stopwatch"
+           #24 div.elapsed
+             #243 "MM:SS.hh"
+           #25 div.laps
+             #228 div.lap
+               #229 span.n
+                 #230 "Lap 1"
+               #231 span
+                 #232 "MM:SS.hh"
+               #233 span
+                 #234 "MM:SS.hh"
+           #26 div.controls
+             #27 button.round.lapgo [data-k="lap"]
+               #245 "Reset"
+             #29 button.round.go.start [data-k="go"]
+               #244 "Start"
+         #31 div.page.hidden
+           #32 div.big
+             #33 "Timer"
+           #34 div.pick.timerpick
+             #35 div.spin
+               #36 button.iconbtn [data-k="tm+"]
+                 #37 span.icon
+                   #38 "expand_less"
+               #39 div.val.tmin
+                 #246 "05"
+               #40 button.iconbtn [data-k="tm-"]
+                 #41 span.icon
+                   #42 "expand_more"
+               #43 div.unit
+                 #44 "min"
+             #45 div.colon
+               #46 ":"
+             #47 div.spin
+               #48 button.iconbtn [data-k="ts+"]
+                 #49 span.icon
+                   #50 "expand_less"
+               #51 div.val.tsec
+                 #247 "00"
+               #52 button.iconbtn [data-k="ts-"]
+                 #53 span.icon
+                   #54 "expand_more"
+               #55 div.unit
+                 #56 "sec"
+           #57 div.presets.timerpick
+             #58 button.chip [data-k="preset:60"]
+               #59 "1 min"
+             #60 button.chip [data-k="preset:300"]
+               #61 "5 min"
+             #62 button.chip [data-k="preset:600"]
+               #63 "10 min"
+             #64 button.chip [data-k="preset:900"]
+               #65 "15 min"
+           #66 div.countdown.hidden
+             #248 "HH:MM"
+           #67 div.left.hidden
+           #68 div.controls
+             #69 button.round.tcancel.hidden [data-k="tcancel"]
+               #70 "Cancel"
+             #71 button.round.go.tgo [data-k="tgo"]
+               #249 "Start"
+         #73 div.page.hidden
+           #74 div.head
+             #75 button.iconbtn [data-k="eclose"]
+               #76 span.icon
+                 #77 "close"
+             #78 div.title.etitle
+               #142 "Add alarm"
+             #80 button.iconbtn [data-k="esave"]
+               #81 span.icon
+                 #82 "check"
+           #83 div.pick
+             #84 div.spin
+               #85 button.iconbtn [data-k="eh+"]
+                 #86 span.icon
+                   #87 "expand_less"
+               #88 div.val.ehour
+                 #167 "08"
+               #89 button.iconbtn [data-k="eh-"]
+                 #90 span.icon
+                   #91 "expand_more"
+               #92 div.unit
+                 #93 "hour"
+             #94 div.colon
+               #95 ":"
+             #96 div.spin
+               #97 button.iconbtn [data-k="em+"]
+                 #98 span.icon
+                   #99 "expand_less"
+               #100 div.val.emin
+                 #168 "01"
+               #101 button.iconbtn [data-k="em-"]
+                 #102 span.icon
+                   #103 "expand_more"
+               #104 div.unit
+                 #105 "min"
+           #106 button.btn.danger.drop.hidden [data-k="edelete"]
+             #107 "Delete alarm"
+       #108 div.tabs
+         #109 button.tab [data-k="tab:0"]
+           #110 span.icon
+             #111 "alarm"
+           #112 span
+             #113 "Alarm"
+         #114 button.tab [data-k="tab:1"]
+           #115 span.icon
+             #116 "schedule"
+           #117 span
+             #118 "Clock"
+         #119 button.tab.on [data-k="tab:2"]
+           #120 span.icon
+             #121 "timer"
+           #122 span
+             #123 "Stopwatch"
+         #124 button.tab [data-k="tab:3"]
+           #125 span.icon
+             #126 "hourglass_empty"
+           #127 span
+             #128 "Timer"
+       #129 button.fab.hidden [data-k="add"]
+         #130 span.icon
+           #131 "add"
    [call] arche:phone/background@0.1.0#woken()
    [call] arche:phone/alarm@0.1.0#snoozed()
    [next frame in N ms]
 
 --- frame 9  (clicks fed to guest: []) ---
-   [tap] #37
-   [page] 46 nodes
-   #1 body
-     #2 div.clock {click}
-       #3 div.face
-         #4 div.time
-           #109 "HH:MM:SS"
-         #5 div.date
-           #110 "DATE"
-         #6 div.zone
-           #111 "Asia/Tashkent · UTC+05:00"
-       #7 div.group.card
-         #8 div.cardhead
-           #9 span.icon.fill
-             #10 "alarm"
-           #11 span.title
-             #12 "Alarm"
-           #13 button.turn [data-k="alarm"]
-             #113 "Turn on"
-         #14 div.set
-           #112 "HH:MM"
-         #15 div.rings
-           #114 "Off"
-         #16 div.chips
-           #17 button.chip [data-k="h-"]
-             #18 "−1 h"
-           #19 button.chip [data-k="h+"]
-             #20 "+1 h"
-           #21 button.chip [data-k="m-"]
-             #22 "−1 min"
-           #23 button.chip [data-k="m+"]
-             #24 "+1 min"
-       #25 div.group.card
-         #26 div.cardhead
-           #27 span.icon.fill
-             #28 "avg_time"
-           #29 span.title
-             #30 "Stopwatch"
-         #31 div.elapsed
-           #115 "MM:SS.t"
-         #32 div.buttons
-           #33 button.go.start [data-k="go"]
-             #101 "Start"
-           #35 button [data-k="lap"]
-             #36 "Lap"
-           #37 button [data-k="reset"]
-             #38 "Reset"
-         #39 div.laps
+   [tap] #27
+   [page] 150 nodes
+   #1 body {back}
+     #2 div.app.tabbed {click}
+       #3 div.content
+         #4 div.page.hidden
+           #5 div.big
+             #6 "Alarm"
+           #7 div.next
+             #250 "Alarm in T"
+           #8 div.alarms
+             #180 div.group.acard
+               #181 div.arow [data-k="a:0"]
+                 #182 div.atext
+                   #183 div.atime
+                     #184 "HH:MM"
+                   #185 div.secondary
+                     #186 "Once · in T"
+                 #187 button.switch.on [data-k="t:0"]
+                   #188 span.knob
+           #9 div.empty.hidden
+             #10 span.icon
+               #11 "alarm"
+             #12 div
+               #13 "No alarms"
+         #14 div.page.hidden
+           #15 div.big
+             #16 "Clock"
+           #17 div.face
+             #18 div.time
+               #251 "HH:MM:SS"
+             #19 div.date
+               #252 "DATE"
+             #20 div.zone
+               #253 "Asia/Tashkent · UTC+05:00"
+         #21 div.page
+           #22 div.big
+             #23 "Stopwatch"
+           #24 div.elapsed
+             #254 "MM:SS.hh"
+           #25 div.laps
+           #26 div.controls
+             #27 button.round.lapgo [data-k="lap"]
+               #256 "Reset"
+             #29 button.round.go.start [data-k="go"]
+               #255 "Start"
+         #31 div.page.hidden
+           #32 div.big
+             #33 "Timer"
+           #34 div.pick.timerpick
+             #35 div.spin
+               #36 button.iconbtn [data-k="tm+"]
+                 #37 span.icon
+                   #38 "expand_less"
+               #39 div.val.tmin
+                 #257 "05"
+               #40 button.iconbtn [data-k="tm-"]
+                 #41 span.icon
+                   #42 "expand_more"
+               #43 div.unit
+                 #44 "min"
+             #45 div.colon
+               #46 ":"
+             #47 div.spin
+               #48 button.iconbtn [data-k="ts+"]
+                 #49 span.icon
+                   #50 "expand_less"
+               #51 div.val.tsec
+                 #258 "00"
+               #52 button.iconbtn [data-k="ts-"]
+                 #53 span.icon
+                   #54 "expand_more"
+               #55 div.unit
+                 #56 "sec"
+           #57 div.presets.timerpick
+             #58 button.chip [data-k="preset:60"]
+               #59 "1 min"
+             #60 button.chip [data-k="preset:300"]
+               #61 "5 min"
+             #62 button.chip [data-k="preset:600"]
+               #63 "10 min"
+             #64 button.chip [data-k="preset:900"]
+               #65 "15 min"
+           #66 div.countdown.hidden
+             #259 "HH:MM"
+           #67 div.left.hidden
+           #68 div.controls
+             #69 button.round.tcancel.hidden [data-k="tcancel"]
+               #70 "Cancel"
+             #71 button.round.go.tgo [data-k="tgo"]
+               #260 "Start"
+         #73 div.page.hidden
+           #74 div.head
+             #75 button.iconbtn [data-k="eclose"]
+               #76 span.icon
+                 #77 "close"
+             #78 div.title.etitle
+               #142 "Add alarm"
+             #80 button.iconbtn [data-k="esave"]
+               #81 span.icon
+                 #82 "check"
+           #83 div.pick
+             #84 div.spin
+               #85 button.iconbtn [data-k="eh+"]
+                 #86 span.icon
+                   #87 "expand_less"
+               #88 div.val.ehour
+                 #167 "08"
+               #89 button.iconbtn [data-k="eh-"]
+                 #90 span.icon
+                   #91 "expand_more"
+               #92 div.unit
+                 #93 "hour"
+             #94 div.colon
+               #95 ":"
+             #96 div.spin
+               #97 button.iconbtn [data-k="em+"]
+                 #98 span.icon
+                   #99 "expand_less"
+               #100 div.val.emin
+                 #168 "01"
+               #101 button.iconbtn [data-k="em-"]
+                 #102 span.icon
+                   #103 "expand_more"
+               #104 div.unit
+                 #105 "min"
+           #106 button.btn.danger.drop.hidden [data-k="edelete"]
+             #107 "Delete alarm"
+       #108 div.tabs
+         #109 button.tab [data-k="tab:0"]
+           #110 span.icon
+             #111 "alarm"
+           #112 span
+             #113 "Alarm"
+         #114 button.tab [data-k="tab:1"]
+           #115 span.icon
+             #116 "schedule"
+           #117 span
+             #118 "Clock"
+         #119 button.tab.on [data-k="tab:2"]
+           #120 span.icon
+             #121 "timer"
+           #122 span
+             #123 "Stopwatch"
+         #124 button.tab [data-k="tab:3"]
+           #125 span.icon
+             #126 "hourglass_empty"
+           #127 span
+             #128 "Timer"
+       #129 button.fab.hidden [data-k="add"]
+         #130 span.icon
+           #131 "add"
    [call] arche:phone/background@0.1.0#woken()
+   [call] arche:phone/alarm@0.1.0#snoozed()
+   [next frame in N ms]
+
+--- frame 10  (clicks fed to guest: []) ---
+   [tap] #124
+   [page] 150 nodes
+   #1 body {back}
+     #2 div.app.tabbed {click}
+       #3 div.content
+         #4 div.page.hidden
+           #5 div.big
+             #6 "Alarm"
+           #7 div.next
+             #261 "Alarm in T"
+           #8 div.alarms
+             #180 div.group.acard
+               #181 div.arow [data-k="a:0"]
+                 #182 div.atext
+                   #183 div.atime
+                     #184 "HH:MM"
+                   #185 div.secondary
+                     #186 "Once · in T"
+                 #187 button.switch.on [data-k="t:0"]
+                   #188 span.knob
+           #9 div.empty.hidden
+             #10 span.icon
+               #11 "alarm"
+             #12 div
+               #13 "No alarms"
+         #14 div.page.hidden
+           #15 div.big
+             #16 "Clock"
+           #17 div.face
+             #18 div.time
+               #262 "HH:MM:SS"
+             #19 div.date
+               #263 "DATE"
+             #20 div.zone
+               #264 "Asia/Tashkent · UTC+05:00"
+         #21 div.page.hidden
+           #22 div.big
+             #23 "Stopwatch"
+           #24 div.elapsed
+             #265 "MM:SS.hh"
+           #25 div.laps
+           #26 div.controls
+             #27 button.round.lapgo [data-k="lap"]
+               #267 "Reset"
+             #29 button.round.go.start [data-k="go"]
+               #266 "Start"
+         #31 div.page
+           #32 div.big
+             #33 "Timer"
+           #34 div.pick.timerpick
+             #35 div.spin
+               #36 button.iconbtn [data-k="tm+"]
+                 #37 span.icon
+                   #38 "expand_less"
+               #39 div.val.tmin
+                 #268 "05"
+               #40 button.iconbtn [data-k="tm-"]
+                 #41 span.icon
+                   #42 "expand_more"
+               #43 div.unit
+                 #44 "min"
+             #45 div.colon
+               #46 ":"
+             #47 div.spin
+               #48 button.iconbtn [data-k="ts+"]
+                 #49 span.icon
+                   #50 "expand_less"
+               #51 div.val.tsec
+                 #269 "00"
+               #52 button.iconbtn [data-k="ts-"]
+                 #53 span.icon
+                   #54 "expand_more"
+               #55 div.unit
+                 #56 "sec"
+           #57 div.presets.timerpick
+             #58 button.chip [data-k="preset:60"]
+               #59 "1 min"
+             #60 button.chip [data-k="preset:300"]
+               #61 "5 min"
+             #62 button.chip [data-k="preset:600"]
+               #63 "10 min"
+             #64 button.chip [data-k="preset:900"]
+               #65 "15 min"
+           #66 div.countdown.hidden
+             #270 "HH:MM"
+           #67 div.left.hidden
+           #68 div.controls
+             #69 button.round.tcancel.hidden [data-k="tcancel"]
+               #70 "Cancel"
+             #71 button.round.go.tgo [data-k="tgo"]
+               #271 "Start"
+         #73 div.page.hidden
+           #74 div.head
+             #75 button.iconbtn [data-k="eclose"]
+               #76 span.icon
+                 #77 "close"
+             #78 div.title.etitle
+               #142 "Add alarm"
+             #80 button.iconbtn [data-k="esave"]
+               #81 span.icon
+                 #82 "check"
+           #83 div.pick
+             #84 div.spin
+               #85 button.iconbtn [data-k="eh+"]
+                 #86 span.icon
+                   #87 "expand_less"
+               #88 div.val.ehour
+                 #167 "08"
+               #89 button.iconbtn [data-k="eh-"]
+                 #90 span.icon
+                   #91 "expand_more"
+               #92 div.unit
+                 #93 "hour"
+             #94 div.colon
+               #95 ":"
+             #96 div.spin
+               #97 button.iconbtn [data-k="em+"]
+                 #98 span.icon
+                   #99 "expand_less"
+               #100 div.val.emin
+                 #168 "01"
+               #101 button.iconbtn [data-k="em-"]
+                 #102 span.icon
+                   #103 "expand_more"
+               #104 div.unit
+                 #105 "min"
+           #106 button.btn.danger.drop.hidden [data-k="edelete"]
+             #107 "Delete alarm"
+       #108 div.tabs
+         #109 button.tab [data-k="tab:0"]
+           #110 span.icon
+             #111 "alarm"
+           #112 span
+             #113 "Alarm"
+         #114 button.tab [data-k="tab:1"]
+           #115 span.icon
+             #116 "schedule"
+           #117 span
+             #118 "Clock"
+         #119 button.tab [data-k="tab:2"]
+           #120 span.icon
+             #121 "timer"
+           #122 span
+             #123 "Stopwatch"
+         #124 button.tab.on [data-k="tab:3"]
+           #125 span.icon
+             #126 "hourglass_empty"
+           #127 span
+             #128 "Timer"
+       #129 button.fab.hidden [data-k="add"]
+         #130 span.icon
+           #131 "add"
+   [call] arche:phone/background@0.1.0#woken()
+   [call] arche:phone/alarm@0.1.0#snoozed()
+   [next frame in N ms]
+
+--- frame 11  (clicks fed to guest: []) ---
+   [tap] #58
+   [page] 150 nodes
+   #1 body {back}
+     #2 div.app.tabbed {click}
+       #3 div.content
+         #4 div.page.hidden
+           #5 div.big
+             #6 "Alarm"
+           #7 div.next
+             #272 "Alarm in T"
+           #8 div.alarms
+             #180 div.group.acard
+               #181 div.arow [data-k="a:0"]
+                 #182 div.atext
+                   #183 div.atime
+                     #184 "HH:MM"
+                   #185 div.secondary
+                     #186 "Once · in T"
+                 #187 button.switch.on [data-k="t:0"]
+                   #188 span.knob
+           #9 div.empty.hidden
+             #10 span.icon
+               #11 "alarm"
+             #12 div
+               #13 "No alarms"
+         #14 div.page.hidden
+           #15 div.big
+             #16 "Clock"
+           #17 div.face
+             #18 div.time
+               #273 "HH:MM:SS"
+             #19 div.date
+               #274 "DATE"
+             #20 div.zone
+               #275 "Asia/Tashkent · UTC+05:00"
+         #21 div.page.hidden
+           #22 div.big
+             #23 "Stopwatch"
+           #24 div.elapsed
+             #276 "MM:SS.hh"
+           #25 div.laps
+           #26 div.controls
+             #27 button.round.lapgo [data-k="lap"]
+               #278 "Reset"
+             #29 button.round.go.start [data-k="go"]
+               #277 "Start"
+         #31 div.page
+           #32 div.big
+             #33 "Timer"
+           #34 div.pick.timerpick
+             #35 div.spin
+               #36 button.iconbtn [data-k="tm+"]
+                 #37 span.icon
+                   #38 "expand_less"
+               #39 div.val.tmin
+                 #279 "01"
+               #40 button.iconbtn [data-k="tm-"]
+                 #41 span.icon
+                   #42 "expand_more"
+               #43 div.unit
+                 #44 "min"
+             #45 div.colon
+               #46 ":"
+             #47 div.spin
+               #48 button.iconbtn [data-k="ts+"]
+                 #49 span.icon
+                   #50 "expand_less"
+               #51 div.val.tsec
+                 #280 "00"
+               #52 button.iconbtn [data-k="ts-"]
+                 #53 span.icon
+                   #54 "expand_more"
+               #55 div.unit
+                 #56 "sec"
+           #57 div.presets.timerpick
+             #58 button.chip [data-k="preset:60"]
+               #59 "1 min"
+             #60 button.chip [data-k="preset:300"]
+               #61 "5 min"
+             #62 button.chip [data-k="preset:600"]
+               #63 "10 min"
+             #64 button.chip [data-k="preset:900"]
+               #65 "15 min"
+           #66 div.countdown.hidden
+             #281 "HH:MM"
+           #67 div.left.hidden
+           #68 div.controls
+             #69 button.round.tcancel.hidden [data-k="tcancel"]
+               #70 "Cancel"
+             #71 button.round.go.tgo [data-k="tgo"]
+               #282 "Start"
+         #73 div.page.hidden
+           #74 div.head
+             #75 button.iconbtn [data-k="eclose"]
+               #76 span.icon
+                 #77 "close"
+             #78 div.title.etitle
+               #142 "Add alarm"
+             #80 button.iconbtn [data-k="esave"]
+               #81 span.icon
+                 #82 "check"
+           #83 div.pick
+             #84 div.spin
+               #85 button.iconbtn [data-k="eh+"]
+                 #86 span.icon
+                   #87 "expand_less"
+               #88 div.val.ehour
+                 #167 "08"
+               #89 button.iconbtn [data-k="eh-"]
+                 #90 span.icon
+                   #91 "expand_more"
+               #92 div.unit
+                 #93 "hour"
+             #94 div.colon
+               #95 ":"
+             #96 div.spin
+               #97 button.iconbtn [data-k="em+"]
+                 #98 span.icon
+                   #99 "expand_less"
+               #100 div.val.emin
+                 #168 "01"
+               #101 button.iconbtn [data-k="em-"]
+                 #102 span.icon
+                   #103 "expand_more"
+               #104 div.unit
+                 #105 "min"
+           #106 button.btn.danger.drop.hidden [data-k="edelete"]
+             #107 "Delete alarm"
+       #108 div.tabs
+         #109 button.tab [data-k="tab:0"]
+           #110 span.icon
+             #111 "alarm"
+           #112 span
+             #113 "Alarm"
+         #114 button.tab [data-k="tab:1"]
+           #115 span.icon
+             #116 "schedule"
+           #117 span
+             #118 "Clock"
+         #119 button.tab [data-k="tab:2"]
+           #120 span.icon
+             #121 "timer"
+           #122 span
+             #123 "Stopwatch"
+         #124 button.tab.on [data-k="tab:3"]
+           #125 span.icon
+             #126 "hourglass_empty"
+           #127 span
+             #128 "Timer"
+       #129 button.fab.hidden [data-k="add"]
+         #130 span.icon
+           #131 "add"
+   [call] arche:phone/background@0.1.0#woken()
+   [call] arche:phone/alarm@0.1.0#snoozed()
+   [next frame in N ms]
+
+--- frame 12  (clicks fed to guest: []) ---
+   [tap] #71
+   [page] 150 nodes
+   #1 body {back}
+     #2 div.app.tabbed {click}
+       #3 div.content
+         #4 div.page.hidden
+           #5 div.big
+             #6 "Alarm"
+           #7 div.next
+             #283 "Alarm in T"
+           #8 div.alarms
+             #180 div.group.acard
+               #181 div.arow [data-k="a:0"]
+                 #182 div.atext
+                   #183 div.atime
+                     #184 "HH:MM"
+                   #185 div.secondary
+                     #186 "Once · in T"
+                 #187 button.switch.on [data-k="t:0"]
+                   #188 span.knob
+           #9 div.empty.hidden
+             #10 span.icon
+               #11 "alarm"
+             #12 div
+               #13 "No alarms"
+         #14 div.page.hidden
+           #15 div.big
+             #16 "Clock"
+           #17 div.face
+             #18 div.time
+               #284 "HH:MM:SS"
+             #19 div.date
+               #285 "DATE"
+             #20 div.zone
+               #286 "Asia/Tashkent · UTC+05:00"
+         #21 div.page.hidden
+           #22 div.big
+             #23 "Stopwatch"
+           #24 div.elapsed
+             #287 "MM:SS.hh"
+           #25 div.laps
+           #26 div.controls
+             #27 button.round.lapgo [data-k="lap"]
+               #289 "Reset"
+             #29 button.round.go.start [data-k="go"]
+               #288 "Start"
+         #31 div.page
+           #32 div.big
+             #33 "Timer"
+           #34 div.pick.timerpick.hidden
+             #35 div.spin
+               #36 button.iconbtn [data-k="tm+"]
+                 #37 span.icon
+                   #38 "expand_less"
+               #39 div.val.tmin
+                 #290 "01"
+               #40 button.iconbtn [data-k="tm-"]
+                 #41 span.icon
+                   #42 "expand_more"
+               #43 div.unit
+                 #44 "min"
+             #45 div.colon
+               #46 ":"
+             #47 div.spin
+               #48 button.iconbtn [data-k="ts+"]
+                 #49 span.icon
+                   #50 "expand_less"
+               #51 div.val.tsec
+                 #291 "00"
+               #52 button.iconbtn [data-k="ts-"]
+                 #53 span.icon
+                   #54 "expand_more"
+               #55 div.unit
+                 #56 "sec"
+           #57 div.presets.timerpick.hidden
+             #58 button.chip [data-k="preset:60"]
+               #59 "1 min"
+             #60 button.chip [data-k="preset:300"]
+               #61 "5 min"
+             #62 button.chip [data-k="preset:600"]
+               #63 "10 min"
+             #64 button.chip [data-k="preset:900"]
+               #65 "15 min"
+           #66 div.countdown
+             #292 "HH:MM"
+           #67 div.left
+           #68 div.controls
+             #69 button.round.tcancel [data-k="tcancel"]
+               #70 "Cancel"
+             #71 button.round.go.tgo [data-k="tgo"]
+               #293 "Pause"
+         #73 div.page.hidden
+           #74 div.head
+             #75 button.iconbtn [data-k="eclose"]
+               #76 span.icon
+                 #77 "close"
+             #78 div.title.etitle
+               #142 "Add alarm"
+             #80 button.iconbtn [data-k="esave"]
+               #81 span.icon
+                 #82 "check"
+           #83 div.pick
+             #84 div.spin
+               #85 button.iconbtn [data-k="eh+"]
+                 #86 span.icon
+                   #87 "expand_less"
+               #88 div.val.ehour
+                 #167 "08"
+               #89 button.iconbtn [data-k="eh-"]
+                 #90 span.icon
+                   #91 "expand_more"
+               #92 div.unit
+                 #93 "hour"
+             #94 div.colon
+               #95 ":"
+             #96 div.spin
+               #97 button.iconbtn [data-k="em+"]
+                 #98 span.icon
+                   #99 "expand_less"
+               #100 div.val.emin
+                 #168 "01"
+               #101 button.iconbtn [data-k="em-"]
+                 #102 span.icon
+                   #103 "expand_more"
+               #104 div.unit
+                 #105 "min"
+           #106 button.btn.danger.drop.hidden [data-k="edelete"]
+             #107 "Delete alarm"
+       #108 div.tabs
+         #109 button.tab [data-k="tab:0"]
+           #110 span.icon
+             #111 "alarm"
+           #112 span
+             #113 "Alarm"
+         #114 button.tab [data-k="tab:1"]
+           #115 span.icon
+             #116 "schedule"
+           #117 span
+             #118 "Clock"
+         #119 button.tab [data-k="tab:2"]
+           #120 span.icon
+             #121 "timer"
+           #122 span
+             #123 "Stopwatch"
+         #124 button.tab.on [data-k="tab:3"]
+           #125 span.icon
+             #126 "hourglass_empty"
+           #127 span
+             #128 "Timer"
+       #129 button.fab.hidden [data-k="add"]
+         #130 span.icon
+           #131 "add"
+   [call] arche:phone/background@0.1.0#woken()
+   [call] arche:phone/alarm@0.1.0#set(N, "Alarm")
+   [call] arche:phone/background@0.1.0#wake-at(N)
+   [call] arche:phone/alarm@0.1.0#snoozed()
+   [next frame in N ms]
+
+--- frame 13  (clicks fed to guest: []) ---
+   [tap] #71
+   [page] 151 nodes
+   #1 body {back}
+     #2 div.app.tabbed {click}
+       #3 div.content
+         #4 div.page.hidden
+           #5 div.big
+             #6 "Alarm"
+           #7 div.next
+             #294 "Alarm in T"
+           #8 div.alarms
+             #180 div.group.acard
+               #181 div.arow [data-k="a:0"]
+                 #182 div.atext
+                   #183 div.atime
+                     #184 "HH:MM"
+                   #185 div.secondary
+                     #186 "Once · in T"
+                 #187 button.switch.on [data-k="t:0"]
+                   #188 span.knob
+           #9 div.empty.hidden
+             #10 span.icon
+               #11 "alarm"
+             #12 div
+               #13 "No alarms"
+         #14 div.page.hidden
+           #15 div.big
+             #16 "Clock"
+           #17 div.face
+             #18 div.time
+               #295 "HH:MM:SS"
+             #19 div.date
+               #296 "DATE"
+             #20 div.zone
+               #297 "Asia/Tashkent · UTC+05:00"
+         #21 div.page.hidden
+           #22 div.big
+             #23 "Stopwatch"
+           #24 div.elapsed
+             #298 "MM:SS.hh"
+           #25 div.laps
+           #26 div.controls
+             #27 button.round.lapgo [data-k="lap"]
+               #300 "Reset"
+             #29 button.round.go.start [data-k="go"]
+               #299 "Start"
+         #31 div.page
+           #32 div.big
+             #33 "Timer"
+           #34 div.pick.timerpick.hidden
+             #35 div.spin
+               #36 button.iconbtn [data-k="tm+"]
+                 #37 span.icon
+                   #38 "expand_less"
+               #39 div.val.tmin
+                 #301 "01"
+               #40 button.iconbtn [data-k="tm-"]
+                 #41 span.icon
+                   #42 "expand_more"
+               #43 div.unit
+                 #44 "min"
+             #45 div.colon
+               #46 ":"
+             #47 div.spin
+               #48 button.iconbtn [data-k="ts+"]
+                 #49 span.icon
+                   #50 "expand_less"
+               #51 div.val.tsec
+                 #302 "00"
+               #52 button.iconbtn [data-k="ts-"]
+                 #53 span.icon
+                   #54 "expand_more"
+               #55 div.unit
+                 #56 "sec"
+           #57 div.presets.timerpick.hidden
+             #58 button.chip [data-k="preset:60"]
+               #59 "1 min"
+             #60 button.chip [data-k="preset:300"]
+               #61 "5 min"
+             #62 button.chip [data-k="preset:600"]
+               #63 "10 min"
+             #64 button.chip [data-k="preset:900"]
+               #65 "15 min"
+           #66 div.countdown
+             #303 "HH:MM"
+           #67 div.left
+             #305 "Paused"
+           #68 div.controls
+             #69 button.round.tcancel [data-k="tcancel"]
+               #70 "Cancel"
+             #71 button.round.go.tgo [data-k="tgo"]
+               #304 "Resume"
+         #73 div.page.hidden
+           #74 div.head
+             #75 button.iconbtn [data-k="eclose"]
+               #76 span.icon
+                 #77 "close"
+             #78 div.title.etitle
+               #142 "Add alarm"
+             #80 button.iconbtn [data-k="esave"]
+               #81 span.icon
+                 #82 "check"
+           #83 div.pick
+             #84 div.spin
+               #85 button.iconbtn [data-k="eh+"]
+                 #86 span.icon
+                   #87 "expand_less"
+               #88 div.val.ehour
+                 #167 "08"
+               #89 button.iconbtn [data-k="eh-"]
+                 #90 span.icon
+                   #91 "expand_more"
+               #92 div.unit
+                 #93 "hour"
+             #94 div.colon
+               #95 ":"
+             #96 div.spin
+               #97 button.iconbtn [data-k="em+"]
+                 #98 span.icon
+                   #99 "expand_less"
+               #100 div.val.emin
+                 #168 "01"
+               #101 button.iconbtn [data-k="em-"]
+                 #102 span.icon
+                   #103 "expand_more"
+               #104 div.unit
+                 #105 "min"
+           #106 button.btn.danger.drop.hidden [data-k="edelete"]
+             #107 "Delete alarm"
+       #108 div.tabs
+         #109 button.tab [data-k="tab:0"]
+           #110 span.icon
+             #111 "alarm"
+           #112 span
+             #113 "Alarm"
+         #114 button.tab [data-k="tab:1"]
+           #115 span.icon
+             #116 "schedule"
+           #117 span
+             #118 "Clock"
+         #119 button.tab [data-k="tab:2"]
+           #120 span.icon
+             #121 "timer"
+           #122 span
+             #123 "Stopwatch"
+         #124 button.tab.on [data-k="tab:3"]
+           #125 span.icon
+             #126 "hourglass_empty"
+           #127 span
+             #128 "Timer"
+       #129 button.fab.hidden [data-k="add"]
+         #130 span.icon
+           #131 "add"
+   [call] arche:phone/background@0.1.0#woken()
+   [call] arche:phone/alarm@0.1.0#set(N, "Alarm")
+   [call] arche:phone/background@0.1.0#wake-at(N)
    [call] arche:phone/alarm@0.1.0#snoozed()
    [next frame in N ms]
