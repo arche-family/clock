@@ -1,6 +1,10 @@
 name: clock
 version: 1
 title: Clock
-about: The time, an alarm and a stopwatch, in Arche
+about: Alarms, the time, a stopwatch and a timer
+title.uz: Soat
+about.uz: Budilniklar, vaqt, sekundomer va taymer
+title.ru: Часы
+about.ru: Будильники, время, секундомер и таймер
 publisher: arche
 needs: storage alarm notify background

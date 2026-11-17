@@ -13,3 +13,4 @@ s/#wake-at([1-9][0-9]*)/#wake-at(N)/
 s/#set([1-9][0-9]*, /#set(N, /
 s/"Alarm in [^"]*"/"Alarm in T"/
 s/"Once · in [^"]*"/"Once · in T"/
+s/"\(Mon, Fri\|Every day\|Mon to Fri\|Weekends\) · in [^"]*"/"\1 · in T"/
