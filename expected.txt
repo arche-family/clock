@@ -615,7 +615,7 @@
                      #186 "HH:MM"
                    #187 div.secondary
                      #188 "Once · in T"
-                 #189 button.switch.on [data-k="t:0"]
+                 #189 button.switch.on [data-k="t:0" aria-label="Turn off 08:01"]
                    #190 span.knob
            #11 div.empty.hidden
              #12 span.icon
@@ -776,7 +776,7 @@
                      #186 "HH:MM"
                    #187 div.secondary
                      #188 "Once · in T"
-                 #189 button.switch.on [data-k="t:0"]
+                 #189 button.switch.on [data-k="t:0" aria-label="Turn off 08:01"]
                    #190 span.knob
            #11 div.empty.hidden
              #12 span.icon
@@ -935,7 +935,7 @@
                      #186 "HH:MM"
                    #187 div.secondary
                      #188 "Once · in T"
-                 #189 button.switch.on [data-k="t:0"]
+                 #189 button.switch.on [data-k="t:0" aria-label="Turn off 08:01"]
                    #190 span.knob
            #11 div.empty.hidden
              #12 span.icon
@@ -1094,7 +1094,7 @@
                      #186 "HH:MM"
                    #187 div.secondary
                      #188 "Once · in T"
-                 #189 button.switch.on [data-k="t:0"]
+                 #189 button.switch.on [data-k="t:0" aria-label="Turn off 08:01"]
                    #190 span.knob
            #11 div.empty.hidden
              #12 span.icon
@@ -1260,7 +1260,7 @@
                      #186 "HH:MM"
                    #187 div.secondary
                      #188 "Once · in T"
-                 #189 button.switch.on [data-k="t:0"]
+                 #189 button.switch.on [data-k="t:0" aria-label="Turn off 08:01"]
                    #190 span.knob
            #11 div.empty.hidden
              #12 span.icon
@@ -1426,7 +1426,7 @@
                      #186 "HH:MM"
                    #187 div.secondary
                      #188 "Once · in T"
-                 #189 button.switch.on [data-k="t:0"]
+                 #189 button.switch.on [data-k="t:0" aria-label="Turn off 08:01"]
                    #190 span.knob
            #11 div.empty.hidden
              #12 span.icon
@@ -1585,7 +1585,7 @@
                      #186 "HH:MM"
                    #187 div.secondary
                      #188 "Once · in T"
-                 #189 button.switch.on [data-k="t:0"]
+                 #189 button.switch.on [data-k="t:0" aria-label="Turn off 08:01"]
                    #190 span.knob
            #11 div.empty.hidden
              #12 span.icon
@@ -1744,7 +1744,7 @@
                      #186 "HH:MM"
                    #187 div.secondary
                      #188 "Once · in T"
-                 #189 button.switch.on [data-k="t:0"]
+                 #189 button.switch.on [data-k="t:0" aria-label="Turn off 08:01"]
                    #190 span.knob
            #11 div.empty.hidden
              #12 span.icon
@@ -1903,7 +1903,7 @@
                      #186 "HH:MM"
                    #187 div.secondary
                      #188 "Once · in T"
-                 #189 button.switch.on [data-k="t:0"]
+                 #189 button.switch.on [data-k="t:0" aria-label="Turn off 08:01"]
                    #190 span.knob
            #11 div.empty.hidden
              #12 span.icon
@@ -2064,7 +2064,7 @@
                      #186 "HH:MM"
                    #187 div.secondary
                      #188 "Once · in T"
-                 #189 button.switch.on [data-k="t:0"]
+                 #189 button.switch.on [data-k="t:0" aria-label="Turn off 08:01"]
                    #190 span.knob
            #11 div.empty.hidden
              #12 span.icon

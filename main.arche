@@ -564,6 +564,13 @@ fn show_alarms(state: &mut Clock, host: &mut std.Host, local: i64, a: alloc.Allo
         var tk = alloc.String.from("t:", a);
         tk.push_u64(k as u64);
         dom.set_attribute(host, item: sw, name: "data-k", value_: tk.view());
+        // Its name, as a screen reader says it: what a tap does.
+        var label = alloc.String.from("Turn on ", a);
+        if al.on {
+            label = alloc.String.from("Turn off ", a);
+        }
+        label.push_str(t.view());
+        dom.set_attribute(host, item: sw, name: "aria-label", value_: label.view());
         let knob = dom.create_element(host, tag: "span");
         dom.set_attribute(host, item: knob, name: "class", value_: "knob");
         dom.append_child(host, parent_: sw, child: knob);
